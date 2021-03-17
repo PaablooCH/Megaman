@@ -1,0 +1,15 @@
+*.ipch
+*.tlog
+*.tlog
+*.opendb
+*.tlog
+*.obj
+*.pdb
+*.exe
+*.iobj
+*.ipdb
+*.pdb
+*.lastbuildstate
+*.db
+*.log
+*.tlog
