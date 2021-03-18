@@ -4,6 +4,7 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "Extended_GLUT_KEYS.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
