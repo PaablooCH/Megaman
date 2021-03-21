@@ -32,6 +32,8 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
+	int cont;
+	bool isRight;
 };
 
 

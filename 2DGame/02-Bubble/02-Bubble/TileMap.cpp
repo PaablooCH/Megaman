@@ -3,9 +3,11 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
+#include <json.hpp>
 
 
 using namespace std;
+using json = nlohmann::json;
 
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
@@ -50,13 +52,41 @@ bool TileMap::loadLevel(const string &levelFile)
 	ifstream fin;
 	string line, tilesheetFile;
 	stringstream sstream;
-	char tile;
+	json tile;
 	
+	ifstream file(levelFile.c_str(), std::ifstream::binary);
+	file >> tile;
+	mapSize.x = tile["height"];
+	mapSize.y = tile["width"];
+    tileSize = tile["tileheight"];
+	blockSize = tile["tilewidth"];
+	tilesheetSize.x = 8;
+	tilesheetSize.y = 8;
+
+	map = new int[mapSize.x * mapSize.y];
+	for(int j=0; j<mapSize.y; j++)
+	{
+		for(int i=0; i<mapSize.x; i++)
+		{
+			fin.get(tile);
+			if(tile == ' ')
+				map[j*mapSize.x+i] = 0;
+			else
+				map[j*mapSize.x+i] = tile - int('0');
+		}
+		fin.get(tile);
+#ifndef _WIN32
+		fin.get(tile);
+#endif
+	}
+	fin.close();
+
+
 	fin.open(levelFile.c_str());
 	if(!fin.is_open())
 		return false;
 	getline(fin, line);
-	if(line.compare(0, 7, "TILEMAP") != 0)
+	if (line.compare(0, 7, "TILEMAP") != 0)
 		return false;
 	getline(fin, line);
 	sstream.str(line);
