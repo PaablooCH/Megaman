@@ -7,7 +7,7 @@
 #include "Camera.h"
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 96
+#define JUMP_HEIGHT 50
 #define FALL_STEP 4
 
 enum States 
@@ -24,7 +24,7 @@ enum PlayerAnims
 void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
 	bJumping = false;
-	state = STANDING;
+	
 	isRight = true;
 	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
@@ -163,12 +163,17 @@ void Player::update(int deltaTime)
 				if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 					posPlayer.x -= 2;
 			}
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * jumpAngle / 180.f));
+			if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32))) {
+				posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle - JUMP_ANGLE_STEP) / 180.f));
+				state = FALLING;
+				jumpAngle = 90;
+			}
 			
 		} break;
 
 		case FALLING: {
-			if (jumpAngle <= 100) {
+			if (jumpAngle <= 150) {
 				if (!isRight)
 					sprite->changeAnimation(JUMP_TOP_LEFT);
 				else
@@ -197,6 +202,7 @@ void Player::update(int deltaTime)
 			bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 			if (!bJumping)
 				state = STANDING;
+			jumpAngle += JUMP_ANGLE_STEP;
 
 		} break;
 
@@ -275,37 +281,7 @@ void Player::update(int deltaTime)
 		}
 			
 	}
-		
-
-	/*if (bJumping)
-	{
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180)
-		{
-			bJumping = false;
-			posPlayer.y = startY;
-		}
-		else
-		{
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (jumpAngle > 90)
-				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-		}
-	}
-	else
-	{
-		posPlayer.y += FALL_STEP;
-		if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
-		{
-			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
-			{
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
-			}
-		}
-	}*/
-
+	
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
@@ -380,7 +356,6 @@ void Player::update(int deltaTime)
 	
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }*/
-
 
 
 void Player::render()

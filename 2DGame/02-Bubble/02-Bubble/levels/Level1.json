@@ -457,7 +457,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"images\Patrones.png"
+         "source":"images/Patrones.png"
         }],
  "tilewidth":16,
  "type":"map",
