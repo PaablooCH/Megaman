@@ -34,6 +34,7 @@ private:
 	TileMap *map;
 	int cont;
 	bool isRight;
+	bool isAnimation;
 };
 
 

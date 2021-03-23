@@ -9,7 +9,7 @@
 #define SCREEN_Y 16
 
 #define INIT_PLAYER_X_TILES 4
-#define INIT_PLAYER_Y_TILES 1
+#define INIT_PLAYER_Y_TILES 6
 
 
 Scene::Scene()
@@ -25,9 +25,9 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	if(map != NULL)
+	if (map != NULL)
 		delete map;
-	if(player != NULL)
+	if (player != NULL)
 		delete player;
 	if (enemy1 != NULL)
 		delete enemy1;
@@ -49,13 +49,13 @@ void Scene::init()
 	player->setTileMap(map);
 	enemy1 = new Enemy();
 	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	enemy1->setPosition(glm::vec2((INIT_PLAYER_X_TILES + 2) * map->getTileSize(), 0 * map->getTileSize()));
+	enemy1->setPosition(glm::vec2(12 * map->getTileSize(), 16 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 
 	//FJA.sn
-	cam = new Camera( SCREEN_WIDTH, SCREEN_HEIGHT, ECamType::SIMPLE);
+	cam = new Camera(SCREEN_WIDTH, SCREEN_HEIGHT, ECamType::SIMPLE);
 	//FJA.en
 }
 
@@ -88,6 +88,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
+	enemy1->render();
 }
 
 void Scene::initShaders()
@@ -95,13 +96,13 @@ void Scene::initShaders()
 	Shader vShader, fShader;
 
 	vShader.initFromFile(VERTEX_SHADER, "shaders/texture.vert");
-	if(!vShader.isCompiled())
+	if (!vShader.isCompiled())
 	{
 		cout << "Vertex Shader Error" << endl;
 		cout << "" << vShader.log() << endl << endl;
 	}
 	fShader.initFromFile(FRAGMENT_SHADER, "shaders/texture.frag");
-	if(!fShader.isCompiled())
+	if (!fShader.isCompiled())
 	{
 		cout << "Fragment Shader Error" << endl;
 		cout << "" << fShader.log() << endl << endl;
@@ -110,7 +111,7 @@ void Scene::initShaders()
 	texProgram.addShader(vShader);
 	texProgram.addShader(fShader);
 	texProgram.link();
-	if(!texProgram.isLinked())
+	if (!texProgram.isLinked())
 	{
 		cout << "Shader Linking Error" << endl;
 		cout << "" << texProgram.log() << endl << endl;
@@ -119,6 +120,3 @@ void Scene::initShaders()
 	vShader.free();
 	fShader.free();
 }
-
-
-
