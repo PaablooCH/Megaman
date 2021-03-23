@@ -15,6 +15,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Extended_GLUT_KEYS.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TileMap.cpp" />

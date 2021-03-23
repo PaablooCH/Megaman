@@ -8,14 +8,15 @@
 #define SCREEN_X 32
 #define SCREEN_Y 16
 
-#define INIT_PLAYER_X_TILES 5
-#define INIT_PLAYER_Y_TILES 3
+#define INIT_PLAYER_X_TILES 4
+#define INIT_PLAYER_Y_TILES 1
 
 
 Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
+	enemy1 = NULL;
 
 	//FJA.sn
 	cam = NULL;
@@ -28,6 +29,8 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if (enemy1 != NULL)
+		delete enemy1;
 
 	//FJA.sn
 	if (cam != NULL)
@@ -44,6 +47,10 @@ void Scene::init()
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
+	enemy1 = new Enemy();
+	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	enemy1->setPosition(glm::vec2((INIT_PLAYER_X_TILES + 2) * map->getTileSize(), 0 * map->getTileSize()));
+	enemy1->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 
@@ -56,6 +63,7 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	enemy1->update(deltaTime);
 	//FJA.sn
 	cam->update(player->getSpritePosition());
 	//FJA.en

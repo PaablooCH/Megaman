@@ -7,7 +7,7 @@
 #include "Camera.h"
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 50
+#define JUMP_HEIGHT 92
 #define FALL_STEP 4
 
 enum States 
