@@ -28,39 +28,25 @@ void Enemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 
 	isRight = true;
 	states = MOVING_LEFT;
-	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
+	spritesheet.loadFromFile("images/Enemy1.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(20, 23), glm::vec2(1.f / 6.f, 1.f / 2.f), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(2);
 
-	sprite->setAnimationSpeed(MOVE_LEFT, 12);
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(7.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(6.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(5.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(4.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(3.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(2.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 8.f, 18.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(7.f / 8.f, 19.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(6.f / 8.f, 19.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(5.f / 8.f, 19.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(6.f / 8.f, 19.9 / 30.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(7.f / 8.f, 19.9 / 30.f));
+	sprite->setAnimationSpeed(MOVE_LEFT, 6);
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
 
-	sprite->setAnimationSpeed(MOVE_RIGHT, 12);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(1.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(2.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(3.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(6.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(7.f / 8.f, 3.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f / 8.f, 4.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(1.f / 8.f, 4.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(2.f / 8.f, 4.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(1.f / 8.f, 4.9 / 30.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f / 8.f, 4.9 / 30.f));
+	sprite->setAnimationSpeed(MOVE_RIGHT, 6);
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
 
 	sprite->changeAnimation(1);
 	tileMapDispl = tileMapPos;
