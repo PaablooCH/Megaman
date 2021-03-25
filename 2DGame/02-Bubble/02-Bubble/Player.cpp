@@ -12,12 +12,12 @@
 
 enum States 
 {
-	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START
+	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING
 } state;
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR, CLIMB1, CLIMB2
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR, CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND
 };
 
 
@@ -31,7 +31,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	isRight = true;
 	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(15);
+	sprite->setNumberAnimations(18);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 15.f / 30.f));
@@ -70,22 +70,14 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f / 8.f, 4.9 / 30.f));
 
 	sprite->setAnimationSpeed(HIT_LEFT, 10);
-	//sprite->addKeyframe(HIT_LEFT, glm::vec2(7.f / 8.f, 29.1 / 30.f));
-	//sprite->addKeyframe(HIT_LEFT, glm::vec2(6.f / 8.f, 29.1 / 30.f));
 	sprite->addKeyframe(HIT_LEFT, glm::vec2(5.f / 8.f, 29.1 / 30.f));
 	sprite->addKeyframe(HIT_LEFT, glm::vec2(4.f / 8.f, 29.1 / 30.f));
 	sprite->addKeyframe(HIT_LEFT, glm::vec2(5.f / 8.f, 29.1 / 30.f));
-	//sprite->addKeyframe(HIT_LEFT, glm::vec2(6.f / 8.f, 29.1 / 30.f));
-	//sprite->addKeyframe(HIT_LEFT, glm::vec2(7.f / 8.f, 29.1 / 30.f));
 
 	sprite->setAnimationSpeed(HIT_RIGHT, 10);
-	//sprite->addKeyframe(HIT_RIGHT, glm::vec2(0.f / 8.f, 14.1 / 30.f));
-	//sprite->addKeyframe(HIT_RIGHT, glm::vec2(1.f / 8.f, 14.1 / 30.f));
 	sprite->addKeyframe(HIT_RIGHT, glm::vec2(2.f / 8.f, 14.1 / 30.f));
 	sprite->addKeyframe(HIT_RIGHT, glm::vec2(3.f / 8.f, 14.1 / 30.f));
 	sprite->addKeyframe(HIT_RIGHT, glm::vec2(2.f / 8.f, 14.1 / 30.f));
-	//sprite->addKeyframe(HIT_RIGHT, glm::vec2(1.f / 8.f, 14.1 / 30.f));
-	//sprite->addKeyframe(HIT_RIGHT, glm::vec2(0.f / 8.f, 14.1 / 30.f));
 
 	sprite->setAnimationSpeed(JUMP_LEFT1, 8);
 	sprite->addKeyframe(JUMP_LEFT1, glm::vec2(6.f / 8.f, 22.9 / 30.f));
@@ -113,13 +105,21 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->addKeyframe(APPEAR, glm::vec2(4.f / 8.f, 0));
 	sprite->addKeyframe(APPEAR, glm::vec2(5.f / 8.f, 0));
 
-	sprite->setAnimationSpeed(CLIMB1, 8);
-	sprite->addKeyframe(CLIMB1, glm::vec2(0, 7 / 30.f));
-	sprite->addKeyframe(CLIMB1, glm::vec2(1 / 8.f, 7 / 30.f));
+	sprite->setAnimationSpeed(CLIMB11, 8);
+	sprite->addKeyframe(CLIMB11, glm::vec2(0, 6.8 / 30.f));
 
-	sprite->setAnimationSpeed(CLIMB2, 8);
-	sprite->addKeyframe(CLIMB2, glm::vec2(2 / 8.f, 7 / 30.f));
-	sprite->addKeyframe(CLIMB2, glm::vec2(3 / 8.f, 7 / 30.f));
+	sprite->setAnimationSpeed(CLIMB12, 8);
+	sprite->addKeyframe(CLIMB12, glm::vec2(1.f / 8.f, 6.8 / 30.f));
+
+	sprite->setAnimationSpeed(CLIMB21, 8);
+	sprite->addKeyframe(CLIMB21, glm::vec2(2.f / 8.f, 6.8 / 30.f));
+
+	sprite->setAnimationSpeed(CLIMB22, 8);
+	sprite->addKeyframe(CLIMB22, glm::vec2(3.f / 8.f, 6.8 / 30.f));
+
+	sprite->setAnimationSpeed(LAND, 5);
+	sprite->addKeyframe(LAND, glm::vec2(4.f / 8.f, 6.8 / 30.f));
+	sprite->addKeyframe(LAND, glm::vec2(5.f / 8.f, 6.8 / 30.f));
 
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
@@ -140,6 +140,7 @@ void Player::update(int deltaTime)
 				isAnimation = false;
 			}
 		} break;
+
 		case HITTING: {
 			cont += deltaTime;
 			if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT)
@@ -237,40 +238,76 @@ void Player::update(int deltaTime)
 
 		case CLIMBING: {
 			cont += deltaTime;
-			if (cont >= 450) {
+			if (cont >= 250) {
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-					if (sprite->animation() == CLIMB1)
-						sprite->changeAnimation(CLIMB2);
+					if (sprite->animation() == CLIMB11)
+						sprite->changeAnimation(CLIMB12);
+					else if (sprite->animation() == CLIMB12)
+						sprite->changeAnimation(CLIMB21);
+					else if (sprite->animation() == CLIMB21)
+						sprite->changeAnimation(CLIMB22);
 					else
-						sprite->changeAnimation(CLIMB1);
-					posPlayer.y += 2;
+						sprite->changeAnimation(CLIMB11);
 					cont = 0;
 				}
 				else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-					if (sprite->animation() == CLIMB1)
-						sprite->changeAnimation(CLIMB2);
+					if (sprite->animation() == CLIMB11)
+						sprite->changeAnimation(CLIMB12);
+					else if (sprite->animation() == CLIMB12)
+						sprite->changeAnimation(CLIMB21);
+					else if (sprite->animation() == CLIMB21)
+						sprite->changeAnimation(CLIMB22);
 					else
-						sprite->changeAnimation(CLIMB1);
-					posPlayer.y += 2;
+						sprite->changeAnimation(CLIMB11);
 					cont = 0;
 				}
 			}
-			else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-				if (sprite->animation() == CLIMB1)
-					sprite->changeAnimation(CLIMB2);
-				else
-					sprite->changeAnimation(CLIMB1);
-				posPlayer.x -= 2;
+			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+				posPlayer.x -= 1;
+				if (map->collisionMoveStairs(posPlayer, glm::ivec2(32, 32)))
+				{
+					posPlayer.x += 1;
+				}
+				else if (!map->isStairs(posPlayer, glm::ivec2(32, 32))) {
+					isClimbing = false;
+				}
 			}
 			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-				if (sprite->animation() == CLIMB1)
-					sprite->changeAnimation(CLIMB2);
-				else
-					sprite->changeAnimation(CLIMB1);
-				posPlayer.x += 2;
+				posPlayer.x += 1;
+				if (map->collisionMoveStairs(posPlayer, glm::ivec2(32, 32)))
+				{
+					posPlayer.x -= 1;
+				}
+				else if (!map->isStairs(posPlayer, glm::ivec2(32, 32))) {
+					isClimbing = false;
+				}
+			}
+			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
+			{
+				posPlayer.y -= 1;
+				if (!map->isStairs(glm::ivec2(posPlayer.x, posPlayer.y-20), glm::ivec2(32, 32))) {
+					state = LANDING;
+					sprite->changeAnimation(LAND);
+					cont = 0;
+				}
+			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+				posPlayer.y += 1;
+				if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) {
+					isClimbing = false;
+					state = STANDING;
+				}
 			}
 		} break;
 
+		case LANDING: {
+			cont += deltaTime;
+			if (cont >= 500) {
+				state = STANDING;
+				isClimbing = false;
+				posPlayer.y -= 20;
+			}
+		} break;
 
 		case MOVING_LEFT: {
 			if (sprite->animation() != MOVE_LEFT)
@@ -336,7 +373,7 @@ void Player::update(int deltaTime)
 				state = CLIMBING;
 				isClimbing = true;
 				cont = 0;
-				sprite->changeAnimation(CLIMB1);
+				sprite->changeAnimation(CLIMB11);
 			}
 			else if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{
@@ -344,6 +381,14 @@ void Player::update(int deltaTime)
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
+			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN) && map->isStairs(glm::ivec2(posPlayer.x, posPlayer.y + 2), glm::ivec2(32, 32)))
+			{
+				posPlayer.y += 20;
+				state = CLIMBING;
+				isClimbing = true;
+				cont = 0;
+				sprite->changeAnimation(CLIMB11);
 			}
 		}
 		else {
@@ -354,82 +399,8 @@ void Player::update(int deltaTime)
 
 	}
 
-	
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
-
-/*void Player::update(int deltaTime)
-{
-	sprite->update(deltaTime);
-	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
-	{
-		if(sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= 2;
-		if(map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
-		{
-			posPlayer.x += 2;
-			sprite->changeAnimation(STAND_LEFT);
-		}
-	}
-	else if(Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
-	{
-		if(sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 2;
-		if(map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
-		{
-			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
-		}
-	}
-	else if (Game::instance().getKey(GLUT_SPACE)) {
-		if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT)
-			sprite->changeAnimation(HIT_LEFT);
-		else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT)
-			sprite->changeAnimation(HIT_RIGHT);
-
-	}
-	else
-	{
-		if(sprite->animation() == MOVE_LEFT || sprite->animation() == HIT_LEFT)
-			sprite->changeAnimation(STAND_LEFT);
-		else if(sprite->animation() == MOVE_RIGHT || sprite->animation() == HIT_RIGHT)
-			sprite->changeAnimation(STAND_RIGHT);
-	}
-	
-	if(bJumping)
-	{
-		jumpAngle += JUMP_ANGLE_STEP;
-		if(jumpAngle == 180)
-		{
-			bJumping = false;
-			posPlayer.y = startY;
-		}
-		else
-		{
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if(jumpAngle > 90)
-				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-		}
-	}
-	else
-	{
-		posPlayer.y += FALL_STEP;
-		if(map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
-		{
-			if(Game::instance().getSpecialKey(GLUT_KEY_UP))
-			{
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
-			}
-		}
-	}
-	
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-}*/
-
 
 void Player::render()
 {
