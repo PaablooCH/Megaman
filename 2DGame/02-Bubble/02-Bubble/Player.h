@@ -35,9 +35,8 @@ private:
 	int cont;
 	bool isRight;
 	bool isAnimation;
+	bool isClimbing;
 };
 
 
 #endif // _PLAYER_INCLUDE
-
-

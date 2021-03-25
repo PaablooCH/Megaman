@@ -35,24 +35,19 @@ void Enemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->setAnimationSpeed(MOVE_LEFT, 6);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
+
 
 	sprite->setAnimationSpeed(MOVE_RIGHT, 6);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 2.f / 2.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 2.f / 2.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 0));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 0));
+
 
 	sprite->changeAnimation(1);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 
 }
+
 
 void Enemy::update(int deltaTime)
 {
@@ -61,6 +56,7 @@ void Enemy::update(int deltaTime)
 	case MOVING_LEFT: {
 		if (sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
+		glm::ivec2 posAnt = posEnemy;
 		posEnemy.x -= 1;
 		if (map->collisionFall(posEnemy, glm::ivec2(32, 32), &posEnemy.y)) {
 			posEnemy.x += 1;
@@ -73,11 +69,19 @@ void Enemy::update(int deltaTime)
 			sprite->changeAnimation(MOVE_RIGHT);
 			states = MOVING_RIGHT;
 		}
+		if (map->enemyMoveLeft(posEnemy, glm::ivec2(32, 32)))
+		{
+			posEnemy.x += 1;
+			sprite->changeAnimation(MOVE_RIGHT);
+			states = MOVING_RIGHT;
+		}
+		map->updateEnemyPosition(posEnemy, glm::ivec2(32, 32), posAnt, 2);
 	} break;
 
 	case MOVING_RIGHT: {
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
+		glm::ivec2 posAnt = posEnemy;
 		posEnemy.x += 1;
 		if (map->collisionFall(posEnemy, glm::ivec2(32, 32), &posEnemy.y)) {
 			posEnemy.x -= 1;
@@ -90,6 +94,13 @@ void Enemy::update(int deltaTime)
 			sprite->changeAnimation(MOVE_LEFT);
 			states = MOVING_LEFT;
 		}
+		if (map->enemyMoveRight(posEnemy, glm::ivec2(32, 32)))
+		{
+			posEnemy.x -= 1;
+			sprite->changeAnimation(MOVE_LEFT);
+			states = MOVING_LEFT;
+		}
+		map->updateEnemyPosition(posEnemy, glm::ivec2(32, 32), posAnt, 2);
 	} break;
 	}
 

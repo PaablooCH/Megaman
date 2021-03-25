@@ -80,6 +80,7 @@ bool TileMap::loadLevel(const string &levelFile)
 
 	string accum = "";
 	map = new int[mapSize.x * mapSize.y];
+	enemymap = new int[mapSize.x * mapSize.y];
 
 	for (int j = 0; j < mapSize.y; j++) {
 		for (int i = 0; i < mapSize.x; i++) {
@@ -91,7 +92,7 @@ bool TileMap::loadLevel(const string &levelFile)
 			}
 			int id = stoi(accum);
 			map[j * mapSize.x + i] = id + 1;
-
+			enemymap[j * mapSize.x + i] = 0;
 		}
 		fin.get(tile);
 #ifndef _WIN32
@@ -227,15 +228,78 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) con
 
 bool TileMap::collisionFall(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
 {
-	int x0, x1, y;
+	int x0, x1, y, y1;
 
 	x0 = pos.x / tileSize;
 	x1 = (pos.x + size.x - 1) / tileSize;
 	y = (pos.y + size.y) / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y * mapSize.x + x] == 57)
+		if (map[y * mapSize.x + x] == 57) {
 			return true;
+		}
 	}
 	return false;
+}
+
+bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+
+	x = pos.x / tileSize;
+	y0 = pos.y / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		if (enemymap[y * mapSize.x + x] == 1 )
+			return true;
+	}
+
+	return false;
+}
+
+bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x0, x1, y;
+
+	x0 = pos.x / tileSize;
+	x1 = (pos.x + size.x - 1) / tileSize;
+	y = (pos.y + size.y - 1) / tileSize;
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[y * mapSize.x + x] == 3)
+			return true;
+	}
+
+	return false;
+}
+
+
+bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+
+	x = (pos.x + size.x - 1) / tileSize;
+	y0 = pos.y / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		if (enemymap[y * mapSize.x + x] == 1 )
+			return true;
+	}
+
+	return false;
+}
+
+void TileMap::updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const
+{
+	int x, y, x1, y1;
+
+	x = posAc.x / tileSize;
+	y = posAc.y / tileSize;
+	x1 = posAnt.x / tileSize;
+	y1 = posAnt.y / tileSize;
+	enemymap[y * mapSize.x + x] = id;
+	enemymap[y1 * mapSize.x + x1] = 0;
 }

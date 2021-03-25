@@ -32,8 +32,12 @@ public:
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) const;
-
 	bool collisionFall(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
+	bool isStairs(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const;
+	void updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
+
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -48,6 +52,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
+	int *enemymap;
 
 };
 
