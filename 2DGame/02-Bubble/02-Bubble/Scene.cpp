@@ -49,7 +49,7 @@ void Scene::init()
 	player->setTileMap(map);
 	enemy1 = new Enemy();
 	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	enemy1->setPosition(glm::vec2(12 * map->getTileSize(), 17 * map->getTileSize()));
+	enemy1->setPosition(glm::vec2(12 * map->getTileSize(), 16 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;

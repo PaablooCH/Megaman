@@ -92,7 +92,7 @@ bool TileMap::loadLevel(const string &levelFile)
 			}
 			int id = stoi(accum);
 			map[j * mapSize.x + i] = id + 1;
-			enemymap[j * mapSize.x + i] = 0;
+			enemymap[j * mapSize.x + i] = 1;
 		}
 		fin.get(tile);
 #ifndef _WIN32
@@ -268,7 +268,7 @@ bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (enemymap[y * mapSize.x + x] == 1 )
+		if (enemymap[y * mapSize.x + x] == 2 )
 			return true;
 	}
 
@@ -301,7 +301,7 @@ bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) cons
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (enemymap[y * mapSize.x + x] == 1 )
+		if (enemymap[y * mapSize.x + x] == 2 )
 			return true;
 	}
 
@@ -316,6 +316,10 @@ void TileMap::updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& pos
 	y = posAc.y / tileSize;
 	x1 = posAnt.x / tileSize;
 	y1 = posAnt.y / tileSize;
+	for (int j = 0; j < mapSize.y; j++) {
+		for (int i = 0; i < mapSize.x; i++) {
+			enemymap[j * mapSize.x + i] = 1;
+		}
+	}
 	enemymap[y * mapSize.x + x] = id;
-	enemymap[y1 * mapSize.x + x1] = 0;
 }

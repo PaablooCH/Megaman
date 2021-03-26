@@ -27,7 +27,7 @@ public:
 	//FJA.en	
 private:
 	bool bJumping;
-	glm::ivec2 tileMapDispl, posPlayer;
+	glm::ivec2 tileMapDispl, posPlayer, posAnt;
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite *sprite;

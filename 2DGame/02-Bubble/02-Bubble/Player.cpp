@@ -312,7 +312,6 @@ void Player::update(int deltaTime)
 		case MOVING_LEFT: {
 			if (sprite->animation() != MOVE_LEFT)
 				sprite->changeAnimation(MOVE_LEFT);
-			glm::ivec2 posAnt = posPlayer;
 			posPlayer.x -= 2;
 			isRight = false;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
@@ -320,14 +319,12 @@ void Player::update(int deltaTime)
 				posPlayer.x += 2;
 				sprite->changeAnimation(STAND_LEFT);
 			}
-			else map->updateEnemyPosition(posPlayer, glm::ivec2(32, 32), posAnt, 1);
 			state = STANDING;
 		} break;
 
 		case MOVING_RIGHT: {
 			if (sprite->animation() != MOVE_RIGHT)
 				sprite->changeAnimation(MOVE_RIGHT);
-			glm::ivec2 posAnt = posPlayer;
 			posPlayer.x += 2;
 			isRight = true;
 			if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
@@ -335,7 +332,6 @@ void Player::update(int deltaTime)
 				posPlayer.x -= 2;
 				sprite->changeAnimation(STAND_RIGHT);
 			}
-			else map->updateEnemyPosition(posPlayer, glm::ivec2(32, 32), posAnt, 1);
 			state = STANDING;
 		} break;
 
@@ -399,6 +395,7 @@ void Player::update(int deltaTime)
 
 	}
 
+	map->updateEnemyPosition(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
