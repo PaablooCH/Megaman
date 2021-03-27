@@ -364,7 +364,7 @@ void Player::update(int deltaTime)
 				posPlayer.x += 2;
 				sprite->changeAnimation(STAND_LEFT);
 			}
-			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			if (map->checkDamage(posPlayer, glm::ivec2(7, 32)))
 			{
 				isDamaged = true;
 				state = DAMAGE;
@@ -384,7 +384,7 @@ void Player::update(int deltaTime)
 				posPlayer.x -= 2;
 				sprite->changeAnimation(STAND_RIGHT);
 			}
-			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			if (map->checkDamage(posPlayer, glm::ivec2(7, 32)))
 			{
 				isDamaged = true;
 				state = DAMAGE;
@@ -403,7 +403,7 @@ void Player::update(int deltaTime)
 				sprite->changeAnimation(STAND_RIGHT);
 				isRight = true;
 			}
-			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			if (map->checkDamage(posPlayer, glm::ivec2(8, 32)))
 			{
 				cont = 0;
 				isDamaged = true;
