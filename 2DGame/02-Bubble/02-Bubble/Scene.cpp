@@ -57,6 +57,12 @@ void Scene::init()
 	//FJA.sn
 	cam = new Camera(SCREEN_WIDTH, SCREEN_HEIGHT, ECamType::SIMPLE);
 	//FJA.en
+
+	// Select which font you want to use
+	//if(!text.init("fonts/OpenSans-Regular.ttf"))
+	if (!text.init("fonts/OpenSans-Bold.ttf"))
+	//if(!text.init("fonts/DroidSerif.ttf"))
+		cout << "Could not load font!!!" << endl;
 }
 
 void Scene::update(int deltaTime)
@@ -89,6 +95,8 @@ void Scene::render()
 	map->render();
 	player->render();
 	enemy1->render();
+
+	text.render("Videogames!!!", glm::vec2(10, CAMERA_HEIGHT - 20), 32, glm::vec4(1, 0, 0, 1));
 }
 
 void Scene::initShaders()

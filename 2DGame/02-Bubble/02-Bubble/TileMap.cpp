@@ -3,11 +3,9 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
-#include <json.hpp>
 
 
 using namespace std;
-using json = nlohmann::json;
 
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
