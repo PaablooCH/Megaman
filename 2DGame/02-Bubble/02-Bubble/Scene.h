@@ -6,7 +6,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "LinealEnemy.h"
 #include "Camera.h"
 #include "Text.h"
 
@@ -34,7 +34,7 @@ private:
 private:
 	TileMap *map;
 	Player *player;
-	Enemy *enemy1;
+	LinealEnemy *enemy1;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

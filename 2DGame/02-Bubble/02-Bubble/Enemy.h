@@ -15,14 +15,14 @@ class Enemy
 {
 
 public:
-	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
-	void update(int deltaTime);
+	virtual void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram) = 0;
+	virtual void update(int deltaTime) = 0;
 	void render();
 
 	void setTileMap(TileMap* tileMap);
 	void setPosition(const glm::vec2& pos);
 	
-private:
+protected:
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posEnemy, posAnt;
 	int jumpAngle, startY;
@@ -32,7 +32,6 @@ private:
 	int cont;
 	bool isRight;
 };
-
 
 #endif // _ENEMY_INCLUDE
 
