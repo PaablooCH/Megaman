@@ -36,6 +36,8 @@ private:
 	bool isRight;
 	bool isAnimation;
 	bool isClimbing;
+	bool isDamaged;
+	int health;
 };
 
 

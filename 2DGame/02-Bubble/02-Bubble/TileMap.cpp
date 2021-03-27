@@ -80,7 +80,7 @@ bool TileMap::loadLevel(const string &levelFile)
 
 	string accum = "";
 	map = new int[mapSize.x * mapSize.y];
-	enemymap = new int[mapSize.x * mapSize.y];
+	characMap = new int[mapSize.x * mapSize.y];
 
 	for (int j = 0; j < mapSize.y; j++) {
 		for (int i = 0; i < mapSize.x; i++) {
@@ -92,7 +92,7 @@ bool TileMap::loadLevel(const string &levelFile)
 			}
 			int id = stoi(accum);
 			map[j * mapSize.x + i] = id + 1;
-			enemymap[j * mapSize.x + i] = 1;
+			characMap[j * mapSize.x + i] = 1;
 		}
 		fin.get(tile);
 #ifndef _WIN32
@@ -259,22 +259,6 @@ bool TileMap::collisionFall(const glm::ivec2& pos, const glm::ivec2& size, int* 
 	return false;
 }
 
-bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
-{
-	int x, y0, y1;
-
-	x = pos.x / tileSize;
-	y0 = pos.y / tileSize;
-	y1 = (pos.y + size.y - 1) / tileSize;
-	for (int y = y0; y <= y1; y++)
-	{
-		if (enemymap[y * mapSize.x + x] == 2 )
-			return true;
-	}
-
-	return false;
-}
-
 bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x0, x1, y;
@@ -291,6 +275,21 @@ bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 	return false;
 }
 
+bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+
+	x = pos.x / tileSize;
+	y0 = pos.y / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		if (characMap[y * mapSize.x + x] == 2)
+			return true;
+	}
+
+	return false;
+}
 
 bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const
 {
@@ -301,14 +300,14 @@ bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) cons
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (enemymap[y * mapSize.x + x] == 2 )
+		if (characMap[y * mapSize.x + x] == 2 )
 			return true;
 	}
 
 	return false;
 }
 
-void TileMap::updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const
+void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const
 {
 	int x, y, x1, y1;
 
@@ -318,8 +317,50 @@ void TileMap::updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& pos
 	y1 = posAnt.y / tileSize;
 	for (int j = 0; j < mapSize.y; j++) {
 		for (int i = 0; i < mapSize.x; i++) {
-			enemymap[j * mapSize.x + i] = 1;
+			if(characMap[j * mapSize.x + i] == id)
+				characMap[j * mapSize.x + i] = 1;
 		}
 	}
-	enemymap[y * mapSize.x + x] = id;
+	characMap[y * mapSize.x + x] = id;
+
+	/*int x0, x1, y0, y1;
+
+	x0 = posAnt.y / tileSize;
+	x1 = (posAnt.x + size.x - 1) / tileSize;
+	y0 = posAnt.y / tileSize;
+	y1 = (posAnt.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		for (int x = x0; x <= x1; x++) {
+			if (characMap[y * mapSize.x + x] == id)
+				characMap[y * mapSize.x + x] = 1;
+		}
+	}
+
+	x0 = posAc.y / tileSize;
+	x1 = (posAc.x + size.x - 1) / tileSize;
+	y0 = posAc.y / tileSize;
+	y1 = (posAc.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		for (int x = x0; x <= x1; x++) {
+				characMap[y * mapSize.x + x] = id;
+		}
+	}*/
+
+}
+
+bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+
+	x = (pos.x + size.x - 1) / tileSize;
+	y0 = pos.y / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1)
+			return true;
+	}
+	return false;
 }

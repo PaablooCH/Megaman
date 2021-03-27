@@ -37,7 +37,8 @@ public:
 	bool isStairs(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const;
-	void updateEnemyPosition(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
+	bool checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const;
+	void updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
 
 	
 private:
@@ -53,11 +54,9 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-	int *enemymap;
+	int *characMap;
 
 };
 
 
 #endif // _TILE_MAP_INCLUDE
-
-

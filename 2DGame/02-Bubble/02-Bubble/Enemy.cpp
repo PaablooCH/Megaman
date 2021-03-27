@@ -108,13 +108,13 @@ void Enemy::update(int deltaTime)
 				sprite->changeAnimation(MOVE_RIGHT);
 				states = MOVING_RIGHT;
 			}
-			if (map->enemyMoveLeft(posEnemy, glm::ivec2(32, 32)))
+			/*if (map->enemyMoveLeft(posEnemy, glm::ivec2(32, 32)))
 			{
 				posEnemy.x += 2;
 				sprite->changeAnimation(HIT_LEFT);
 				cont = 0;
 				states = HITTED_LEFT;
-			}
+			}*/
 		} break;
 
 		case MOVING_RIGHT: {
@@ -132,17 +132,17 @@ void Enemy::update(int deltaTime)
 				sprite->changeAnimation(MOVE_LEFT);
 				states = MOVING_LEFT;
 			}
-			if (map->enemyMoveRight(posEnemy, glm::ivec2(10, 32)))
+			/*if (map->enemyMoveRight(posEnemy, glm::ivec2(10, 32)))
 			{
 				posEnemy.x -= 2;
 				sprite->changeAnimation(HIT_RIGHT);
 				cont = 0;
 				states = HITTED_RIGHT;
-			}
+			}*/
 		} break;
 	}
 
-	map->updateEnemyPosition(posEnemy, glm::ivec2(32, 32), posAnt, 3);
+	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 3);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }
 

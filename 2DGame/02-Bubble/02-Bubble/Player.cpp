@@ -12,12 +12,13 @@
 
 enum States 
 {
-	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING
+	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE
 } state;
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR, CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR,
+	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT
 };
 
 
@@ -25,13 +26,15 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 	bJumping = false;
 	isClimbing = false;
+	isDamaged = false;
+	health = 100;
 	state = START;
 	cont = 0;
 	isAnimation = true;
 	isRight = true;
 	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(18);
+	sprite->setNumberAnimations(20);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 15.f / 30.f));
@@ -121,6 +124,14 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->addKeyframe(LAND, glm::vec2(4.f / 8.f, 6.8 / 30.f));
 	sprite->addKeyframe(LAND, glm::vec2(5.f / 8.f, 6.8 / 30.f));
 
+	sprite->setAnimationSpeed(DAMAGE_LEFT, 8);
+	sprite->addKeyframe(DAMAGE_LEFT, glm::vec2(2.f / 8.f, 17.9 / 30.f));
+	sprite->addKeyframe(DAMAGE_LEFT, glm::vec2(1.f / 8.f, 17.9 / 30.f));
+
+	sprite->setAnimationSpeed(DAMAGE_RIGHT, 8);
+	sprite->addKeyframe(DAMAGE_RIGHT, glm::vec2(5.f / 8.f, 2.9 / 30.f));
+	sprite->addKeyframe(DAMAGE_RIGHT, glm::vec2(6.f / 8.f, 2.9 / 30.f));
+
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
@@ -133,6 +144,40 @@ void Player::update(int deltaTime)
 	sprite->update(deltaTime);
 	switch (state)
 	{
+		case DAMAGE: {
+			cont += deltaTime;
+			if (sprite->animation() != DAMAGE_RIGHT && sprite->animation() != DAMAGE_LEFT) {
+				if (isRight)
+					sprite->changeAnimation(DAMAGE_RIGHT);
+				else
+					sprite->changeAnimation(DAMAGE_LEFT);
+			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
+			{
+				posPlayer.x -= 2;
+				if (isRight)
+					sprite->changeAnimation(DAMAGE_LEFT);
+				isRight = false;
+				if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
+					posPlayer.x += 2;
+			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
+			{
+				posPlayer.x += 2;
+				if (!isRight)
+					sprite->changeAnimation(DAMAGE_RIGHT);
+				isRight = true;
+				if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
+					posPlayer.x -= 2;
+			}
+			
+			if (cont >= 500) {
+				state = STANDING;
+				isDamaged = false;
+			}
+
+		} break;
+
 		case START: {
 			cont += deltaTime;
 			if (cont >= 1900) {
@@ -319,7 +364,14 @@ void Player::update(int deltaTime)
 				posPlayer.x += 2;
 				sprite->changeAnimation(STAND_LEFT);
 			}
-			state = STANDING;
+			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			{
+				isDamaged = true;
+				state = DAMAGE;
+				cont = 0;
+			}
+			else
+				state = STANDING;
 		} break;
 
 		case MOVING_RIGHT: {
@@ -332,7 +384,14 @@ void Player::update(int deltaTime)
 				posPlayer.x -= 2;
 				sprite->changeAnimation(STAND_RIGHT);
 			}
-			state = STANDING;
+			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			{
+				isDamaged = true;
+				state = DAMAGE;
+				cont = 0;
+			}
+			else 
+				state = STANDING;
 		} break;
 
 		case STANDING: {
@@ -344,11 +403,17 @@ void Player::update(int deltaTime)
 				sprite->changeAnimation(STAND_RIGHT);
 				isRight = true;
 			}
+			if (map->checkDamage(posPlayer, glm::ivec2(32, 32)))
+			{
+				cont = 0;
+				isDamaged = true;
+				state = DAMAGE;
+			}
 		} break;
 
 	}
 
-	if (!isAnimation && !bJumping && !isClimbing)
+	if (!isAnimation && !bJumping && !isClimbing && !isDamaged)
 	{
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 		{
@@ -395,7 +460,7 @@ void Player::update(int deltaTime)
 
 	}
 
-	map->updateEnemyPosition(posPlayer, glm::ivec2(32, 32), posAnt, 2);
+	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
@@ -414,7 +479,3 @@ void Player::setPosition(const glm::vec2 &pos)
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
-
-
-
-
