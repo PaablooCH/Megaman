@@ -21,13 +21,15 @@ enum PlayerAnims
 	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT
 };
 
-
 void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 	bJumping = false;
 	isClimbing = false;
 	isDamaged = false;
-	health = 100;
+	health = 11;
+	exp = 0;
+	playerStats = new PlayerStats();
+	playerStats->init(tileMapPos, shaderProgram);
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -135,9 +137,9 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	playerStats->update(health, exp);
 
 }
-
 
 void Player::update(int deltaTime)
 {
@@ -309,7 +311,7 @@ void Player::update(int deltaTime)
 			}
 			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
 				posPlayer.x -= 1;
-				if (map->collisionMoveStairs(posPlayer, glm::ivec2(32, 32)))
+				if (map->collisionMoveStairsLeft(posPlayer, glm::ivec2(32, 32)))
 				{
 					posPlayer.x += 1;
 				}
@@ -319,7 +321,7 @@ void Player::update(int deltaTime)
 			}
 			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
 				posPlayer.x += 1;
-				if (map->collisionMoveStairs(posPlayer, glm::ivec2(32, 32)))
+				if (map->collisionMoveStairsRight(posPlayer, glm::ivec2(32, 32)))
 				{
 					posPlayer.x -= 1;
 				}
@@ -330,11 +332,13 @@ void Player::update(int deltaTime)
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{
 				posPlayer.y -= 1;
+
 				if (!map->isStairs(glm::ivec2(posPlayer.x, posPlayer.y-20), glm::ivec2(32, 32))) {
 					state = LANDING;
 					sprite->changeAnimation(LAND);
 					cont = 0;
 				}
+
 			}
 			else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 				posPlayer.y += 1;
@@ -462,6 +466,7 @@ void Player::update(int deltaTime)
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	playerStats->update(health, exp);
 }
 
 void Player::render()

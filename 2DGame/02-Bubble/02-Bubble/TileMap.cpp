@@ -186,16 +186,34 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 	return false;
 }
 
-bool TileMap::collisionMoveStairs(const glm::ivec2& pos, const glm::ivec2& size) const
+bool TileMap::collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
-
-	x = (pos.x + size.x - 1) / tileSize;
+	int a;
+	x = (pos.x + 2*size.x / 3 - 1) / tileSize;
+	
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] != 57 && map[y * mapSize.x + x] != 3)
+		if (map[y * mapSize.x + x] != 3)
+			return true;
+	}
+
+	return false;
+}
+
+bool TileMap::collisionMoveStairsRight(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+	int a;
+	x = (pos.x) / tileSize;
+	y0 = pos.y / tileSize;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++)
+	{
+		a = map[y * mapSize.x + x];
+		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 57)
 			return true;
 	}
 
@@ -261,14 +279,12 @@ bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x0, x1, y;
 
-	x0 = pos.x / tileSize;
-	x1 = (pos.x + size.x - 1) / tileSize;
+	x0 = (pos.x + size.x / 2 - 1) / tileSize;
+	x1 = (pos.x + 2*size.x/3 - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
-	for (int x = x0; x <= x1; x++)
-	{
-		if (map[y * mapSize.x + x] == 3)
-			return true;
-	}
+	if (map[y * mapSize.x + x0] == 3)
+		return true;
+	
 
 	return false;
 }
@@ -320,32 +336,6 @@ void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posA
 		}
 	}
 	characMap[y * mapSize.x + x] = id;
-
-	/*int x0, x1, y0, y1;
-
-	x0 = posAnt.y / tileSize;
-	x1 = (posAnt.x + size.x - 1) / tileSize;
-	y0 = posAnt.y / tileSize;
-	y1 = (posAnt.y + size.y - 1) / tileSize;
-	for (int y = y0; y <= y1; y++)
-	{
-		for (int x = x0; x <= x1; x++) {
-			if (characMap[y * mapSize.x + x] == id)
-				characMap[y * mapSize.x + x] = 1;
-		}
-	}
-
-	x0 = posAc.y / tileSize;
-	x1 = (posAc.x + size.x - 1) / tileSize;
-	y0 = posAc.y / tileSize;
-	y1 = (posAc.y + size.y - 1) / tileSize;
-	for (int y = y0; y <= y1; y++)
-	{
-		for (int x = x0; x <= x1; x++) {
-				characMap[y * mapSize.x + x] = id;
-		}
-	}*/
-
 }
 
 bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const

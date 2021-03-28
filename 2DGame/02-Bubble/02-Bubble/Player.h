@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Extended_GLUT_KEYS.h"
+#include "PlayerStats.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -37,7 +38,8 @@ private:
 	bool isAnimation;
 	bool isClimbing;
 	bool isDamaged;
-	int health;
+	int health, exp;
+	PlayerStats *playerStats;
 };
 
 

@@ -18,13 +18,12 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="LinealEnemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStats.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TexturedQuad.h" />
     <ClInclude Include="TileMap.h" />
   </ItemGroup>
   <ItemGroup>
@@ -33,12 +32,12 @@
     <ClCompile Include="LinealEnemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStats.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TexturedQuad.cpp" />
     <ClCompile Include="TileMap.cpp" />

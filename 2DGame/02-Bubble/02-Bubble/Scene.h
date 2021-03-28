@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "LinealEnemy.h"
 #include "Camera.h"
-#include "Text.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 480
@@ -38,7 +37,6 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
-	Text text;
 
 	//FJA.sn
 	Camera *cam;
