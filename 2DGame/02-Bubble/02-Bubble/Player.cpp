@@ -10,15 +10,15 @@
 #define JUMP_HEIGHT 92
 #define FALL_STEP 4
 
-enum States 
+enum States
 {
-	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE
+	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE, TELEPORT
 } state;
 
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR,
-	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT
+	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR
 };
 
 void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
@@ -26,7 +26,8 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	bJumping = false;
 	isClimbing = false;
 	isDamaged = false;
-	health = 11;
+	powerUp = new bool[5]{ false, false, false, false, false };
+	health = 20;
 	exp = 0;
 	playerStats = new PlayerStats();
 	playerStats->init(tileMapPos, shaderProgram);
@@ -36,7 +37,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	isRight = true;
 	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(20);
+	sprite->setNumberAnimations(21);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 15.f / 30.f));
@@ -134,6 +135,14 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->addKeyframe(DAMAGE_RIGHT, glm::vec2(5.f / 8.f, 2.9 / 30.f));
 	sprite->addKeyframe(DAMAGE_RIGHT, glm::vec2(6.f / 8.f, 2.9 / 30.f));
 
+	sprite->setAnimationSpeed(DISAPPEAR, 3);
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(5.f / 8.f, 0));
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(4.f / 8.f, 0));
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(3.f / 8.f, 0));
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(2.f / 8.f, 0));
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(1.f / 8.f, 0));
+	sprite->addKeyframe(DISAPPEAR, glm::vec2(0, 0));
+
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
@@ -181,9 +190,23 @@ void Player::update(int deltaTime)
 		} break;
 
 		case START: {
+			if (sprite->animation() != APPEAR)
+				sprite->changeAnimation(APPEAR);
 			cont += deltaTime;
+			isAnimation = true;
 			if (cont >= 1900) {
 				state = STANDING;
+				isAnimation = false;
+			}
+		} break;
+
+		case TELEPORT: {
+			if (sprite->animation() != DISAPPEAR)
+				sprite->changeAnimation(DISAPPEAR);
+			cont += deltaTime;
+			if (cont >= 1900) {
+				cont = 0;
+				state = START;
 				isAnimation = false;
 			}
 		} break;
@@ -465,13 +488,14 @@ void Player::update(int deltaTime)
 	}
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	if(!isAnimation)sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
 	playerStats->update(health, exp);
 }
 
 void Player::render()
 {
 	sprite->render();
+	playerStats->render(health, exp);
 }
 
 void Player::setTileMap(TileMap *tileMap)
@@ -483,4 +507,17 @@ void Player::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+}
+
+void Player::actuStatsPos(const glm::vec2& pos)
+{
+	playerStats->setPosition(pos);
+}
+
+void Player::teleport(const glm::vec2& pos)
+{
+	isAnimation = true;
+	cont = 0;
+	state = TELEPORT;
+	posPlayer = pos;
 }

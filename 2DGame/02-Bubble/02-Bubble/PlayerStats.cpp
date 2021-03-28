@@ -6,12 +6,12 @@
 
 enum HealthState
 {
-	FULL1, NINE1, EIGHT1, SEVEN1, SIX1, FIVE1, FOUR1, THREE1, TWO1, ONE1
+	FULL1, NINET1, EIGHTE1, SEVENT1, SIXT1, FIF1, FOURT1, THIR1, TWE1, ELE1, TEN1, NINE1, EIGHT1, SEVEN1, SIX1, FIVE1, FOUR1, THREE1, TWO1, ONE1
 } health_states;
 
 enum ExpState
 {
-	FULL2, NINE2, EIGHT2, SEVEN2, SIX2, FIVE2, FOUR2, THREE2, TWO2, ONE2
+	FULL2, NINET2, EIGHTE2, SEVENT2, SIXT2, FIF2, FOURT2, THIR2, TWE2, ELE2, TEN2, NINE2, EIGHT2, SEVEN2, SIX2, FIVE2, FOUR2, THREE2, TWO2, ONE2
 } exp_states;
 
 enum Anims
@@ -25,36 +25,50 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	health_states = FULL1;
 	exp_states = FULL2;
 	spritesheet.loadFromFile("images/HUD.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spriteHealth = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
+	spriteHealth = Sprite::createSprite(glm::ivec2(128, 64), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
 	spriteHealth->setNumberAnimations(1);
 
 	spriteHealth->setAnimationSpeed(BLOCK, 1);
-	spriteHealth->addKeyframe(BLOCK, glm::vec2(0,0));
+	spriteHealth->addKeyframe(BLOCK, glm::vec2(944.f / 2000.f, 160.f / 480.f));
 
 	spriteHealth->changeAnimation(0);
 	tileMapDispl = tileMapPos;
-	spriteHealth->setPosition(glm::vec2(float(tileMapDispl.x + posHealth.x), float(tileMapDispl.y + posHealth.y)));
+	spriteHealth->setPosition(glm::vec2(0, 0));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	spriteExp = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f / 6.f, 1.f / 2.f), &spritesheet, &shaderProgram);
+	spriteExp = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
 	spriteExp->setNumberAnimations(1);
 
 	spriteExp->setAnimationSpeed(BLOCK, 1);
-	spriteExp->addKeyframe(BLOCK, glm::vec2(1.f / 6.f, 1.f / 2.f));
+	spriteExp->addKeyframe(BLOCK, glm::vec2(0,0));
 
 	spriteExp->changeAnimation(0);
-	tileMapDispl = tileMapPos;
 	spriteExp->setPosition(glm::vec2(float(tileMapDispl.x + posExp.x), float(tileMapDispl.y + posExp.y)));
 
 }
 
 void PlayerStats::update(int health, int exp)
 {
-	render();
+	switch (health) {
+	case 1: {
+
+		}
+	}
+	
 }
 
-void PlayerStats::render()
+void PlayerStats::render(int health, int exp)
 {
 	spriteHealth->render();
+	spriteExp->render();
+}
+
+void PlayerStats::setPosition(const glm::vec2& pos)
+{
+	posHealth = pos;
+	posExp.x = pos.x;
+	posExp.y = pos.y + 64;
+	spriteHealth->setPosition(glm::vec2(float(tileMapDispl.x + posHealth.x), float(tileMapDispl.y + posHealth.y)));
+	spriteExp->setPosition(glm::vec2(float(tileMapDispl.x + posExp.x), float(tileMapDispl.y + posExp.y)));
 }

@@ -8,9 +8,12 @@
 #include "Player.h"
 #include "LinealEnemy.h"
 #include "Camera.h"
+#include "Virus.h"
+#include "Teleport.h"
+#include "Fire.h"
 
 #define CAMERA_WIDTH 640
-#define CAMERA_HEIGHT 480
+#define CAMERA_HEIGHT 640
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -27,6 +30,8 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	void updateCamera();
+
 private:
 	void initShaders();
 
@@ -34,13 +39,14 @@ private:
 	TileMap *map;
 	Player *player;
 	LinealEnemy *enemy1;
+	Fire* fire1;
+	Virus* virus1;
+	Teleport* teleport1;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
 
-	//FJA.sn
-	Camera *cam;
-	//FJA.en
+	glm::vec2 posCamera;
 };
 
 

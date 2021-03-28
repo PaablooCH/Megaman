@@ -14,6 +14,7 @@
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Extended_GLUT_KEYS.h" />
+    <ClInclude Include="Fire.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="LinealEnemy.h" />
@@ -23,11 +24,14 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Teleport.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Virus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LinealEnemy.cpp" />
     <ClCompile Include="main.cpp" />
@@ -38,9 +42,11 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TexturedQuad.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Virus.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>

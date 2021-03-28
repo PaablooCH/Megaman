@@ -23,9 +23,13 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 
-	//FJA.sn
-	inline glm::vec2 getSpritePosition() const { return sprite->getPosition(); }
-	//FJA.en	
+	void actuStatsPos(const glm::vec2& pos);
+
+	void teleport(const glm::vec2& pos);
+
+
+	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }
+	
 private:
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posPlayer, posAnt;
@@ -40,6 +44,7 @@ private:
 	bool isDamaged;
 	int health, exp;
 	PlayerStats *playerStats;
+	bool* powerUp;
 };
 
 

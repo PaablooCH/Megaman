@@ -15,7 +15,7 @@ enum EnemyAnims
 };
 
 
-void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
+void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
 	bJumping = false;
 
@@ -44,7 +44,8 @@ void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 
 	sprite->changeAnimation(1);
 	tileMapDispl = tileMapPos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	posIni = posInicial;
+	sprite->setPosition(posIni);
 }
 
 void LinealEnemy::update(int deltaTime)

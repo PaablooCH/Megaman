@@ -39,6 +39,9 @@ public:
 	bool enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkPlayerDown(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkIfPlayer(const glm::ivec2& pos, const glm::ivec2& size) const;
+	void clearPosition(int id) const;
 	void updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
 
 	

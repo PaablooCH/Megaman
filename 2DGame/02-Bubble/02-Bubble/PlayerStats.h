@@ -9,7 +9,9 @@ public:
 
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
 	void update(int health, int exp);
-	void render();
+	void render(int health, int exp);
+
+	void setPosition(const glm::vec2& pos);
 
 private:
 	Texture spritesheet;

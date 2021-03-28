@@ -352,3 +352,37 @@ bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const
 	}
 	return false;
 }
+
+bool TileMap::checkPlayerDown(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0, y1;
+
+	x = pos.x / tileSize;
+	y0 = pos.y / tileSize;
+	for (int y = y0; y <= (mapSize.y - y0); y++)
+	{
+		if (characMap[y * mapSize.x + x] == 2)
+			return true;
+	}
+	return false;
+}
+
+bool TileMap::checkIfPlayer(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0;
+
+	x = (pos.x - 1) / tileSize;
+	y0 = pos.y / tileSize;
+	if (characMap[y0 * mapSize.x + x] == 2) return true;
+	return false;
+}
+
+void TileMap::clearPosition(int id) const
+{
+	for (int j = 0; j < mapSize.y; j++) {
+		for (int i = 0; i < mapSize.x; i++) {
+			if (characMap[j * mapSize.x + i] == id)
+				characMap[j * mapSize.x + i] = 1;
+		}
+	}
+}
