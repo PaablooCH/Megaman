@@ -28,7 +28,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	isDamaged = false;
 	powerUp = new bool[5]{ false, false, false, false, false };
 	health = 20;
-	exp = 0;
+	exp = 10;
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -155,6 +155,7 @@ void Player::update(int deltaTime)
 		case DAMAGE: {
 			cont += deltaTime;
 			if (sprite->animation() != DAMAGE_RIGHT && sprite->animation() != DAMAGE_LEFT) {
+				health -= 2;
 				if (isRight)
 					sprite->changeAnimation(DAMAGE_RIGHT);
 				else
@@ -258,7 +259,7 @@ void Player::update(int deltaTime)
 				if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 					posPlayer.x -= 2;
 			}
-			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle + 4 * JUMP_ANGLE_STEP) / 180.f));
+			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
 			if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32))) {
 				posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle - JUMP_ANGLE_STEP) / 180.f));
 				state = FALLING;
@@ -266,6 +267,13 @@ void Player::update(int deltaTime)
 			}
 			else
 				posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
+			if (map->checkDamage(posPlayer, glm::ivec2(8, 32))) //Hablar esto
+			{
+				cont = 0;
+				isDamaged = true;
+				state = DAMAGE;
+				bJumping = false; //hacer que se quede statico cuando sea golpeado aire
+			}
 			
 		} break;
 
@@ -299,6 +307,13 @@ void Player::update(int deltaTime)
 			bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 			if (!bJumping)
 				state = STANDING;
+			if (map->checkDamage(posPlayer, glm::ivec2(8, 32))) //Hablar esto
+			{
+				cont = 0;
+				isDamaged = true;
+				state = DAMAGE;
+				bJumping = false; // hacer que se quede statico
+			}
 			jumpAngle += JUMP_ANGLE_STEP;
 
 		} break;
@@ -486,7 +501,7 @@ void Player::update(int deltaTime)
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	if(!isAnimation)sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
-	playerStats->update(health, exp);
+	playerStats->render(health, exp);
 }
 
 void Player::render()

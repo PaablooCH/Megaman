@@ -6,10 +6,10 @@
 
 
 #define SCREEN_X 0
-#define SCREEN_Y 64
+#define SCREEN_Y 0
 
-#define INIT_PLAYER_X_TILES 4
-#define INIT_PLAYER_Y_TILES 8
+#define INIT_PLAYER_X_TILES 26
+#define INIT_PLAYER_Y_TILES 13
 
 
 Scene::Scene()
@@ -51,8 +51,8 @@ void Scene::init()
 	player->setTileMap(map);
 	player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
-	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(15 * map->getTileSize(), 12 * map->getTileSize()));
-	enemy1->setPosition(glm::vec2(15 * map->getTileSize(), 12 * map->getTileSize()));
+	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()));
+	enemy1->setPosition(glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	fire1 = new Fire();
 	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(35 * map->getTileSize(), 13 * map->getTileSize()));
@@ -80,8 +80,11 @@ void Scene::update(int deltaTime)
 	fire1->update(deltaTime);
 	virus1->update(deltaTime);
 	teleport1->update(deltaTime);
-
 	updateCamera();
+	if(posCamera.y>0)
+		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28*16)));
+	else
+		playerStats->setPosition(posCamera);
 }
 
 void Scene::updateCamera()
@@ -92,9 +95,9 @@ void Scene::updateCamera()
 	else if (playerpos.x < posCamera.x)
 		posCamera.x -= SCREEN_WIDTH;
 
-	if (playerpos.y > posCamera.y + SCREEN_HEIGHT-64)
+	if (playerpos.y > posCamera.y + SCREEN_HEIGHT)
 		posCamera.y += SCREEN_HEIGHT;
-	else if (playerpos.y < posCamera.y-45)
+	else if (playerpos.y < posCamera.y)
 		posCamera.y -= SCREEN_HEIGHT;
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 }
@@ -116,6 +119,7 @@ void Scene::render()
 	enemy1->render();
 	fire1->render();
 	if (!virus1->checkAlive())virus1->render();
+	//playerStats->render();
 	
 }
 
