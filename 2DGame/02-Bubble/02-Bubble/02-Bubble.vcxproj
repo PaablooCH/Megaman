@@ -44,7 +44,6 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TexturedQuad.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Virus.cpp" />
   </ItemGroup>

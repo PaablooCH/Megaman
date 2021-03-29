@@ -101,9 +101,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="TexturedQuad.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="LinealEnemy.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
