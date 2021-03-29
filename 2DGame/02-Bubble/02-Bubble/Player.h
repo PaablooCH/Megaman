@@ -21,6 +21,7 @@ public:
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
+	void setPlayerStats(PlayerStats *pStats);
 	void setPosition(const glm::vec2 &pos);
 
 	void actuStatsPos(const glm::vec2& pos);
@@ -37,14 +38,14 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
+	PlayerStats *playerStats;
 	int cont;
 	bool isRight;
 	bool isAnimation;
 	bool isClimbing;
 	bool isDamaged;
 	int health, exp;
-	PlayerStats *playerStats;
-	bool* powerUp;
+	bool *powerUp;
 };
 
 

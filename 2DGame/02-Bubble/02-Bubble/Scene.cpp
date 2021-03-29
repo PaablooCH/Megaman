@@ -6,7 +6,7 @@
 
 
 #define SCREEN_X 0
-#define SCREEN_Y 0
+#define SCREEN_Y 64
 
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 8
@@ -43,10 +43,13 @@ void Scene::init()
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	playerStats = new PlayerStats();
+	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
+	player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
 	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(15 * map->getTileSize(), 12 * map->getTileSize()));
 	enemy1->setPosition(glm::vec2(15 * map->getTileSize(), 12 * map->getTileSize()));
@@ -65,7 +68,6 @@ void Scene::init()
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
 	posCamera = glm::vec2(0, 0);
-	//projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
 }
@@ -90,9 +92,9 @@ void Scene::updateCamera()
 	else if (playerpos.x < posCamera.x)
 		posCamera.x -= SCREEN_WIDTH;
 
-	if (playerpos.y > posCamera.y + SCREEN_HEIGHT)
+	if (playerpos.y > posCamera.y + SCREEN_HEIGHT-64)
 		posCamera.y += SCREEN_HEIGHT;
-	else if (playerpos.y < posCamera.y)
+	else if (playerpos.y < posCamera.y-45)
 		posCamera.y -= SCREEN_HEIGHT;
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 }

@@ -25,7 +25,7 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	health_states = FULL1;
 	exp_states = FULL2;
 	spritesheet.loadFromFile("images/HUD.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spriteHealth = Sprite::createSprite(glm::ivec2(128, 64), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
+	spriteHealth = Sprite::createSprite(glm::ivec2(20, 16), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
 	spriteHealth->setNumberAnimations(1);
 
 	spriteHealth->setAnimationSpeed(BLOCK, 1);
@@ -33,16 +33,20 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 
 	spriteHealth->changeAnimation(0);
 	tileMapDispl = tileMapPos;
-	spriteHealth->setPosition(glm::vec2(0, 0));
+	posHealth.x = tileMapDispl.x + 10;
+	posHealth.y = tileMapDispl.y;
+	spriteHealth->setPosition(glm::vec2(float(tileMapDispl.x + posHealth.x), float(tileMapDispl.y + posHealth.y)));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	spriteExp = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
+	spriteExp = Sprite::createSprite(glm::ivec2(20, 16), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
 	spriteExp->setNumberAnimations(1);
 
 	spriteExp->setAnimationSpeed(BLOCK, 1);
-	spriteExp->addKeyframe(BLOCK, glm::vec2(0,0));
+	spriteExp->addKeyframe(BLOCK, glm::vec2(413.f / 2000.f, 160.f / 480.f));
 
+	posExp.x = posHealth.x;
+	posExp.y = posHealth.y + 17;
 	spriteExp->changeAnimation(0);
 	spriteExp->setPosition(glm::vec2(float(tileMapDispl.x + posExp.x), float(tileMapDispl.y + posExp.y)));
 
@@ -53,7 +57,8 @@ void PlayerStats::update(int health, int exp)
 	switch (health) {
 	case 1: {
 
-		}
+
+	}break;
 	}
 	
 }

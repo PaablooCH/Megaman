@@ -29,8 +29,6 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	powerUp = new bool[5]{ false, false, false, false, false };
 	health = 20;
 	exp = 0;
-	playerStats = new PlayerStats();
-	playerStats->init(tileMapPos, shaderProgram);
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -146,7 +144,6 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	playerStats->update(health, exp);
 
 }
 
@@ -501,6 +498,11 @@ void Player::render()
 void Player::setTileMap(TileMap *tileMap)
 {
 	map = tileMap;
+}
+
+void Player::setPlayerStats(PlayerStats *pStats)
+{
+	playerStats = pStats;
 }
 
 void Player::setPosition(const glm::vec2 &pos)

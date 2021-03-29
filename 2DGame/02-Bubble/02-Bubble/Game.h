@@ -6,7 +6,7 @@
 
 
 #define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 320
+#define SCREEN_HEIGHT 384
 
 
 // Game is a singleton (a class with a single instance) that represents our whole application

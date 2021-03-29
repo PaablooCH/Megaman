@@ -11,6 +11,7 @@
 #include "Virus.h"
 #include "Teleport.h"
 #include "Fire.h"
+#include "PlayerStats.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 640
@@ -42,6 +43,7 @@ private:
 	Fire* fire1;
 	Virus* virus1;
 	Teleport* teleport1;
+	PlayerStats *playerStats;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
