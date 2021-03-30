@@ -38,18 +38,17 @@ void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
 
 void RescueGirl::update(int deltaTime)
 {
-    /*
     sprite->update(deltaTime);
     posAnt = posGirl;
+    cont = 0;
     switch (states) {
-    case RESCUED: {
-        if (map->checkIfPlayer(posGirl, glm::ivec2(32, 32)))
-        {
-        }
-    } break;
+        case RESCUED: {
+            cont += deltaTime;
+            if (cont >= 1000) rescued = false;
+        } break;
     }
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPortal.x), float(tileMapDispl.y + posPortal.y)));*/
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posGirl.x), float(tileMapDispl.y + posGirl.y)));
 }
 
 void RescueGirl::render()

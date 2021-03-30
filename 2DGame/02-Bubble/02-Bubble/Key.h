@@ -1,10 +1,10 @@
-#ifndef _RESCUEGIRL_INCLUDE
-#define _RESCUEGIRL_INCLUDE
+#ifndef _KEY_INCLUDE
+#define _KEY_INCLUDE
 
 
 #include "Sprite.h"
 #include "TileMap.h"
-#include "Player.h"
+#include "PlayerStats.h"
 #include "Extended_GLUT_KEYS.h"
 
 
@@ -12,7 +12,7 @@
 // all properties it needs to track its movement, jumping, and collisions.
 
 
-class RescueGirl
+class Key
 {
 
 public:
@@ -21,17 +21,16 @@ public:
     void render();
 
     void setTileMap(TileMap* tileMap);
-    void setPlayer(Player* p);
+    void setPlayerStats(PlayerStats* ps);
     void setPosition(const glm::vec2& pos);
 
 protected:
-    glm::ivec2 tileMapDispl, posGirl, posAnt;
-    int jumpAngle, startY, cont;
+    glm::ivec2 tileMapDispl, posIni, posAnt;
+    int jumpAngle, startY;
     Texture spritesheet;
     Sprite* sprite;
     TileMap* map;
-    Player* player;
-    bool rescued;
+    PlayerStats* playerstat;
 };
 
-#endif // _RESCUEGIRL_INCLUDE
+#endif // _KEY_INCLUDE
