@@ -12,6 +12,8 @@
 #include "Teleport.h"
 #include "Fire.h"
 #include "PlayerStats.h"
+#include "Key.h"
+#include "RescueGirl.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 640
@@ -44,6 +46,8 @@ private:
 	Virus* virus1;
 	Teleport* teleport1;
 	PlayerStats *playerStats;
+	RescueGirl *girl1;
+	Key *key1;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

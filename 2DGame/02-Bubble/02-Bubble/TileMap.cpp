@@ -386,3 +386,13 @@ void TileMap::clearPosition(int id) const
 		}
 	}
 }
+
+bool TileMap::checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0;
+
+	x = (pos.x - 1) / tileSize;
+	y0 = pos.y / tileSize;
+	if (map[y0 * mapSize.x + x] == 52) return true;
+	return false;
+}

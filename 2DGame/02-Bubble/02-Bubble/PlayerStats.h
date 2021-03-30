@@ -12,12 +12,16 @@ public:
 	void render(int health, int exp);
 
 	void setPosition(const glm::vec2& pos);
+	void addKey();
+	void removeKey();
+	bool checkKeys();
 
 private:
 	Texture spritesheet;
 	Sprite* spriteHealth;
 	Sprite* spriteExp;
 	glm::ivec2 tileMapDispl, posHealth, posExp;
+	int keys;
 };
 
 #endif // _PLAYERSTATS_INCLUDE

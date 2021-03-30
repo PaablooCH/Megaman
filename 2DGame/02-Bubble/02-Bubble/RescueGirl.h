@@ -4,7 +4,7 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
-#include "Player.h"
+#include "PlayerStats.h"
 #include "Extended_GLUT_KEYS.h"
 
 
@@ -21,8 +21,9 @@ public:
     void render();
 
     void setTileMap(TileMap* tileMap);
-    void setPlayer(Player* p);
+    void setPlayerStats(PlayerStats* ps);
     void setPosition(const glm::vec2& pos);
+    bool checkState();
 
 protected:
     glm::ivec2 tileMapDispl, posGirl, posAnt;
@@ -30,7 +31,7 @@ protected:
     Texture spritesheet;
     Sprite* sprite;
     TileMap* map;
-    Player* player;
+    PlayerStats* playerstat;
     bool rescued;
 };
 

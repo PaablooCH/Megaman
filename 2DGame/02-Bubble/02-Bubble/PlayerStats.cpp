@@ -101,3 +101,19 @@ void PlayerStats::setPosition(const glm::vec2& pos)
 	spriteHealth->setPosition(posHealth);
 	spriteExp->setPosition(posExp);
 }
+
+void PlayerStats::addKey()
+{
+	keys += 1;
+}
+
+void PlayerStats::removeKey()
+{
+	if(keys > 0)keys -= 1;
+}
+
+bool PlayerStats::checkKeys()
+{
+	if (keys > 0)return true;
+	return false;
+}

@@ -20,6 +20,8 @@ Scene::Scene()
 	fire1 = NULL;
 	virus1 = NULL;
 	teleport1 = NULL;
+	girl1 = NULL;
+	key1 = NULL;
 }
 
 Scene::~Scene()
@@ -36,6 +38,11 @@ Scene::~Scene()
 		delete virus1;
 	if (teleport1 != NULL)
 		delete teleport1;
+	if (girl1 != NULL)
+		delete girl1;
+	if (key1 != NULL)
+		delete key1;
+
 }
 
 
@@ -67,6 +74,16 @@ void Scene::init()
 	teleport1->setPosition(glm::vec2(33 * map->getTileSize(), 9 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
+	girl1 = new RescueGirl();
+	girl1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
+	girl1->setPosition(glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
+	girl1->setTileMap(map);
+	girl1->setPlayerStats(playerStats);
+	key1 = new Key();
+	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
+	key1->setPosition(glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
+	key1->setTileMap(map);
+	key1->setPlayerStats(playerStats);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
@@ -80,6 +97,8 @@ void Scene::update(int deltaTime)
 	fire1->update(deltaTime);
 	virus1->update(deltaTime);
 	teleport1->update(deltaTime);
+	girl1->update(deltaTime);
+	key1->update(deltaTime);
 	updateCamera();
 	if(posCamera.y>0)
 		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28*16)));
@@ -119,6 +138,8 @@ void Scene::render()
 	enemy1->render();
 	fire1->render();
 	if (!virus1->checkAlive())virus1->render();
+	if (girl1->checkState())girl1->render();
+	if (!key1->checkState())key1->render();
 	//playerStats->render();
 	
 }

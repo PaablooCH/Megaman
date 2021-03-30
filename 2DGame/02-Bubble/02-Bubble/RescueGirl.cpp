@@ -18,8 +18,9 @@ enum EnemyAnims
 void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
     states = RESCUED;
+    rescued = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f/7.f, 1.f/2.f), &spritesheet, &shaderProgram);
+    sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(1.f/7.f, 1.f/2.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
 
     sprite->setAnimationSpeed(STAND, 1);
@@ -40,11 +41,13 @@ void RescueGirl::update(int deltaTime)
 {
     sprite->update(deltaTime);
     posAnt = posGirl;
-    cont = 0;
     switch (states) {
         case RESCUED: {
-            cont += deltaTime;
-            if (cont >= 1000) rescued = false;
+            if (map->checkIfPlayer(posGirl, glm::ivec2(20, 32))) {
+                if(playerstat -> checkKeys())rescued = true;
+                cont += deltaTime;
+                if (cont >= 1000) rescued = false;
+            }
         } break;
     }
 
@@ -61,9 +64,9 @@ void RescueGirl::setTileMap(TileMap* tileMap)
     map = tileMap;
 }
 
-void RescueGirl::setPlayer(Player* p)
+void RescueGirl::setPlayerStats(PlayerStats* ps)
 {
-    player = p;
+    playerstat = ps;
 }
 
 void RescueGirl::setPosition(const glm::vec2& pos)
@@ -71,3 +74,9 @@ void RescueGirl::setPosition(const glm::vec2& pos)
     posGirl = pos;
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posGirl.x), float(tileMapDispl.y + posGirl.y)));
 }
+
+bool RescueGirl::checkState()
+{
+    return rescued;
+}
+

@@ -23,6 +23,7 @@ public:
     void setTileMap(TileMap* tileMap);
     void setPlayerStats(PlayerStats* ps);
     void setPosition(const glm::vec2& pos);
+    bool checkState();
 
 protected:
     glm::ivec2 tileMapDispl, posIni, posAnt;
@@ -31,6 +32,7 @@ protected:
     Sprite* sprite;
     TileMap* map;
     PlayerStats* playerstat;
+    bool got;
 };
 
 #endif // _KEY_INCLUDE
