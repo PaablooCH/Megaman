@@ -23,17 +23,17 @@ void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	isAlive = true;
 	states = MOVING_LEFT;
 	spritesheet.loadFromFile("images/Enemy1.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f / 6.f, 1.f / 2.f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(23.f / 158.f, 22.f / 54.f), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(4);
 
-	sprite->setAnimationSpeed(MOVE_LEFT, 6);
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(1.f / 6.f, 1.f / 2.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f / 6.f, 1.f / 2.f));
-
-
 	sprite->setAnimationSpeed(MOVE_RIGHT, 6);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.f / 6.f, 0));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(5.f / 6.f, 0));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(109.f / 158.f, 2.f / 54.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(134.f / 158.f, 2.f / 54.f));
+
+
+	sprite->setAnimationSpeed(MOVE_LEFT, 6);
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(31.f / 158.f, 28.f / 54.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(2.f / 158.f, 28.f / 54.f));
 
 	sprite->setAnimationSpeed(HIT_RIGHT, 6);
 	sprite->addKeyframe(HIT_RIGHT, glm::vec2(1.f / 6.f, 0));

@@ -20,17 +20,17 @@ void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
     states = RESCUED;
     rescued = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(1.f / 7.f, 1.f / 2.f), &spritesheet, &shaderProgram);
+    sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(27.f / 202.f, 46.f / 96.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
 
     sprite->setAnimationSpeed(STAND, 7);
-    sprite->addKeyframe(STAND, glm::vec2(7.f / 7.f, 0.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(6.f / 7.f, 0.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(5.f / 7.f, 0.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(4.f / 7.f, 0.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(3.f / 7.f, 1.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(2.f / 7.f, 1.f / 2.f));
-    sprite->addKeyframe(STAND, glm::vec2(1.f / 7.f, 1.f / 2.f));
+    sprite->addKeyframe(STAND, glm::vec2(174.f / 202.f, 0.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(146.f / 202.f, 0.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(117.f / 202.f, 1.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(87.f / 202.f, 0.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(57.f / 202.f, 49.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(29.f / 202.f, 48.f / 96.f));
+    sprite->addKeyframe(STAND, glm::vec2(0.f / 202.f, 48.f / 96.f));
 
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
