@@ -12,12 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="Extended_GLUT_KEYS.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Level1.h" />
+    <ClInclude Include="Level2.h" />
     <ClInclude Include="LinealEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStats.h" />
@@ -32,10 +33,11 @@
     <ClInclude Include="Virus.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="Level2.cpp" />
     <ClCompile Include="LinealEnemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />

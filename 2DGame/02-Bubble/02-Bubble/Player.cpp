@@ -4,7 +4,6 @@
 #include <GL/glut.h>
 #include "Player.h"
 #include "Game.h"
-#include "Camera.h"
 
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 92
@@ -21,14 +20,24 @@ enum PlayerAnims
 	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR
 };
 
+Player::Player()
+{
+	powerUp = new bool[5]{ false, false, false, false, false };
+	girlRescued = new bool[6]{ true, false, true, false, false, false };
+	health = 20;
+	exp = 10;
+}
+
+Player::~Player()
+{
+}
+
 void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 	bJumping = false;
 	isClimbing = false;
+	isHitting = false;
 	isDamaged = false;
-	powerUp = new bool[5]{ false, false, false, false, false };
-	health = 20;
-	exp = 10;
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -211,12 +220,19 @@ void Player::update(int deltaTime)
 
 		case HITTING: {
 			cont += deltaTime;
-			if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT)
+			if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT) {
 				sprite->changeAnimation(HIT_LEFT);
-			else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT)
+				isHitting = true;
+			}
+			else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT) {
 				sprite->changeAnimation(HIT_RIGHT);
-			if (cont >= 250) state = STANDING;
-			
+				isHitting = true;;
+			}
+			if (cont >= 250) {
+				state = STANDING;
+				isHitting = false;
+			}
+
 		} break;
 
 		case JUMPING: {
@@ -501,13 +517,12 @@ void Player::update(int deltaTime)
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	if(!isAnimation)sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
-	playerStats->render(health, exp);
+	playerStats->update(health, exp, girlRescued);
 }
 
 void Player::render()
 {
 	sprite->render();
-	playerStats->render(health, exp);
 }
 
 void Player::setTileMap(TileMap *tileMap)
@@ -518,6 +533,7 @@ void Player::setTileMap(TileMap *tileMap)
 void Player::setPlayerStats(PlayerStats *pStats)
 {
 	playerStats = pStats;
+	playerStats->update(health, exp, girlRescued);
 }
 
 void Player::setPosition(const glm::vec2 &pos)
@@ -537,4 +553,14 @@ void Player::teleport(const glm::vec2& pos)
 	cont = 0;
 	state = TELEPORT;
 	posPlayer = pos;
+}
+
+bool Player::checkHit()
+{
+	return isHitting;
+}
+
+bool Player::checkRight()
+{
+	return isRight;
 }

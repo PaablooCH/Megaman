@@ -2,11 +2,13 @@
 #define _GAME_INCLUDE
 
 
-#include "Scene.h"
+#include "Level1.h"
+#include "Player.h"
+#include "Level2.h"
 
 
 #define SCREEN_WIDTH 496
-#define SCREEN_HEIGHT 512
+#define SCREEN_HEIGHT 496
 
 
 // Game is a singleton (a class with a single instance) that represents our whole application
@@ -43,8 +45,10 @@ public:
 	bool getSpecialKey(int key) const;
 
 private:
+	Player* player;
 	bool bPlay;                       // Continue to play game?
-	Scene scene;                      // Scene to render
+	Level1* level1;                      // Scene to render
+	Level2* level2;
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	                                  // we can have access at any time
 

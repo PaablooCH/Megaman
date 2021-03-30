@@ -3,14 +3,8 @@
 
 
 #include <glm/glm.hpp>
-#include "ShaderProgram.h"
 #include "TileMap.h"
-#include "Player.h"
-#include "LinealEnemy.h"
-#include "Camera.h"
-#include "Virus.h"
 #include "Teleport.h"
-#include "Fire.h"
 #include "PlayerStats.h"
 #include "Key.h"
 #include "RescueGirl.h"
@@ -29,21 +23,18 @@ public:
 	Scene();
 	~Scene();
 
-	void init();
-	void update(int deltaTime);
-	void render();
+	virtual void init(Player* player) = 0;
+	virtual void update(int deltaTime) = 0;
+	virtual void render() = 0;
 
 	void updateCamera();
 
-private:
+protected:
 	void initShaders();
 
-private:
+protected:
 	TileMap *map;
 	Player *player;
-	LinealEnemy *enemy1;
-	Fire* fire1;
-	Virus* virus1;
 	Teleport* teleport1;
 	PlayerStats *playerStats;
 	RescueGirl *girl1;

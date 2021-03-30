@@ -20,6 +20,7 @@ void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	bJumping = false;
 
 	isRight = true;
+	isAlive = true;
 	states = MOVING_LEFT;
 	spritesheet.loadFromFile("images/Enemy1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f / 6.f, 1.f / 2.f), &spritesheet, &shaderProgram);
@@ -100,13 +101,18 @@ void LinealEnemy::update(int deltaTime)
 			sprite->changeAnimation(MOVE_RIGHT);
 			states = MOVING_RIGHT;
 		}
-		/*if (map->enemyMoveLeft(posEnemy, glm::ivec2(32, 32)))
+		if (map->enemyMoveLeft(posEnemy, glm::ivec2(20, 32)))
 		{
-			posEnemy.x += 2;
-			sprite->changeAnimation(HIT_LEFT);
-			cont = 0;
-			states = HITTED_LEFT;
-		}*/
+			if (player->checkRight()) {
+				if (player->checkHit())isAlive = false;
+			}
+		}
+		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		{
+			if (!player->checkRight()) {
+				if (player->checkHit())isAlive = false;
+			}
+		}
 	} break;
 
 	case MOVING_RIGHT: {
@@ -124,13 +130,18 @@ void LinealEnemy::update(int deltaTime)
 			sprite->changeAnimation(MOVE_LEFT);
 			states = MOVING_LEFT;
 		}
-		/*if (map->enemyMoveRight(posEnemy, glm::ivec2(10, 32)))
+		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
-			posEnemy.x -= 2;
-			sprite->changeAnimation(HIT_RIGHT);
-			cont = 0;
-			states = HITTED_RIGHT;
-		}*/
+			if (!player->checkRight()) {
+				if (player->checkHit())isAlive = false;
+			}
+		}
+		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		{
+			if (!player->checkRight()) {
+				if (player->checkHit())isAlive = false;
+			}
+		}
 	} break;
 	}
 

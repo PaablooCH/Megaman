@@ -16,17 +16,23 @@ class Player
 {
 
 public:
+
+	Player();
+	~Player();
+
 	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	void update(int deltaTime);
 	void render();
-	
+
 	void setTileMap(TileMap *tileMap);
 	void setPlayerStats(PlayerStats *pStats);
 	void setPosition(const glm::vec2 &pos);
-
+	
 	void actuStatsPos(const glm::vec2& pos);
-
 	void teleport(const glm::vec2& pos);
+
+	bool checkHit();
+	bool checkRight();
 
 
 	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }
@@ -43,9 +49,11 @@ private:
 	bool isRight;
 	bool isAnimation;
 	bool isClimbing;
+	bool isHitting;
 	bool isDamaged;
 	int health, exp;
 	bool *powerUp;
+	bool *girlRescued;
 };
 
 

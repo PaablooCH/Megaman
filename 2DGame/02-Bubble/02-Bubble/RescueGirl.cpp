@@ -20,11 +20,11 @@ void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
     states = RESCUED;
     rescued = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(1.f/7.f, 1.f/2.f), &spritesheet, &shaderProgram);
+    sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(1.f / 7.f, 1.f / 2.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
 
-    sprite->setAnimationSpeed(STAND, 1);
-    sprite->addKeyframe(STAND, glm::vec2(7.f/7.f, 0.f/2.f));
+    sprite->setAnimationSpeed(STAND, 7);
+    sprite->addKeyframe(STAND, glm::vec2(7.f / 7.f, 0.f / 2.f));
     sprite->addKeyframe(STAND, glm::vec2(6.f / 7.f, 0.f / 2.f));
     sprite->addKeyframe(STAND, glm::vec2(5.f / 7.f, 0.f / 2.f));
     sprite->addKeyframe(STAND, glm::vec2(4.f / 7.f, 0.f / 2.f));
@@ -42,13 +42,14 @@ void RescueGirl::update(int deltaTime)
     sprite->update(deltaTime);
     posAnt = posGirl;
     switch (states) {
-        case RESCUED: {
-            if (map->checkIfPlayer(posGirl, glm::ivec2(20, 32))) {
-                if(playerstat -> checkKeys())rescued = true;
-                cont += deltaTime;
-                if (cont >= 1000) rescued = false;
+    case RESCUED: {
+        if (map->checkIfPlayer(posGirl, glm::ivec2(20, 32))) {
+            if (playerstat->checkKeys()) {
+                rescued = true;
+                map->openDoor(posGirl);
             }
-        } break;
+        }
+    } break;
     }
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posGirl.x), float(tileMapDispl.y + posGirl.y)));
@@ -79,4 +80,3 @@ bool RescueGirl::checkState()
 {
     return rescued;
 }
-

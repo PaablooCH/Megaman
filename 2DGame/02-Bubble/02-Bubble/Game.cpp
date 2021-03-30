@@ -7,12 +7,17 @@ void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-	scene.init();
+	player = new Player();
+	level1 = new Level1();
+	level1->init(player);
+	//level2 = new Level2();
+	//level2->init(player);
 }
 
 bool Game::update(int deltaTime)
 {
-	scene.update(deltaTime);
+	level1->update(deltaTime);
+	//level2->update(deltaTime);
 	
 	return bPlay;
 }
@@ -20,7 +25,8 @@ bool Game::update(int deltaTime)
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene.render();
+	level1->render();
+	//level2->render();
 }
 
 void Game::keyPressed(int key)

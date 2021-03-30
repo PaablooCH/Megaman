@@ -1,7 +1,7 @@
+#include "Level1.h"
 #include <iostream>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Scene.h"
 #include "Game.h"
 
 
@@ -12,45 +12,39 @@
 #define INIT_PLAYER_Y_TILES 13
 
 
-Scene::Scene()
+Level1::Level1()
 {
-	map = NULL;
-	player = NULL;
-	teleport1 = NULL;
-	girl1 = NULL;
-	key1 = NULL;
+	enemy1 = NULL;
+	fire1 = NULL;
+	virus1 = NULL;
 }
 
-Scene::~Scene()
+Level1::~Level1()
 {
-	if (map != NULL)
-		delete map;
-	if (player != NULL)
-		delete player;
-	if (teleport1 != NULL)
-		delete teleport1;
-	if (girl1 != NULL)
-		delete girl1;
-	if (key1 != NULL)
-		delete key1;
-
+	if (enemy1 != NULL)
+		delete enemy1;
+	if (fire1 != NULL)
+		delete fire1;
+	if (virus1 != NULL)
+		delete virus1;
 }
-/*
-void Scene::init()
+
+void Level1::init(Player* player)
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
-	player = new Player();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
-	player->setPlayerStats(playerStats);
+	this->player = player;
+	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	this->player->setTileMap(map);
+	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
 	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()));
 	enemy1->setPosition(glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()));
 	enemy1->setTileMap(map);
+	enemy1->setPlayer(this->player);
 	fire1 = new Fire();
 	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(35 * map->getTileSize(), 13 * map->getTileSize()));
 	fire1->setPosition(glm::vec2(35 * map->getTileSize(), 15 * map->getTileSize()));
@@ -79,39 +73,26 @@ void Scene::init()
 	currentTime = 0.0f;
 }
 
-void Scene::update(int deltaTime)
+void Level1::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
-	enemy1->update(deltaTime);
+	if (enemy1 != nullptr) deleteEnemy();
+	if (enemy1 != nullptr) enemy1->update(deltaTime);
 	fire1->update(deltaTime);
-	virus1->update(deltaTime);
+	if (virus1 != nullptr) deleteVirus();
+	if (virus1 != nullptr) virus1->update(deltaTime);
 	teleport1->update(deltaTime);
 	girl1->update(deltaTime);
 	key1->update(deltaTime);
 	updateCamera();
-	if(posCamera.y>0)
-		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28*16)));
+	if (posCamera.y > 0)
+		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
 	else
 		playerStats->setPosition(posCamera);
-}*/
-
-void Scene::updateCamera()
-{
-	glm::vec2 playerpos = player->getPosPlayer();
-	if (playerpos.x > posCamera.x + SCREEN_WIDTH)
-		posCamera.x += SCREEN_WIDTH;
-	else if (playerpos.x < posCamera.x)
-		posCamera.x -= SCREEN_WIDTH;
-
-	if (playerpos.y > posCamera.y + SCREEN_HEIGHT)
-		posCamera.y += SCREEN_HEIGHT;
-	else if (playerpos.y < posCamera.y)
-		posCamera.y -= SCREEN_HEIGHT;
-	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 }
 
-/*void Scene::render()
+void Level1::render()
 {
 	glm::mat4 modelview;
 
@@ -125,41 +106,26 @@ void Scene::updateCamera()
 	map->render();
 	teleport1->render();
 	player->render();
-	enemy1->render();
+	if (enemy1 != NULL)enemy1->render();
 	fire1->render();
-	if (!virus1->checkAlive())virus1->render();
+	if (virus1 != NULL)virus1->render();
 	if (girl1->checkState())girl1->render();
 	if (!key1->checkState())key1->render();
 	playerStats->render();
-	
 }
-*/
-void Scene::initShaders()
-{
-	Shader vShader, fShader;
 
-	vShader.initFromFile(VERTEX_SHADER, "shaders/texture.vert");
-	if (!vShader.isCompiled())
-	{
-		cout << "Vertex Shader Error" << endl;
-		cout << "" << vShader.log() << endl << endl;
+void Level1::deleteVirus()
+{
+	if (!virus1->checkAlive()) {
+		virus1 = nullptr;
+		delete virus1;
 	}
-	fShader.initFromFile(FRAGMENT_SHADER, "shaders/texture.frag");
-	if (!fShader.isCompiled())
-	{
-		cout << "Fragment Shader Error" << endl;
-		cout << "" << fShader.log() << endl << endl;
+}
+
+void Level1::deleteEnemy()
+{
+	if (!enemy1->checkAlive()) {
+		enemy1 = nullptr;
+		delete enemy1;
 	}
-	texProgram.init();
-	texProgram.addShader(vShader);
-	texProgram.addShader(fShader);
-	texProgram.link();
-	if (!texProgram.isLinked())
-	{
-		cout << "Shader Linking Error" << endl;
-		cout << "" << texProgram.log() << endl << endl;
-	}
-	texProgram.bindFragmentOutput("outColor");
-	vShader.free();
-	fShader.free();
 }

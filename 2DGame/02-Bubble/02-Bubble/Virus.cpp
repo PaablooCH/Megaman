@@ -14,10 +14,10 @@ enum EnemyAnims
     MOVE
 };
 
-
 void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
     states = STANDING;
+    isAlive = true;
     spritesheet.loadFromFile("images/Virus.png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(20, 20), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
@@ -34,8 +34,6 @@ void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, con
 
 void Virus::update(int deltaTime)
 {
-    isDead = false;
-
     sprite->update(deltaTime);
     posAnt = posEnemy;
     switch (states) {
@@ -43,7 +41,7 @@ void Virus::update(int deltaTime)
         posEnemy.y += 2;
         if (map->collisionMoveDown(posEnemy, glm::ivec2(20, 20), &posEnemy.y))
         {
-            isDead = true;
+            isAlive = false;
             map->clearPosition(7);
         }
     } break;
@@ -54,10 +52,6 @@ void Virus::update(int deltaTime)
     } break;
     }
 
-    if (!isDead)map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, 7);
+    map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, 7);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
-}
-
-bool Virus::checkAlive() {
-    return isDead;
 }

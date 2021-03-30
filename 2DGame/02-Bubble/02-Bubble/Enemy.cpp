@@ -4,7 +4,6 @@
 #include <GL/glut.h>
 #include "Enemy.h"
 #include "Game.h"
-#include "Camera.h"
 
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 92
@@ -160,4 +159,14 @@ void Enemy::setPosition(const glm::vec2& pos)
 {
 	posEnemy = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+}
+
+void Enemy::setPlayer(Player* p)
+{
+	player = p;
+}
+
+bool Enemy::checkAlive()
+{
+	return isAlive;
 }

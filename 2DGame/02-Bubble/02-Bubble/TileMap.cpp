@@ -293,7 +293,7 @@ bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
 
-	x = pos.x / tileSize;
+	x = (pos.x - size.x) / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
@@ -309,12 +309,12 @@ bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) cons
 {
 	int x, y0, y1;
 
-	x = (pos.x + size.x - 1) / tileSize;
+	x = (pos.x + size.x) / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (characMap[y * mapSize.x + x] == 2 )
+		if (characMap[y * mapSize.x + x] == 2)
 			return true;
 	}
 
@@ -394,5 +394,26 @@ bool TileMap::checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const
 	x = (pos.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
 	if (map[y0 * mapSize.x + x] == 52) return true;
+	return false;
+}
+
+void TileMap::openDoor(const glm::ivec2& pos) const
+{
+	int x, y, y1;
+
+	x = pos.x / tileSize;
+	y = pos.y / tileSize;
+	y1 = (pos.y / tileSize) + 1;
+	map[y * mapSize.x + x] = 57;
+	map[y1 * mapSize.x + x] = 57;
+}
+
+bool TileMap::checkIfPlayerHit(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x, y0;
+
+	x = (pos.x - 1) / tileSize;
+	y0 = pos.y / tileSize;
+	if (characMap[y0 * mapSize.x + x] == 2) return true;
 	return false;
 }

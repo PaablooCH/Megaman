@@ -44,6 +44,8 @@ public:
 	bool checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const;
 	void clearPosition(int id) const;
 	void updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
+	void openDoor(const glm::ivec2& pos) const;
+	bool checkIfPlayerHit(const glm::ivec2& pos, const glm::ivec2& size) const;
 
 	
 private:
