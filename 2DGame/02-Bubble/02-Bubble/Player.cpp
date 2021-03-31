@@ -23,17 +23,20 @@ enum PlayerAnims
 Player::Player()
 {
 	powerUp = new bool[5]{ false, false, false, false, false };
+	keys = new bool[6]{ false, false, false, false, false, false };
 	girlRescued = new bool[6]{ true, false, true, false, false, false };
 	health = 20;
 	exp = 10;
+	nkeys = 0;
 }
 
 Player::~Player()
 {
 }
 
-void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
+void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int lvl)
 {
+	this->lvl = lvl;
 	bJumping = false;
 	isClimbing = false;
 	isHitting = false;
@@ -162,9 +165,10 @@ void Player::update(int deltaTime)
 	switch (state)
 	{
 		case DAMAGE: {
+			if (cont == 0)
+				health -= 2;
 			cont += deltaTime;
 			if (sprite->animation() != DAMAGE_RIGHT && sprite->animation() != DAMAGE_LEFT) {
-				health -= 2;
 				if (isRight)
 					sprite->changeAnimation(DAMAGE_RIGHT);
 				else
@@ -306,7 +310,6 @@ void Player::update(int deltaTime)
 				else
 					sprite->changeAnimation(JUMP_RIGHT2);
 			}
-
 			posPlayer.y += FALL_STEP;
 			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
 				posPlayer.x -= 2;
@@ -517,7 +520,7 @@ void Player::update(int deltaTime)
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
 	if(!isAnimation)sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
-	playerStats->update(health, exp, girlRescued);
+	playerStats->update(health, exp, girlRescued, nkeys, powerUp);
 }
 
 void Player::render()
@@ -533,7 +536,7 @@ void Player::setTileMap(TileMap *tileMap)
 void Player::setPlayerStats(PlayerStats *pStats)
 {
 	playerStats = pStats;
-	playerStats->update(health, exp, girlRescued);
+	playerStats->update(health, exp, girlRescued, nkeys, powerUp);
 }
 
 void Player::setPosition(const glm::vec2 &pos)
@@ -563,4 +566,22 @@ bool Player::checkHit()
 bool Player::checkRight()
 {
 	return isRight;
+}
+
+void Player::winExp()
+{
+	exp++;
+	if (exp == 21) {
+		if (health < 20)
+			health += 2;
+		else if (health == 19)
+			health++;
+		exp = 1;
+	}
+}
+
+void Player::winKey()
+{
+	keys[lvl - 1] = true;
+	nkeys++;
 }

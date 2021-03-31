@@ -32,7 +32,7 @@ protected:
     Sprite* sprite;
     TileMap* map;
     PlayerStats* playerstat;
-    bool rescued;
+    bool rescued; //cambiar nombre a show
 };
 
 #endif // _RESCUEGIRL_INCLUDE

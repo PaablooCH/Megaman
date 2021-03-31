@@ -37,14 +37,15 @@ void Chip::update(int deltaTime)
     posAnt = posIni;
     switch (states) {
         case NORMAL: {
-            if (map->checkIfPlayer(posIni, glm::ivec2(32, 32)))
-            {
-                playerstat->addExp();
+            if (map->checkIfPlayer(posIni, glm::ivec2(32, 32))) {
                 got = true;
+                map->clearPosition(11);
             }
+                
         } break;
     }
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posIni.x), float(tileMapDispl.y + posIni.y)));
+    if(!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, 11);
 }
 
 void Chip::render()
@@ -55,11 +56,6 @@ void Chip::render()
 void Chip::setTileMap(TileMap* tileMap)
 {
     map = tileMap;
-}
-
-void Chip::setPlayerStats(PlayerStats* ps)
-{
-    playerstat = ps;
 }
 
 void Chip::setPosition(const glm::vec2& pos)

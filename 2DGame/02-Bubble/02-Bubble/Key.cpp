@@ -36,15 +36,15 @@ void Key::update(int deltaTime)
     sprite->update(deltaTime);
     posAnt = posIni;
     switch (states) {
-    case NORMAL: {
-            if (map->checkIfPlayer(posIni, glm::ivec2(32, 32)))
-            {
-                playerstat->addKey();
+        case NORMAL: {
+            if (map->checkIfPlayer(posIni, glm::ivec2(32, 32))) {
+                map->clearPosition(10);
                 got = true;
-            }
-        } break;
-    }
+                }
+            } break;
+        }
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posIni.x), float(tileMapDispl.y + posIni.y)));
+    if (!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, 10);
 }
 
 void Key::render()
@@ -55,11 +55,6 @@ void Key::render()
 void Key::setTileMap(TileMap* tileMap)
 {
     map = tileMap;
-}
-
-void Key::setPlayerStats(PlayerStats* ps) 
-{
-    playerstat = ps;
 }
 
 void Key::setPosition(const glm::vec2& pos)

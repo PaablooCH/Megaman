@@ -76,11 +76,13 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 
 }
 
-void PlayerStats::update(int health, int exp, bool* gRescued)
+void PlayerStats::update(int health, int exp, bool* gRescued, int nkeys, bool* powerUp)
 {
 	this->health = health;
 	this->exp = exp;
 	this->gRescued = gRescued;
+	this->nkeys = nkeys;
+	this->powerUp = powerUp;
 }
 
 void PlayerStats::render()
@@ -136,23 +138,8 @@ void PlayerStats::setPosition(const glm::vec2& pos)
 	spriteGirlsRescued->setPosition(posGirl);
 }
 
-void PlayerStats::addKey()
-{
-	keys += 1;
-}
-
-void PlayerStats::removeKey()
-{
-	if(keys > 0)keys -= 1;
-}
-
 bool PlayerStats::checkKeys()
 {
-	if (keys > 0)return true;
+	if (nkeys > 0)return true;
 	return false;
-}
-
-void PlayerStats::addExp()
-{
-	exp += 2;
 }

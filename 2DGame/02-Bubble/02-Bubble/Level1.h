@@ -3,7 +3,7 @@
 #include "Virus.h"
 #include "Fire.h"
 #include "LinealEnemy.h"
-#include "Cascade.h"
+#include "FakeRoof.h"
 #include "Chip.h"
 
 #define CAMERA_WIDTH 640
@@ -22,12 +22,14 @@ public:
 private:
 	void deleteVirus();
 	void deleteEnemy();
+	void deleteKey();
+	void deleteChip();
 
 private:
 	LinealEnemy* enemy1;
 	Fire* fire1;
 	Virus* virus1;
-	Cascade* cascade1;
+	FakeRoof* fakeRoof1;
 	Chip* chip1;
 };
 

@@ -6,7 +6,7 @@
 
 enum GirlState
 {
-    RESCUED
+    WAITING, RESCUED
 } states;
 
 enum EnemyAnims
@@ -17,7 +17,7 @@ enum EnemyAnims
 
 void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
-    states = RESCUED;
+    states = WAITING;
     rescued = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(27.f / 202.f, 46.f / 96.f), &spritesheet, &shaderProgram);
@@ -42,13 +42,21 @@ void RescueGirl::update(int deltaTime)
     sprite->update(deltaTime);
     posAnt = posGirl;
     switch (states) {
-    case RESCUED: {
+    case WAITING: {
         if (map->checkIfPlayer(posGirl, glm::ivec2(20, 32))) {
             if (playerstat->checkKeys()) {
                 rescued = true;
+                states = RESCUED;
+                cont = 0;
                 map->openDoor(posGirl);
             }
         }
+    } break;
+    case RESCUED: {
+        cont += deltaTime;
+        if (cont >= 5000)
+            rescued = false;
+
     } break;
     }
 

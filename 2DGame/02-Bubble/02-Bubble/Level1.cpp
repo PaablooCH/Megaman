@@ -17,7 +17,7 @@ Level1::Level1()
 	enemy1 = NULL;
 	fire1 = NULL;
 	virus1 = NULL;
-	cascade1 = NULL;
+	fakeRoof1 = NULL;
 	chip1 = NULL;
 }
 
@@ -29,8 +29,8 @@ Level1::~Level1()
 		delete fire1;
 	if (virus1 != NULL)
 		delete virus1;
-	if (cascade1 != NULL)
-		delete cascade1;
+	if (fakeRoof1 != NULL)
+		delete fakeRoof1;
 	if (chip1 != NULL)
 		delete chip1;
 }
@@ -42,7 +42,7 @@ void Level1::init(Player* player)
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
 	this->player = player;
-	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
 	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
@@ -73,16 +73,14 @@ void Level1::init(Player* player)
 	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
 	key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
 	key1->setTileMap(map);
-	key1->setPlayerStats(playerStats);
-	cascade1 = new Cascade();
-	cascade1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(39 * map->getTileSize(), 31 * map->getTileSize()));
-	cascade1->setPosition(glm::vec2(39 * map->getTileSize(), 31 * map->getTileSize()));
-	cascade1->setTileMap(map);
+	fakeRoof1 = new FakeRoof(1);
+	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 11 * map->getTileSize()));
+	fakeRoof1->setPosition(glm::vec2(12 * map->getTileSize(), 11 * map->getTileSize()));
+	fakeRoof1->setTileMap(map);
 	chip1 = new Chip();
 	chip1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
 	chip1->setPosition(glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
 	chip1->setTileMap(map);
-	chip1->setPlayerStats(playerStats);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
@@ -99,9 +97,11 @@ void Level1::update(int deltaTime)
 	if (virus1 != nullptr) virus1->update(deltaTime);
 	teleport1->update(deltaTime);
 	girl1->update(deltaTime);
-	key1->update(deltaTime);
-	cascade1->update(deltaTime);
-	chip1->update(deltaTime);
+	if (key1 != nullptr) deleteKey();
+	if (key1 != nullptr) key1->update(deltaTime);
+	fakeRoof1->update(deltaTime);
+	if (chip1 != nullptr) deleteChip();
+	if (chip1 != nullptr) chip1->update(deltaTime);
 	updateCamera();
 	if (posCamera.y > 0)
 		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
@@ -127,9 +127,9 @@ void Level1::render()
 	fire1->render();
 	if (virus1 != NULL)virus1->render();
 	if (girl1->checkState())girl1->render();
-	if (!key1->checkState())key1->render();
-	if (cascade1->checkAlive())cascade1->render();
-	if (!chip1->checkState())chip1->render();
+	if (key1 != NULL)key1->render();
+	fakeRoof1->render();
+	if (chip1 != NULL)chip1->render();
 	playerStats->render();
 }
 
@@ -146,5 +146,24 @@ void Level1::deleteEnemy()
 	if (!enemy1->checkAlive()) {
 		enemy1 = nullptr;
 		delete enemy1;
+		player->winExp();
+	}
+}
+
+void Level1::deleteKey()
+{
+	if (key1->checkState()) {
+		key1 = nullptr;
+		delete key1;
+		player->winKey();
+	}
+}
+
+void Level1::deleteChip()
+{
+	if (chip1->checkState()) {
+		chip1 = nullptr;
+		delete chip1;
+		player->winExp();
 	}
 }

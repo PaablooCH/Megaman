@@ -25,7 +25,7 @@ void Level2::init(Player* player)
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
 	this->player = player;
-	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 2);
 	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
@@ -43,7 +43,6 @@ void Level2::init(Player* player)
 	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
 	key1->setPosition(glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
 	key1->setTileMap(map);
-	key1->setPlayerStats(playerStats);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;

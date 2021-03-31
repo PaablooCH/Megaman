@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
-    <ClInclude Include="Cascade.h" />
+    <ClInclude Include="FakeRoof.h" />
     <ClInclude Include="Chip.h" />
     <ClInclude Include="Extended_GLUT_KEYS.h" />
     <ClInclude Include="Fire.h" />
@@ -35,7 +35,7 @@
     <ClInclude Include="Virus.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cascade.cpp" />
+    <ClCompile Include="FakeRoof.cpp" />
     <ClCompile Include="Chip.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Game.cpp" />

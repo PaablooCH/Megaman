@@ -20,7 +20,7 @@ public:
 	Player();
 	~Player();
 
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, int lvl);
 	void update(int deltaTime);
 	void render();
 
@@ -33,6 +33,9 @@ public:
 
 	bool checkHit();
 	bool checkRight();
+
+	void winExp();
+	void winKey();
 
 
 	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }
@@ -51,9 +54,12 @@ private:
 	bool isClimbing;
 	bool isHitting;
 	bool isDamaged;
-	int health, exp;
+	int lvl;
+	
+	int health, exp, nkeys;
 	bool *powerUp;
 	bool *girlRescued;
+	bool* keys;
 };
 
 

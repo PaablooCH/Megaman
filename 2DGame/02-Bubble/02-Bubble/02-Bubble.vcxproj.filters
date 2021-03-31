@@ -75,7 +75,7 @@
     <ClInclude Include="Level2.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Cascade.h">
+    <ClInclude Include="FakeRoof.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Chip.h">
@@ -140,7 +140,7 @@
     <ClCompile Include="Level2.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="Cascade.cpp">
+    <ClCompile Include="FakeRoof.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="Chip.cpp">
