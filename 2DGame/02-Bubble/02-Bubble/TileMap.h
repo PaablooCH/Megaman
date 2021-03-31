@@ -33,6 +33,7 @@ public:
 	bool collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool collisionMoveStairsRight(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
+	bool cascadeMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
 	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool collisionFall(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
 	bool isStairs(const glm::ivec2& pos, const glm::ivec2& size) const;
@@ -44,6 +45,7 @@ public:
 	bool checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const;
 	void clearPosition(int id) const;
 	void updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
+	void updatePositionCascade(const glm::ivec2& posAc, const glm::ivec2& posAnt, const glm::ivec2& size, int id) const;
 	void openDoor(const glm::ivec2& pos) const;
 	bool checkIfPlayerHit(const glm::ivec2& pos, const glm::ivec2& size) const;
 

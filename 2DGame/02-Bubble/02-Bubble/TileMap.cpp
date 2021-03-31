@@ -242,6 +242,28 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	return false;
 }
 
+bool TileMap::cascadeMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
+{
+	int x0, x1, y;
+
+	x0 = pos.x / tileSize;
+	x1 = (pos.x + size.x - 1) / tileSize;
+	y = (pos.y + size.y - 1) / tileSize;
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[y * mapSize.x + x] == 150 )
+		{
+			if (*posY - tileSize * y + size.y <= 4)
+			{
+				*posY = tileSize * y - size.y;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x0, x1, y;
@@ -336,6 +358,26 @@ void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posA
 		}
 	}
 	characMap[y * mapSize.x + x] = id;
+}
+
+void TileMap::updatePositionCascade(const glm::ivec2& posAc, const glm::ivec2& posAnt, const glm::ivec2& size, int id) const
+{
+	int x, y, x1, y1;
+
+	x = posAc.x / tileSize;
+	y = posAc.y / tileSize;
+	x1 = posAnt.x / tileSize;
+	y1 = posAnt.y / tileSize;
+	for (int j = 0; j < mapSize.y; j++) {
+		for (int i = 0; i < mapSize.x; i++) {
+			if (characMap[j * mapSize.x + i] == id)
+				characMap[j * mapSize.x + i] = 1;
+		}
+	}
+	characMap[y * mapSize.x + x] = id;
+	characMap[y * mapSize.x + (x + 1)] = id;
+	characMap[(y + 1) * mapSize.x + x ] = id;
+	characMap[(y + 1) * mapSize.x + (x + 1)] = id;
 }
 
 bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const

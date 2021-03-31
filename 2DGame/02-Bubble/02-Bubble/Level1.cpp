@@ -17,6 +17,7 @@ Level1::Level1()
 	enemy1 = NULL;
 	fire1 = NULL;
 	virus1 = NULL;
+	cascade1 = NULL;
 }
 
 Level1::~Level1()
@@ -27,6 +28,8 @@ Level1::~Level1()
 		delete fire1;
 	if (virus1 != NULL)
 		delete virus1;
+	if (cascade1 != NULL)
+		delete cascade1;
 }
 
 void Level1::init(Player* player)
@@ -68,6 +71,10 @@ void Level1::init(Player* player)
 	key1->setPosition(glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
 	key1->setTileMap(map);
 	key1->setPlayerStats(playerStats);
+	cascade1 = new Cascade();
+	cascade1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(39 * map->getTileSize(), 31 * map->getTileSize()));
+	cascade1->setPosition(glm::vec2(39 * map->getTileSize(), 31 * map->getTileSize()));
+	cascade1->setTileMap(map);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
@@ -85,6 +92,7 @@ void Level1::update(int deltaTime)
 	teleport1->update(deltaTime);
 	girl1->update(deltaTime);
 	key1->update(deltaTime);
+	cascade1->update(deltaTime);
 	updateCamera();
 	if (posCamera.y > 0)
 		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
@@ -111,6 +119,7 @@ void Level1::render()
 	if (virus1 != NULL)virus1->render();
 	if (girl1->checkState())girl1->render();
 	if (!key1->checkState())key1->render();
+	if (cascade1->checkAlive())cascade1->render();
 	playerStats->render();
 }
 
