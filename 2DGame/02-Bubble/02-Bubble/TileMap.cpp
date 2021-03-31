@@ -414,7 +414,7 @@ bool TileMap::checkIfPlayer(const glm::ivec2& pos, const glm::ivec2& size) const
 	int x, y0;
 
 	x = (pos.x - 1) / tileSize;
-	y0 = pos.y / tileSize;
+	y0 = (pos.y / tileSize) - 1;
 	if (characMap[y0 * mapSize.x + x] == 2) return true;
 	return false;
 }

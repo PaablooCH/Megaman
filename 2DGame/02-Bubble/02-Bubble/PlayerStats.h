@@ -15,6 +15,7 @@ public:
 	void addKey();
 	void removeKey();
 	bool checkKeys();
+	void addExp();
 
 private:
 	Texture spritesheet;

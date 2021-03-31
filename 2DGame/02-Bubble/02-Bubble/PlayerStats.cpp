@@ -151,3 +151,8 @@ bool PlayerStats::checkKeys()
 	if (keys > 0)return true;
 	return false;
 }
+
+void PlayerStats::addExp()
+{
+	exp += 2;
+}

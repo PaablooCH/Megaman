@@ -4,6 +4,7 @@
 #include "Fire.h"
 #include "LinealEnemy.h"
 #include "Cascade.h"
+#include "Chip.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 640
@@ -27,6 +28,6 @@ private:
 	Fire* fire1;
 	Virus* virus1;
 	Cascade* cascade1;
-
+	Chip* chip1;
 };
 
