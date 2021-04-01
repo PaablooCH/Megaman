@@ -28,7 +28,7 @@ void FakeRoof::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, 
     sprite->setNumberAnimations(1);
 
     sprite->setAnimationSpeed(MOVE, 1);
-    sprite->addKeyframe(MOVE, glm::vec2(1.f / 4.f, 0.f));
+    sprite->addKeyframe(MOVE, glm::vec2(0.f, 0.f));
 
 
     sprite->changeAnimation(0);

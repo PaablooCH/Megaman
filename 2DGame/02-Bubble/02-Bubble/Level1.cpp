@@ -8,7 +8,7 @@
 #define SCREEN_X 0
 #define SCREEN_Y 0
 
-#define INIT_PLAYER_X_TILES 26
+#define INIT_PLAYER_X_TILES 24
 #define INIT_PLAYER_Y_TILES 13
 
 
@@ -16,6 +16,7 @@ Level1::Level1()
 {
 	enemy1 = NULL;
 	fire1 = NULL;
+	fire2 = NULL;
 	virus1 = NULL;
 	fakeRoof1 = NULL;
 	chip1 = NULL;
@@ -27,6 +28,8 @@ Level1::~Level1()
 		delete enemy1;
 	if (fire1 != NULL)
 		delete fire1;
+	if (fire2 != NULL)
+		delete fire2;
 	if (virus1 != NULL)
 		delete virus1;
 	if (fakeRoof1 != NULL)
@@ -52,16 +55,20 @@ void Level1::init(Player* player)
 	enemy1->setTileMap(map);
 	enemy1->setPlayer(this->player);
 	fire1 = new Fire();
-	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(35 * map->getTileSize(), 13 * map->getTileSize()));
-	fire1->setPosition(glm::vec2(35 * map->getTileSize(), 15 * map->getTileSize()));
+	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 13 * map->getTileSize()));
+	fire1->setPosition(glm::vec2(58 * map->getTileSize(), 13 * map->getTileSize()));
 	fire1->setTileMap(map);
+	fire2 = new Fire();
+	fire2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 54 * map->getTileSize()));
+	fire2->setPosition(glm::vec2(58 * map->getTileSize(), 54 * map->getTileSize()));
+	fire2->setTileMap(map);
 	virus1 = new Virus();
-	virus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(7 * map->getTileSize(), 11 * map->getTileSize()));
-	virus1->setPosition(glm::vec2(7 * map->getTileSize(), 11 * map->getTileSize()));
+	virus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(7 * map->getTileSize(), 10 * map->getTileSize()));
+	virus1->setPosition(glm::vec2(7 * map->getTileSize(), 10 * map->getTileSize()));
 	virus1->setTileMap(map);
 	teleport1 = new Teleport();
-	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 9 * map->getTileSize()), glm::vec2(6 * map->getTileSize(), 8 * map->getTileSize()));
-	teleport1->setPosition(glm::vec2(33 * map->getTileSize(), 12 * map->getTileSize()));
+	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()), glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	teleport1->setPosition(glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
 	girl1 = new RescueGirl();
@@ -74,8 +81,8 @@ void Level1::init(Player* player)
 	key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
 	key1->setTileMap(map);
 	fakeRoof1 = new FakeRoof(1);
-	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 11 * map->getTileSize()));
-	fakeRoof1->setPosition(glm::vec2(12 * map->getTileSize(), 11 * map->getTileSize()));
+	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()));
+	fakeRoof1->setPosition(glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()));
 	fakeRoof1->setTileMap(map);
 	chip1 = new Chip();
 	chip1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
@@ -93,6 +100,7 @@ void Level1::update(int deltaTime)
 	if (enemy1 != nullptr) deleteEnemy();
 	if (enemy1 != nullptr) enemy1->update(deltaTime);
 	fire1->update(deltaTime);
+	fire2->update(deltaTime);
 	if (virus1 != nullptr) deleteVirus();
 	if (virus1 != nullptr) virus1->update(deltaTime);
 	teleport1->update(deltaTime);
@@ -125,6 +133,7 @@ void Level1::render()
 	player->render();
 	if (enemy1 != NULL)enemy1->render();
 	fire1->render();
+	fire2->render();
 	if (virus1 != NULL)virus1->render();
 	if (girl1->checkState())girl1->render();
 	if (key1 != NULL)key1->render();

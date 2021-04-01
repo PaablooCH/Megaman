@@ -28,6 +28,7 @@ private:
 private:
 	LinealEnemy* enemy1;
 	Fire* fire1;
+	Fire* fire2;
 	Virus* virus1;
 	FakeRoof* fakeRoof1;
 	Chip* chip1;

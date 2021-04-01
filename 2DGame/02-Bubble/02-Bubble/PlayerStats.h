@@ -18,9 +18,12 @@ private:
 	Texture spritesheet;
 	Sprite* spriteHealth;
 	Sprite* spriteExp;
+	Sprite* spriteKey;
+	Sprite* spriteNumberKey;
+	Sprite* spriteXKey;
 	Sprite* spritePowerUp;
 	Sprite* spriteGirlsRescued;
-	glm::ivec2 tileMapDispl, posHealth, posExp, posGirl;
+	glm::ivec2 tileMapDispl, posHealth, posExp, posGirl, posKey, posNumberKey, posXKey;
 	int nkeys;
 	int health, exp;
 	bool* gRescued;
