@@ -19,6 +19,7 @@ void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
 {
     states = WAITING;
     rescued = false;
+    finish = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(27.f / 202.f, 46.f / 96.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
@@ -35,6 +36,18 @@ void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
     sprite->setPosition(posInicial);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    spriteDoor = Sprite::createSprite(glm::ivec2(20, 32), glm::vec2(16.f / 202.f, 32.f / 96.f), &spritesheet, &shaderProgram);
+    spriteDoor->setNumberAnimations(1);
+
+    spriteDoor->setAnimationSpeed(STAND, 7);
+    spriteDoor->addKeyframe(STAND, glm::vec2(151.f / 202.f, 50.f / 96.f));
+
+    spriteDoor->changeAnimation(0);
+    tileMapDispl = tileMapPos;
+    spriteDoor->setPosition(posInicial);
 }
 
 void RescueGirl::update(int deltaTime)
@@ -55,8 +68,7 @@ void RescueGirl::update(int deltaTime)
     case RESCUED: {
         cont += deltaTime;
         if (cont >= 5000)
-            rescued = false;
-
+            finish = true;
     } break;
     }
 
@@ -65,7 +77,10 @@ void RescueGirl::update(int deltaTime)
 
 void RescueGirl::render()
 {
-    sprite->render();
+    if (rescued)
+        sprite->render();
+    else
+        spriteDoor->render();
 }
 
 void RescueGirl::setTileMap(TileMap* tileMap)
@@ -86,5 +101,5 @@ void RescueGirl::setPosition(const glm::vec2& pos)
 
 bool RescueGirl::checkState()
 {
-    return rescued;
+    return finish;
 }

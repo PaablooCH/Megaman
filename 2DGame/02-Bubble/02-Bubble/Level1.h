@@ -5,6 +5,7 @@
 #include "LinealEnemy.h"
 #include "FakeRoof.h"
 #include "Chip.h"
+#include "ShootEnemy.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 640
@@ -22,8 +23,9 @@ public:
 private:
 	void deleteVirus();
 	void deleteEnemy();
-	void deleteKey();
+	void deleteSEnemy();
 	void deleteChip();
+	
 
 private:
 	LinealEnemy* enemy1;
@@ -31,6 +33,7 @@ private:
 	Fire* fire2;
 	Virus* virus1;
 	FakeRoof* fakeRoof1;
+	ShootEnemy* senemy2;
 	Chip* chip1;
 };
 

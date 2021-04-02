@@ -28,14 +28,16 @@ public:
 	void setPlayerStats(PlayerStats *pStats);
 	void setPosition(const glm::vec2 &pos);
 	
-	void actuStatsPos(const glm::vec2& pos);
-	void teleport(const glm::vec2& pos);
+	void teleport(int lvl);
 
 	bool checkHit();
 	bool checkRight();
+	bool isAnAnimation();
+	int getLvl();
 
 	void winExp();
 	void winKey();
+	void loseKey();
 
 
 	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }

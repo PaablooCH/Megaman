@@ -44,7 +44,7 @@ void Key::update(int deltaTime)
             } break;
         }
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posIni.x), float(tileMapDispl.y + posIni.y)));
-    if (!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, 10);
+    if (!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, 50);
 }
 
 void Key::render()

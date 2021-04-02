@@ -15,7 +15,7 @@ enum EnemyAnims
 };
 
 
-void Teleport::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, const glm::ivec2& posTeleport)
+void Teleport::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int lvl)
 {
     states = TELEPORT;
     spritesheet.loadFromFile("images/Teleport.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -27,7 +27,7 @@ void Teleport::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, 
 
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
-    posTel = posTeleport;
+    this->lvl = lvl;
     sprite->setPosition(posInicial);
 }
 
@@ -38,9 +38,7 @@ void Teleport::update(int deltaTime)
     switch (states) {
     case TELEPORT: {
         if (map->checkIfPlayer(posPortal, glm::ivec2(32, 32)))
-        {
-            player->teleport(posTel);
-        }
+            player->teleport(lvl);
     } break;
     }
 

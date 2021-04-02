@@ -19,6 +19,7 @@ Level1::Level1()
 	fire2 = NULL;
 	virus1 = NULL;
 	fakeRoof1 = NULL;
+	senemy2 = NULL;
 	chip1 = NULL;
 }
 
@@ -34,6 +35,8 @@ Level1::~Level1()
 		delete virus1;
 	if (fakeRoof1 != NULL)
 		delete fakeRoof1;
+	if (senemy2 != NULL)
+		delete senemy2;
 	if (chip1 != NULL)
 		delete chip1;
 }
@@ -67,7 +70,7 @@ void Level1::init(Player* player)
 	virus1->setPosition(glm::vec2(7 * map->getTileSize(), 10 * map->getTileSize()));
 	virus1->setTileMap(map);
 	teleport1 = new Teleport();
-	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()), glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()), 2);
 	teleport1->setPosition(glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
@@ -84,6 +87,11 @@ void Level1::init(Player* player)
 	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()));
 	fakeRoof1->setPosition(glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()));
 	fakeRoof1->setTileMap(map);
+	senemy2 = new ShootEnemy();
+	senemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(21 * map->getTileSize(), 27 * map->getTileSize()));
+	senemy2->setPosition(glm::vec2(21 * map->getTileSize(), 27 * map->getTileSize()));
+	senemy2->setTileMap(map);
+	senemy2->setPlayer(this->player);
 	chip1 = new Chip();
 	chip1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
 	chip1->setPosition(glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
@@ -104,10 +112,16 @@ void Level1::update(int deltaTime)
 	if (virus1 != nullptr) deleteVirus();
 	if (virus1 != nullptr) virus1->update(deltaTime);
 	teleport1->update(deltaTime);
-	girl1->update(deltaTime);
-	if (key1 != nullptr) deleteKey();
+	if (girl1 != nullptr && girl1->checkState()) {
+		player->loseKey();
+		deleteGirl1();
+	}
+	if (girl1 != nullptr) girl1->update(deltaTime);
+	if (key1 != nullptr) deleteKey1();
 	if (key1 != nullptr) key1->update(deltaTime);
 	fakeRoof1->update(deltaTime);
+	if (senemy2 != nullptr) deleteSEnemy();
+	if (senemy2 != nullptr) senemy2->update(deltaTime);
 	if (chip1 != nullptr) deleteChip();
 	if (chip1 != nullptr) chip1->update(deltaTime);
 	updateCamera();
@@ -130,14 +144,15 @@ void Level1::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	teleport1->render();
+	if (girl1 != NULL)girl1->render();
 	player->render();
 	if (enemy1 != NULL)enemy1->render();
 	fire1->render();
 	fire2->render();
 	if (virus1 != NULL)virus1->render();
-	if (girl1->checkState())girl1->render();
 	if (key1 != NULL)key1->render();
 	fakeRoof1->render();
+	if (senemy2 != NULL)senemy2->render();
 	if (chip1 != NULL)chip1->render();
 	playerStats->render();
 }
@@ -159,20 +174,20 @@ void Level1::deleteEnemy()
 	}
 }
 
-void Level1::deleteKey()
-{
-	if (key1->checkState()) {
-		key1 = nullptr;
-		delete key1;
-		player->winKey();
-	}
-}
-
 void Level1::deleteChip()
 {
 	if (chip1->checkState()) {
 		chip1 = nullptr;
 		delete chip1;
+		player->winExp();
+	}
+}
+
+void Level1::deleteSEnemy()
+{
+	if (!senemy2->checkAlive()) {
+		senemy2 = nullptr;
+		delete senemy2;
 		player->winExp();
 	}
 }

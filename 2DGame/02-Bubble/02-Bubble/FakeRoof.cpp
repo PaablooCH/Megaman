@@ -66,6 +66,6 @@ void FakeRoof::update(int deltaTime)
         } break;
     }
 
-    map->updatePositionFakeRoof(posEnemy, glm::ivec2(40, 40), posAnt, 8);
+    map->updatePositionFakeRoof(posEnemy, glm::ivec2(40, 40), posAnt, 30);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

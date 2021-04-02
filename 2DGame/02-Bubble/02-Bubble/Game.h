@@ -30,6 +30,8 @@ public:
 	
 	void init();
 	bool update(int deltaTime);
+	void changeLvl();
+	void destroyLvl();
 	void render();
 	
 	// Input callback methods
@@ -46,6 +48,7 @@ public:
 
 private:
 	Player* player;
+	int lvl;
 	bool bPlay;                       // Continue to play game?
 	Level1* level1;                      // Scene to render
 	Level2* level2;

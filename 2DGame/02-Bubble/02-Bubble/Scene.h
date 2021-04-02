@@ -28,6 +28,8 @@ public:
 	virtual void render() = 0;
 
 	void updateCamera();
+	void deleteKey1();
+	void deleteGirl1();
 
 protected:
 	void initShaders();

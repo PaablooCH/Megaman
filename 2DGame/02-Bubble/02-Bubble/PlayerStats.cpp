@@ -31,6 +31,7 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 
 	//health_states = FULL1;
 	//exp_states = FULL2;
+
 	spritesheet.loadFromFile("images/HUD.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spriteHealth = Sprite::createSprite(glm::ivec2(HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
 	spriteHealth->setNumberAnimations(1);
@@ -94,13 +95,13 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteNumberKey->setNumberAnimations(6);
 
 	spriteNumberKey->setAnimationSpeed(BLOCK, 1);
-	spriteNumberKey->addKeyframe(BLOCK, glm::vec2(1007.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK, glm::vec2(989.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK2, 1);
-	spriteNumberKey->addKeyframe(BLOCK2, glm::vec2(1071.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK2, glm::vec2(1059.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK3, 1);
-	spriteNumberKey->addKeyframe(BLOCK3, glm::vec2(1134.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK3, glm::vec2(1124.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK4, 1);
 	spriteNumberKey->addKeyframe(BLOCK4, glm::vec2(1187.f / 2000.f, 2.f / 480.f));

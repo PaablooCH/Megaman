@@ -52,7 +52,6 @@ void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 void LinealEnemy::update(int deltaTime)
 {
 	sprite->update(deltaTime);
-	posAnt = posEnemy;
 	switch (states) {
 	case HITTED_LEFT: {
 		cont += deltaTime;
@@ -68,6 +67,7 @@ void LinealEnemy::update(int deltaTime)
 			states = MOVING_LEFT;
 		}
 		if (cont >= 350)states = MOVING_LEFT;
+		posAnt = posEnemy;
 	} break;
 
 	case HITTED_RIGHT: {
@@ -84,6 +84,7 @@ void LinealEnemy::update(int deltaTime)
 			states = MOVING_RIGHT;
 		}
 		if (cont >= 350)states = MOVING_RIGHT;
+		posAnt = posEnemy;
 	} break;
 
 	case MOVING_LEFT: {
@@ -113,6 +114,7 @@ void LinealEnemy::update(int deltaTime)
 				if (player->checkHit())isAlive = false;
 			}
 		}
+		posAnt = posEnemy;
 	} break;
 
 	case MOVING_RIGHT: {
@@ -138,13 +140,14 @@ void LinealEnemy::update(int deltaTime)
 		}
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
-			if (!player->checkRight()) {
+			if (player->checkRight()) {
 				if (player->checkHit())isAlive = false;
 			}
 		}
+		posAnt = posEnemy;
 	} break;
 	}
 
-	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 3);
+	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 10);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

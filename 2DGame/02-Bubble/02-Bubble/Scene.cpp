@@ -19,21 +19,21 @@ Scene::Scene()
 	teleport1 = NULL;
 	girl1 = NULL;
 	key1 = NULL;
+	playerStats = NULL;
 }
 
 Scene::~Scene()
 {
 	if (map != NULL)
 		delete map;
-	if (player != NULL)
-		delete player;
 	if (teleport1 != NULL)
 		delete teleport1;
 	if (girl1 != NULL)
 		delete girl1;
 	if (key1 != NULL)
 		delete key1;
-
+	if (playerStats != NULL)
+		delete playerStats;
 }
 /*
 void Scene::init()
@@ -162,4 +162,21 @@ void Scene::initShaders()
 	texProgram.bindFragmentOutput("outColor");
 	vShader.free();
 	fShader.free();
+}
+
+void Scene::deleteGirl1()
+{
+	if (girl1->checkState()) {
+		girl1 = nullptr;
+		delete girl1;
+	}
+}
+
+void Scene::deleteKey1()
+{
+	if (key1->checkState()) {
+		key1 = nullptr;
+		delete key1;
+		player->winKey();
+	}
 }

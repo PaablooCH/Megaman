@@ -49,6 +49,6 @@ void Fire::update(int deltaTime)
     } break;
     }
 
-    map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 6);
+    map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 40);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

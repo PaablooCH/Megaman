@@ -163,7 +163,8 @@ bool TileMap::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) c
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 130)
+		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || 
+			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263)
 			return true;
 	}
 
@@ -179,7 +180,8 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 130)
+		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || 
+			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263)
 			return true;
 	}
 
@@ -196,7 +198,7 @@ bool TileMap::collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& s
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] != 3)
+		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 19)
 			return true;
 	}
 
@@ -212,8 +214,7 @@ bool TileMap::collisionMoveStairsRight(const glm::ivec2& pos, const glm::ivec2& 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		a = map[y * mapSize.x + x];
-		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 337)
+		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 337 && map[y * mapSize.x + x] != 19)
 			return true;
 	}
 
@@ -229,7 +230,9 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y*mapSize.x+x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6)
+		if(map[y*mapSize.x+x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 || 
+			map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 166 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 306 || 
+			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22)
 		{
 			if(*posY - tileSize * y + size.y <= 4)
 			{
@@ -251,7 +254,9 @@ bool TileMap::roofMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 	y = (pos.y + size.y - 1) / tileSize;
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y * mapSize.x + x] == 150 )
+		if (map[y * mapSize.x + x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 ||
+			map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 166 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 306 ||
+			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22)
 		{
 			if (*posY - tileSize * y + size.y <= 4)
 			{
@@ -273,7 +278,8 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) con
 	y = (pos.y) / tileSize;
 	for (int x = x0; x <= x1; x++)
 	{
-		if (map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 194)
+		if (map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263 || map[y * mapSize.x + x] == 312
+			|| map[y * mapSize.x + x] == 210)
 				return true;
 	}
 
@@ -304,7 +310,7 @@ bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 	x0 = (pos.x + size.x / 2 - 1) / tileSize;
 	x1 = (pos.x + 2*size.x/3 - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
-	if (map[y * mapSize.x + x0] == 3)
+	if (map[y * mapSize.x + x0] == 3 || map[y * mapSize.x + x0] == 19)
 		return true;
 	
 
@@ -386,10 +392,10 @@ bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const
 
 	x = (pos.x + size.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
-	y1 = (pos.y + size.y - 1) / tileSize;
+	y1 = ((pos.y + size.y - 1) / tileSize) + 1;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 10 && characMap[y * mapSize.x + x] != 11)
+		if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 20)
 			return true;
 	}
 	return false;
@@ -435,7 +441,7 @@ bool TileMap::checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const
 
 	x = (pos.x - 1) / tileSize;
 	y0 = (pos.y / tileSize) + 1;
-	if (characMap[y0 * mapSize.x + x] == 10) return true;
+	if (characMap[y0 * mapSize.x + x] == 50) return true;
 	return false;
 }
 
@@ -445,7 +451,7 @@ bool TileMap::checkIfChip(const glm::ivec2& pos, const glm::ivec2& size) const
 
 	x = (pos.x - 1) / tileSize;
 	y0 = (pos.y / tileSize) + 1;
-	if (characMap[y0 * mapSize.x + x] == 11) return true;
+	if (characMap[y0 * mapSize.x + x] == 20) return true;
 	return false;
 }
 

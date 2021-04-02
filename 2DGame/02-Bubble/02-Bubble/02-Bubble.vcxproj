@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="FakeRoof.h" />
     <ClInclude Include="Chip.h" />
     <ClInclude Include="Extended_GLUT_KEYS.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="ShootEnemy.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="Texture.h" />
@@ -35,6 +37,7 @@
     <ClInclude Include="Virus.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FakeRoof.cpp" />
     <ClCompile Include="Chip.cpp" />
     <ClCompile Include="Fire.cpp" />
@@ -51,6 +54,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ShootEnemy.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="Texture.cpp" />

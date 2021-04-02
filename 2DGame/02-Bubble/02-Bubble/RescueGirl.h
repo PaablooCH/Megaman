@@ -30,9 +30,10 @@ protected:
     int jumpAngle, startY, cont;
     Texture spritesheet;
     Sprite* sprite;
+    Sprite* spriteDoor;
     TileMap* map;
     PlayerStats* playerstat;
-    bool rescued; //cambiar nombre a show
+    bool rescued, finish; //cambiar nombre a show
 };
 
 #endif // _RESCUEGIRL_INCLUDE

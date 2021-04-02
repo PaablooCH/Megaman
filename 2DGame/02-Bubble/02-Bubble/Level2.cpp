@@ -30,8 +30,8 @@ void Level2::init(Player* player)
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	teleport1 = new Teleport();
-	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 9 * map->getTileSize()), glm::vec2(6 * map->getTileSize(), 8 * map->getTileSize()));
-	teleport1->setPosition(glm::vec2(33 * map->getTileSize(), 12 * map->getTileSize()));
+	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()), 1);
+	teleport1->setPosition(glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
 	girl1 = new RescueGirl();
@@ -40,8 +40,8 @@ void Level2::init(Player* player)
 	girl1->setTileMap(map);
 	girl1->setPlayerStats(playerStats);
 	key1 = new Key();
-	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
-	key1->setPosition(glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
+	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
+	key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
 	key1->setTileMap(map);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
@@ -53,12 +53,17 @@ void Level2::update(int deltaTime)
 	currentTime += deltaTime;
 	player->update(deltaTime);
 	teleport1->update(deltaTime);
-	girl1->update(deltaTime);
-	key1->update(deltaTime);
+	if (girl1 != nullptr && girl1->checkState()) {
+		player->loseKey();
+		deleteGirl1();
+	}
+	if (girl1 != nullptr) girl1->update(deltaTime);
+	if (key1 != nullptr) deleteKey1();
+	if (key1 != nullptr) key1->update(deltaTime);
 	updateCamera();
-	//if (posCamera.y > 0)
-		//playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
-	//else
+	if (posCamera.y > 0)
+		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
+	else
 		playerStats->setPosition(posCamera);
 }
 
@@ -75,8 +80,8 @@ void Level2::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	teleport1->render();
+	if (girl1 != NULL)girl1->render();
 	player->render();
-	if (girl1->checkState())girl1->render();
-	if (!key1->checkState())key1->render();
+	if (key1 != NULL)key1->render();
 	playerStats->render();
 }

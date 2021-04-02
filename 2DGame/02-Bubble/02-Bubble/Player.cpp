@@ -24,7 +24,7 @@ Player::Player()
 {
 	powerUp = new bool[5]{ false, false, false, false, false };
 	keys = new bool[6]{ false, false, false, false, false, false };
-	girlRescued = new bool[6]{ true, false, true, false, false, false };
+	girlRescued = new bool[6]{ false, false, false, false, false, false };
 	health = 20;
 	exp = 10;
 	nkeys = 0;
@@ -216,9 +216,8 @@ void Player::update(int deltaTime)
 				sprite->changeAnimation(DISAPPEAR);
 			cont += deltaTime;
 			if (cont >= 1900) {
-				cont = 0;
-				state = START;
 				isAnimation = false;
+				state = STANDING; 
 			}
 		} break;
 
@@ -519,7 +518,7 @@ void Player::update(int deltaTime)
 	}
 
 	map->updatePositionTile(posPlayer, glm::ivec2(32, 32), posAnt, 2);
-	if(!isAnimation)sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
+	if (!isAnimation) sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
 	playerStats->update(health, exp, girlRescued, nkeys, powerUp);
 }
 
@@ -545,17 +544,13 @@ void Player::setPosition(const glm::vec2 &pos)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
-void Player::actuStatsPos(const glm::vec2& pos)
-{
-	playerStats->setPosition(pos);
-}
-
-void Player::teleport(const glm::vec2& pos)
+void Player::teleport(int lvl)
 {
 	isAnimation = true;
 	cont = 0;
 	state = TELEPORT;
-	posPlayer = pos;
+	this->lvl = lvl;
+	posPlayer = glm::vec2(float(0), float(0));
 }
 
 bool Player::checkHit()
@@ -584,4 +579,18 @@ void Player::winKey()
 {
 	keys[lvl - 1] = true;
 	nkeys++;
+}
+
+void Player::loseKey()
+{
+	nkeys--;
+	girlRescued[lvl - 1] = true;
+}
+
+bool Player::isAnAnimation(){
+	return isAnimation;
+}
+
+int Player::getLvl() {
+	return lvl;
 }
