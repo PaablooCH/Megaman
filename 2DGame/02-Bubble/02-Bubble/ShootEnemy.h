@@ -24,6 +24,7 @@ public:
     void setPosition(const glm::vec2& pos);
     void setPlayer(Player* p);
     bool checkAlive();
+    void deleteBullets();
 
 
 
@@ -36,7 +37,7 @@ private:
     ShaderProgram texProgram;
     bool protect, isAlive;
     int cont;
-    Bullet* bullet;
+    Bullet* bulletLeft, *bulletRight;
     Player* player;
 };
 

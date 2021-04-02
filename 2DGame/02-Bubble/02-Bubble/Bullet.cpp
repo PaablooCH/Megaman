@@ -38,7 +38,9 @@ void Bullet::update(int deltaTime)
                 exit = true;
             }
             else {
-                int id = 60 + i;
+                int id = 0;
+                if(isRight)id = 80 + i;
+                if (!isRight)id = 90 + i;
                 map->updatePositionTile(bullets[i], glm::ivec2(16, 16), posAnt, id);
                 sprites[i]->setPosition(
                     glm::vec2(float(tileMapDispl.x + bullets[i].x),
@@ -65,6 +67,8 @@ void Bullet::deleteAll() {
             delete sprites[i];
         }
         sprites.erase(sprites.begin() + i);
+        if (isRight)map->clearPosition(80 + i);
+        if (!isRight)map->clearPosition(90 + i);
     }
 }
 

@@ -190,6 +190,7 @@ void Level1::deleteChip()
 void Level1::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
+		senemy2->deleteBullets();
 		senemy2 = nullptr;
 		delete senemy2;
 		player->winExp();

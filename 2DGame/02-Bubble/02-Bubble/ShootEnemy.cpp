@@ -67,15 +67,19 @@ void ShootEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(posInicial);
 
-	bullet = new Bullet();
-	bullet->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram);
+	bulletLeft = new Bullet();
+	bulletLeft->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram);
+
+	bulletRight = new Bullet();
+	bulletRight->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram);
 
 }
 
 void ShootEnemy::update(int deltaTime)
 {
 	sprite->update(deltaTime);
-	bullet->update(deltaTime);
+	bulletLeft->update(deltaTime);
+	bulletRight->update(deltaTime);
 	posAnt = posEnemy;
 	cont += deltaTime;
 	switch (states) {
@@ -85,13 +89,19 @@ void ShootEnemy::update(int deltaTime)
 		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (cont >= 1000) {
@@ -106,13 +116,19 @@ void ShootEnemy::update(int deltaTime)
 		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (cont >= 1000) {
@@ -124,17 +140,23 @@ void ShootEnemy::update(int deltaTime)
 	case SHOOTING_RIGHT: {
 		if (sprite->animation() != SHOT_RIGHT)
 			sprite->changeAnimation(SHOT_RIGHT);
-		bullet->addBullet(glm::ivec2((posEnemy.x + 16), posEnemy.y), true);
+		bulletRight->addBullet(glm::ivec2((posEnemy.x + 16), posEnemy.y), true);
 		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (cont >= 100) {
@@ -147,17 +169,23 @@ void ShootEnemy::update(int deltaTime)
 		if (sprite->animation() != SHOT_LEFT)
 			sprite->changeAnimation(SHOT_LEFT);
 		protect = false;
-		bullet->addBullet(posEnemy, false);
+		bulletLeft->addBullet(posEnemy, false);
 		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
 		if (cont >= 100) {
@@ -173,11 +201,18 @@ void ShootEnemy::update(int deltaTime)
 		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
-		if (cont >= 10 && r == 50) {
+		if (cont >= 1500 ) {
 			states = SHOOTING_RIGHT;
+			cont = 0;
+		}
+		if (r == 50) {
+			states = SHOOTING_LEFT;
 			cont = 0;
 		}
 	} break;
@@ -189,11 +224,18 @@ void ShootEnemy::update(int deltaTime)
 		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
-				if (player->checkHit())isAlive = false;
+				if (player->checkHit()) {
+					isAlive = false;
+					map->clearPosition(60);
+				}
 			}
 		}
-		if (cont >= 500 && r == 50) {
+		if (cont >= 1500) {
 			states = SHOOTING_LEFT;
+			cont = 0;
+		}
+		if (r == 50) {
+			states = SHOOTING_RIGHT;
 			cont = 0;
 		}
 	} break;
@@ -206,13 +248,15 @@ void ShootEnemy::update(int deltaTime)
 void ShootEnemy::render()
 {
 	sprite->render();
-	bullet->render();
+	bulletLeft->render();
+	bulletRight->render();
 }
 
 void ShootEnemy::setTileMap(TileMap* tileMap)
 {
 	map = tileMap;
-	bullet->setTileMap(tileMap);
+	bulletLeft->setTileMap(tileMap);
+	bulletRight->setTileMap(tileMap);
 }
 
 void ShootEnemy::setPlayer(Player* p)
@@ -227,3 +271,8 @@ void ShootEnemy::setPosition(const glm::vec2& pos)
 }
 
 bool ShootEnemy::checkAlive() { return isAlive; }
+
+void ShootEnemy::deleteBullets() {
+	bulletLeft->deleteAll();
+	bulletRight->deleteAll();
+}
