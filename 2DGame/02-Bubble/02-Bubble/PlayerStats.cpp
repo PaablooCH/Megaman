@@ -92,7 +92,7 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	spriteNumberKey = Sprite::createSprite(glm::ivec2(15, 15), glm::vec2(63.f / 2000.f, 68.f / 480.f), &spritesheet, &shaderProgram);
-	spriteNumberKey->setNumberAnimations(6);
+	spriteNumberKey->setNumberAnimations(7);
 
 	spriteNumberKey->setAnimationSpeed(BLOCK, 1);
 	spriteNumberKey->addKeyframe(BLOCK, glm::vec2(989.f / 2000.f, 2.f / 480.f));
@@ -107,13 +107,13 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteNumberKey->addKeyframe(BLOCK4, glm::vec2(1187.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK5, 1);
-	spriteNumberKey->addKeyframe(BLOCK5, glm::vec2(1255.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK5, glm::vec2(1267.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK6, 1);
-	spriteNumberKey->addKeyframe(BLOCK6, glm::vec2(1320.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK6, glm::vec2(1334.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK7, 1);
-	spriteNumberKey->addKeyframe(BLOCK7, glm::vec2(1379.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK7, glm::vec2(1406.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->changeAnimation(0);
 	tileMapDispl = tileMapPos;

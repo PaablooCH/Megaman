@@ -33,6 +33,8 @@ public:
 	bool checkHit();
 	bool checkRight();
 	bool isAnAnimation();
+	bool isAGirl(int lvl);
+	bool isAKey(int lvl);
 	int getLvl();
 
 	void winExp();
@@ -48,6 +50,7 @@ private:
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite *sprite;
+	Sprite* spriteDead;
 	TileMap *map;
 	PlayerStats *playerStats;
 	int cont;
@@ -56,6 +59,7 @@ private:
 	bool isClimbing;
 	bool isHitting;
 	bool isDamaged;
+	bool isDead;
 	int lvl;
 	
 	int health, exp, nkeys;

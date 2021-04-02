@@ -11,13 +11,13 @@
 
 enum States
 {
-	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE, TELEPORT
+	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE, TELEPORT, DEAD
 } state;
 
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR,
-	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR
+	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR, DEAD_RIGHT1, DEAD_RIGHT2, DEAD_LEFT1, DEAD_LEFT2
 };
 
 Player::Player()
@@ -41,6 +41,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	isClimbing = false;
 	isHitting = false;
 	isDamaged = false;
+	isDead = false;
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -156,6 +157,26 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	spriteDead = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(42.f / 396.f, 56.f / 1534.f), &spritesheet, &shaderProgram); //aquí ya esta el tamaño que tiene q tener el sprite
+	spriteDead->setNumberAnimations(2);
+
+	spriteDead->setAnimationSpeed(DEAD_RIGHT1, 8);
+	spriteDead->addKeyframe(DEAD_RIGHT1, glm::vec2(352.f / 396.f, 721.f / 1534.f)); //aquí depende de las x y las y del personaje quemandose
+	spriteDead->addKeyframe(DEAD_RIGHT1, glm::vec2(302.f / 396.f, 720.f / 1534.f)); //aquí depende de las x y las y del personaje quemandose menos
+
+	spriteDead->setAnimationSpeed(DEAD_RIGHT2, 8);
+	spriteDead->addKeyframe(DEAD_RIGHT2, glm::vec2(302.f / 396.f, 720.f / 1534.f)); //aquí depende de las x y las y del personaje negro
+
+	spriteDead->setAnimationSpeed(DEAD_LEFT1, 8);
+	spriteDead->addKeyframe(DEAD_LEFT1, glm::vec2(352.f / 396.f, 721.f / 1534.f)); //lo mismo pero por la izquierda
+	spriteDead->addKeyframe(DEAD_LEFT1, glm::vec2(302.f / 396.f, 720.f / 1534.f)); //lo mismo pero por la izquierda
+
+	spriteDead->setAnimationSpeed(DEAD_LEFT2, 8);
+	spriteDead->addKeyframe(DEAD_LEFT2, glm::vec2(302.f / 396.f, 720.f / 1534.f)); //lo mismo pero por la izquierda
+
 
 }
 
@@ -470,7 +491,7 @@ void Player::update(int deltaTime)
 
 	}
 
-	if (!isAnimation && !bJumping && !isClimbing && !isDamaged)
+	if (!isAnimation && !bJumping && !isClimbing && !isDamaged && !isDead)
 	{
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 		{
@@ -593,4 +614,12 @@ bool Player::isAnAnimation(){
 
 int Player::getLvl() {
 	return lvl;
+}
+
+bool Player::isAGirl(int lvl) {
+	return girlRescued[lvl-1];
+}
+
+bool Player::isAKey(int lvl) {
+	return keys[lvl - 1];
 }

@@ -34,15 +34,19 @@ void Level2::init(Player* player)
 	teleport1->setPosition(glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
-	girl1 = new RescueGirl();
-	girl1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
-	girl1->setPosition(glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
-	girl1->setTileMap(map);
-	girl1->setPlayerStats(playerStats);
-	key1 = new Key();
-	key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
-	key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
-	key1->setTileMap(map);
+	if (!player->isAGirl(2)) {
+		girl1 = new RescueGirl();
+		girl1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
+		girl1->setPosition(glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
+		girl1->setTileMap(map);
+		girl1->setPlayerStats(playerStats);
+	}
+	if (!player->isAKey(2)) {
+		key1 = new Key();
+		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
+		key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
+		key1->setTileMap(map);
+	}
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
