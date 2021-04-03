@@ -20,14 +20,14 @@ public:
 	Player();
 	~Player();
 
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, int lvl);
+	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int lvl);
 	void update(int deltaTime);
 	void render();
 
-	void setTileMap(TileMap *tileMap);
-	void setPlayerStats(PlayerStats *pStats);
-	void setPosition(const glm::vec2 &pos);
-	
+	void setTileMap(TileMap* tileMap);
+	void setPlayerStats(PlayerStats* pStats);
+	void setPosition(const glm::vec2& pos);
+
 	void teleport(int lvl);
 
 	bool checkHit();
@@ -43,16 +43,16 @@ public:
 
 
 	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }
-	
+
 private:
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posPlayer, posAnt;
 	int jumpAngle, startY;
 	Texture spritesheet;
-	Sprite *sprite;
+	Sprite* sprite;
 	Sprite* spriteDead;
-	TileMap *map;
-	PlayerStats *playerStats;
+	TileMap* map;
+	PlayerStats* playerStats;
 	int cont;
 	bool isRight;
 	bool isAnimation;
@@ -61,10 +61,10 @@ private:
 	bool isDamaged;
 	bool isDead;
 	int lvl;
-	
+
 	int health, exp, nkeys;
-	bool *powerUp;
-	bool *girlRescued;
+	bool* powerUp;
+	bool* girlRescued;
 	bool* keys;
 };
 
