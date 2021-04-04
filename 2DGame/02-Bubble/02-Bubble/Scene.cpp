@@ -24,16 +24,36 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	if (map != NULL)
+	if (map != NULL) {
+		map->~TileMap();
 		delete map;
-	if (teleport1 != NULL)
+		map = nullptr;
+	}
+		
+	if (teleport1 != NULL) {
+		teleport1->~Teleport();
 		delete teleport1;
-	if (girl1 != NULL)
+		teleport1 = nullptr;
+	}
+		
+	if (girl1 != NULL) {
+		girl1->~RescueGirl();
 		delete girl1;
-	if (key1 != NULL)
+		girl1 = nullptr;
+	}
+		
+	if (key1 != NULL) {
+		key1->~Key();
 		delete key1;
-	if (playerStats != NULL)
+		key1 = nullptr;
+	}
+		
+	if (playerStats != NULL) {
+		playerStats->~PlayerStats();
 		delete playerStats;
+		playerStats = nullptr;
+	}
+		
 }
 /*
 void Scene::init()

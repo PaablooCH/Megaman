@@ -15,6 +15,12 @@ enum EnemyAnims
 };
 
 
+Chip::~Chip()
+{
+    delete sprite;
+    sprite = nullptr;
+}
+
 void Chip::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = NORMAL;

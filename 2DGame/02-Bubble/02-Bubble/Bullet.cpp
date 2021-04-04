@@ -5,6 +5,13 @@
 #include "Bullet.h"
 #include "TileMap.h"
 
+Bullet::~Bullet()
+{
+    delete sprite;
+    sprite = nullptr; //acabar
+    deleteAll();
+}
+
 void Bullet::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int id, int code)
 {
     spritesheet.loadFromFile("images/Bullet" + to_string(code) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -34,34 +41,12 @@ void Bullet::update(int deltaTime)
                     delete sprites[i];
                 }
                 sprites.erase(sprites.begin() + i);
+                if (isRight)map->clearPosition(ID + i + 1);
+                if (!isRight)map->clearPosition(ID + i + 6);
                 i--;
                 maxIt--;
                 exit = true;
             }
-            /*if (isRight && map->checkPlayerRight(bullets[i], glm::ivec2(16, 16))) {
-                bullets.erase(bullets.begin() + i);
-                sprites[i]->free();
-                if (sprites[i] != NULL) {
-                    sprites[i]->free();
-                    delete sprites[i];
-                }
-                sprites.erase(sprites.begin() + i);
-                i--;
-                maxIt--;
-                exit = true;
-            }
-            if (!isRight && map->checkPlayerLeft(bullets[i], glm::ivec2(16, 16))) {
-                bullets.erase(bullets.begin() + i);
-                sprites[i]->free();
-                if (sprites[i] != NULL) {
-                    sprites[i]->free();
-                    delete sprites[i];
-                }
-                sprites.erase(sprites.begin() + i);
-                i--;
-                maxIt--;
-                exit = true;
-            }*/
             else {
                 int id = ID;
                 if(isRight)id += (i + 1);
@@ -92,8 +77,8 @@ void Bullet::deleteAll() {
             delete sprites[i];
         }
         sprites.erase(sprites.begin() + i);
-        if (isRight)map->clearPosition(ID + i + 1);
-        if (!isRight)map->clearPosition((ID + 6 + i));
+        if (isRight)map->clearPosition(ID + i);
+        if (!isRight)map->clearPosition((ID + 5 + i));
     }
 }
 

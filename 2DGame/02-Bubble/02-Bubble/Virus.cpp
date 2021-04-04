@@ -14,6 +14,10 @@ enum EnemyAnims
     MOVE
 };
 
+Virus::~Virus()
+{
+}
+
 void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = STANDING;

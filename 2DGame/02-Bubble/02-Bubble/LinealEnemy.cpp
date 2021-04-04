@@ -15,6 +15,10 @@ enum EnemyAnims
 };
 
 
+LinealEnemy::~LinealEnemy()
+{
+}
+
 void LinealEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
 	bJumping = false;

@@ -21,6 +21,7 @@ class Game
 public:
 	Game() {}
 
+	~Game();
 
 	static Game& instance()
 	{
@@ -31,6 +32,7 @@ public:
 
 	void init();
 	bool update(int deltaTime);
+	void restart();
 	void changeLvl();
 	void destroyLvl();
 	void render();

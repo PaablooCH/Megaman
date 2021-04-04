@@ -26,22 +26,54 @@ Level1::Level1()
 
 Level1::~Level1()
 {
-	if (enemy1 != NULL)
+	if (enemy1 != NULL) {
+		enemy1->~LinealEnemy();
 		delete enemy1;
-	if (fire1 != NULL)
+		enemy1 = nullptr;
+	}
+		
+	if (fire1 != NULL) {
+		fire1->~Fire();
 		delete fire1;
-	if (fire2 != NULL)
+		fire1 = nullptr;
+	}
+		
+	if (fire2 != NULL) {
+		fire2->~Fire();
 		delete fire2;
-	if (virus1 != NULL)
+		fire2 = nullptr;
+	}
+		
+	if (virus1 != NULL) {
+		virus1->~Virus();
 		delete virus1;
-	if (fakeRoof1 != NULL)
+		virus1 = nullptr;
+	}
+		
+	if (fakeRoof1 != NULL) {
+		fakeRoof1->~FakeRoof();
 		delete fakeRoof1;
-	if (senemy2 != NULL)
+		fakeRoof1 = nullptr;
+	}
+		
+	if (senemy2 != NULL) {
+		senemy2->~ShootEnemy();
 		delete senemy2;
-	if (chip1 != NULL)
+		senemy2 = nullptr;
+	}
+		
+	if (chip1 != NULL) {
+		chip1->~Chip();
 		delete chip1;
-	if (bonus1 != NULL)
+		chip1 = nullptr;
+	}
+		
+	if (bonus1 != NULL) {
+		bonus1->~Bonus();
 		delete bonus1;
+		bonus1 = nullptr;
+	}
+		
 }
 
 void Level1::init(Player* player)
@@ -174,6 +206,7 @@ void Level1::render()
 void Level1::deleteVirus()
 {
 	if (!virus1->checkAlive()) {
+		virus1->~Virus();
 		delete virus1;
 		virus1 = nullptr;
 	}
@@ -182,6 +215,7 @@ void Level1::deleteVirus()
 void Level1::deleteEnemy()
 {
 	if (!enemy1->checkAlive()) {
+		enemy1->~LinealEnemy();
 		delete enemy1;
 		enemy1 = nullptr;
 		player->winExp();
@@ -191,6 +225,7 @@ void Level1::deleteEnemy()
 void Level1::deleteChip()
 {
 	if (chip1->checkState()) {
+		chip1->~Chip();
 		delete chip1;
 		chip1 = nullptr;
 		player->winExp();
@@ -200,6 +235,7 @@ void Level1::deleteChip()
 void Level1::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
+		senemy2->~ShootEnemy();
 		senemy2->deleteBullets();
 		delete senemy2;
 		senemy2 = nullptr;
@@ -216,6 +252,7 @@ void Level1::deleteBonus()
 		if (bonus1->checkType() == "Libro")player->bonusBook();
 		if (bonus1->checkType() == "Escudo")player->bonusArmor();
 		if (bonus1->checkType() == "Shoot")player->bonusShoot();
+		bonus1->~Bonus();
 		delete bonus1;
 		bonus1 = nullptr;
 	}

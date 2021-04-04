@@ -15,6 +15,12 @@ enum EnemyAnims
 };
 
 
+Teleport::~Teleport()
+{
+    delete sprite;
+    sprite = nullptr;
+}
+
 void Teleport::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int lvl)
 {
     states = TELEPORT;

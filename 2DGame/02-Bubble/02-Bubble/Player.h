@@ -34,6 +34,7 @@ public:
 	bool checkHit();
 	bool checkRight();
 	bool isAnAnimation();
+	bool getDead();
 	bool isAGirl(int lvl);
 	bool isAKey(int lvl);
 	void bonusBoots();

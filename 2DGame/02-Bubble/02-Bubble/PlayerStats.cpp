@@ -26,6 +26,34 @@ enum Anims
 	BLOCK, BLOCK2, BLOCK3, BLOCK4, BLOCK5, BLOCK6, BLOCK7
 };
 
+PlayerStats::~PlayerStats()
+{
+	delete spriteHeart;
+	spriteHeart = nullptr;
+	delete spriteExp;
+	spriteExp = nullptr;
+	delete spriteHealth;
+	spriteHealth = nullptr;
+	delete spriteExpBar;
+	spriteExpBar = nullptr;
+	delete spriteKey;
+	spriteKey = nullptr;
+	delete spriteNumberKey;
+	spriteNumberKey = nullptr;
+	delete spriteNumberBull;
+	spriteNumberBull = nullptr;
+	delete spriteX;
+	spriteX = nullptr;
+	delete spritePowerUp;
+	spritePowerUp = nullptr;
+	delete spriteGirlsRescued;
+	spriteGirlsRescued = nullptr;
+	delete gRescued;
+	gRescued = nullptr;
+	delete powerUp;
+	powerUp = nullptr;
+}
+
 void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 
@@ -33,6 +61,32 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	//exp_states = FULL2;
 
 	spritesheet.loadFromFile("images/HUD.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteHeart = Sprite::createSprite(glm::ivec2(HEALTH_ICON_WIDTH, HEALTH_ICON_HEIGHT), glm::vec2(78.f / 2000.f, 75.f / 480.f), &spritesheet, &shaderProgram);
+	spriteHeart->setNumberAnimations(1);
+
+	spriteHeart->setAnimationSpeed(BLOCK, 1);
+	spriteHeart->addKeyframe(BLOCK, glm::vec2(162.f / 2000.f, 323.f / 480.f));
+
+	spriteHeart->changeAnimation(0);
+	tileMapDispl = tileMapPos;
+	posHeart.x = tileMapDispl.x;
+	posHeart.y = tileMapDispl.y;
+	spriteHeart->setPosition(posHeart);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	spriteExp = Sprite::createSprite(glm::ivec2(HEALTH_ICON_WIDTH, HEALTH_ICON_HEIGHT), glm::vec2(64.f / 2000.f, 64.f / 480.f), &spritesheet, &shaderProgram);
+	spriteExp->setNumberAnimations(1);
+
+	spriteExp->setAnimationSpeed(BLOCK, 1);
+	spriteExp->addKeyframe(BLOCK, glm::vec2(88.f / 2000.f, 329.f / 480.f));
+
+	spriteExp->changeAnimation(0);
+	posExp.x = tileMapDispl.x;
+	posExp.y = HEALTH_BAR_HEIGHT + 4;
+	spriteExp->setPosition(posExp);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	spriteHealth = Sprite::createSprite(glm::ivec2(HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
 	spriteHealth->setNumberAnimations(1);
 
@@ -40,23 +94,22 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteHealth->addKeyframe(BLOCK, glm::vec2(944.f / 2000.f, 160.f / 480.f));
 
 	spriteHealth->changeAnimation(0);
-	tileMapDispl = tileMapPos;
-	posHealth.x = tileMapDispl.x + HEALTH_ICON_WIDTH;
-	posHealth.y = tileMapDispl.y;
-	spriteHealth->setPosition(posHealth);
+	posHealthBar.x = tileMapDispl.x + HEALTH_ICON_WIDTH + 1;
+	posHealthBar.y = tileMapDispl.y;
+	spriteHealth->setPosition(posHealthBar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	spriteExp = Sprite::createSprite(glm::ivec2(HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
-	spriteExp->setNumberAnimations(1);
+	spriteExpBar = Sprite::createSprite(glm::ivec2(HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT), glm::vec2(55.f / 2000.f, 77.f / 480.f), &spritesheet, &shaderProgram);
+	spriteExpBar->setNumberAnimations(1);
 
-	spriteExp->setAnimationSpeed(BLOCK, 1);
-	spriteExp->addKeyframe(BLOCK, glm::vec2(413.f / 2000.f, 161.f / 480.f));
+	spriteExpBar->setAnimationSpeed(BLOCK, 1);
+	spriteExpBar->addKeyframe(BLOCK, glm::vec2(413.f / 2000.f, 161.f / 480.f));
 
-	spriteExp->changeAnimation(0);
-	posExp.x = posHealth.x;
-	posExp.y = posHealth.y + HEALTH_BAR_HEIGHT + 4;
-	spriteExp->setPosition(posExp);
+	spriteExpBar->changeAnimation(0);
+	posExpBar.x = posHealthBar.x;
+	posExpBar.y = posHealthBar.y + HEALTH_BAR_HEIGHT + 4;
+	spriteExpBar->setPosition(posExpBar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,9 +123,8 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteGirlsRescued->addKeyframe(BLOCK2, glm::vec2(0 / 2000.f, 320.f / 480.f));
 
 	spriteGirlsRescued->changeAnimation(0);
-	tileMapDispl = tileMapPos;
-	posGirl.x = posHealth.x;
-	posGirl.y = posExp.y + HEALTH_BAR_HEIGHT + 4;
+	posGirl.x = posHealthBar.x;
+	posGirl.y = posExpBar.y + HEALTH_BAR_HEIGHT + 4;
 	spriteGirlsRescued->setPosition(posGirl);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +136,6 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteKey->addKeyframe(BLOCK, glm::vec2(89.f / 2000.f, 249.f / 480.f));
 
 	spriteKey->changeAnimation(0);
-	tileMapDispl = tileMapPos;
 	posKey.x = posGirl.x + 7 * HEALTH_BAR_WIDTH;
 	posKey.y = posGirl.y;
 	spriteKey->setPosition(posKey);
@@ -95,28 +146,27 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteNumberKey->setNumberAnimations(7);
 
 	spriteNumberKey->setAnimationSpeed(BLOCK, 1);
-	spriteNumberKey->addKeyframe(BLOCK, glm::vec2(989.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK, glm::vec2(791.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK2, 1);
-	spriteNumberKey->addKeyframe(BLOCK2, glm::vec2(1059.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK2, glm::vec2(855.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK3, 1);
-	spriteNumberKey->addKeyframe(BLOCK3, glm::vec2(1124.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK3, glm::vec2(926.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK4, 1);
-	spriteNumberKey->addKeyframe(BLOCK4, glm::vec2(1187.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK4, glm::vec2(992.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK5, 1);
-	spriteNumberKey->addKeyframe(BLOCK5, glm::vec2(1267.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK5, glm::vec2(1064.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK6, 1);
-	spriteNumberKey->addKeyframe(BLOCK6, glm::vec2(1334.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK6, glm::vec2(1130.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->setAnimationSpeed(BLOCK7, 1);
-	spriteNumberKey->addKeyframe(BLOCK7, glm::vec2(1406.f / 2000.f, 2.f / 480.f));
+	spriteNumberKey->addKeyframe(BLOCK7, glm::vec2(1202.f / 2000.f, 2.f / 480.f));
 
 	spriteNumberKey->changeAnimation(0);
-	tileMapDispl = tileMapPos;
 	posNumberKey.x = posX.x + 10;
 	posNumberKey.y = posKey.y;
 	spriteNumberKey->setPosition(posNumberKey);
@@ -130,7 +180,6 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	spriteX->addKeyframe(BLOCK, glm::vec2(1508.f / 2000.f, 89.f / 480.f));
 
 	spriteX->changeAnimation(0);
-	tileMapDispl = tileMapPos;
 	posX.x = posKey.x + 15;
 	posX.y = posKey.y + 5;
 	spriteX->setPosition(posX);
@@ -162,6 +211,35 @@ void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgra
 	posPowerUp.x = posNumberKey.x + 2 * HEALTH_BAR_WIDTH;
 	posPowerUp.y = posNumberKey.y;
 	spritePowerUp->setPosition(posPowerUp);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	spriteNumberBull = Sprite::createSprite(glm::ivec2(15, 15), glm::vec2(63.f / 2000.f, 68.f / 480.f), &spritesheet, &shaderProgram);
+	spriteNumberBull->setNumberAnimations(6);
+
+	spriteNumberBull->setAnimationSpeed(BLOCK, 1);
+	spriteNumberBull->addKeyframe(BLOCK, glm::vec2(791.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->setAnimationSpeed(BLOCK2, 1);
+	spriteNumberBull->addKeyframe(BLOCK2, glm::vec2(855.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->setAnimationSpeed(BLOCK3, 1);
+	spriteNumberBull->addKeyframe(BLOCK3, glm::vec2(926.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->setAnimationSpeed(BLOCK4, 1);
+	spriteNumberBull->addKeyframe(BLOCK4, glm::vec2(992.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->setAnimationSpeed(BLOCK5, 1);
+	spriteNumberBull->addKeyframe(BLOCK5, glm::vec2(1064.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->setAnimationSpeed(BLOCK6, 1);
+	spriteNumberBull->addKeyframe(BLOCK6, glm::vec2(1130.f / 2000.f, 2.f / 480.f));
+
+	spriteNumberBull->changeAnimation(0);
+	posNumberBull.x = posPowerUp.x + 25 + 6 * HEALTH_BAR_WIDTH;
+	posNumberBull.y = posPowerUp.y;
+	spriteNumberBull->setPosition(posNumberBull);
+	
 }
 
 void PlayerStats::update(int health, int exp, bool* gRescued, int nkeys, bool* powerUp, int bullets)
@@ -203,13 +281,40 @@ void PlayerStats::update(int health, int exp, bool* gRescued, int nkeys, bool* p
 	}
 	this->powerUp = powerUp;
 	this->bullets = bullets;
+	switch (this->bullets)
+	{
+	case 0: {
+		if (spriteNumberBull->animation() != BLOCK)
+			spriteNumberBull->changeAnimation(BLOCK);
+	} break;
+	case 1: {
+		if (spriteNumberBull->animation() != BLOCK2)
+			spriteNumberBull->changeAnimation(BLOCK2);
+	} break;
+	case 2: {
+		if (spriteNumberBull->animation() != BLOCK3)
+			spriteNumberBull->changeAnimation(BLOCK3);
+	} break;
+	case 3: {
+		if (spriteNumberBull->animation() != BLOCK4)
+			spriteNumberBull->changeAnimation(BLOCK4);
+	} break;
+	case 4: {
+		if (spriteNumberBull->animation() != BLOCK5)
+			spriteNumberBull->changeAnimation(BLOCK5);
+	} break;
+	case 5: {
+		if (spriteNumberBull->animation() != BLOCK6)
+			spriteNumberBull->changeAnimation(BLOCK6);
+	} break;
+	}
 }
 
 void PlayerStats::render()
 {
 	//spriteHealth->render();
 	//spriteExp->render();
-	glm::ivec2 posAux = posHealth;
+	
 	/*switch (health) {
 	case 1: {
 		spriteHealth->render();
@@ -220,18 +325,20 @@ void PlayerStats::render()
 
 	}
 	}*/
-
+	spriteHeart->render();
+	spriteExp->render();
+	glm::ivec2 posAux = posHealthBar;
 	for (int i = 0; i < health; i++) {
 		spriteHealth->setPosition(glm::vec2(float(posAux.x + i * HEALTH_BAR_WIDTH), float(posAux.y)));
 		spriteHealth->render();
 	}
-	spriteHealth->setPosition(posHealth);
-	posAux = posExp;
+	spriteHealth->setPosition(posHealthBar);
+	posAux = posExpBar;
 	for (int i = 0; i < exp; i++) {
-		spriteExp->setPosition(glm::vec2(float(posAux.x + i * HEALTH_BAR_WIDTH), float(posAux.y)));
-		spriteExp->render();
+		spriteExpBar->setPosition(glm::vec2(float(posAux.x + i * HEALTH_BAR_WIDTH), float(posAux.y)));
+		spriteExpBar->render();
 	}
-	spriteExp->setPosition(posExp);
+	spriteExpBar->setPosition(posExpBar);
 	posAux = posGirl;
 	for (int i = 0; i < 6; i++) {
 		if (gRescued[i])
@@ -280,16 +387,26 @@ void PlayerStats::render()
 	spritePowerUp->changeAnimation(BLOCK6);
 	spritePowerUp->setPosition(posAux);
 	spritePowerUp->render();
+	posAux.x += 15;
+	posAux.y += 5;
+	spriteX->setPosition(posAux);
+	spriteX->render();
+	spriteX->setPosition(posX);
+	spriteNumberBull->render();
 }
 
 void PlayerStats::setPosition(const glm::vec2& pos)
 {
-	posHealth.x = pos.x + HEALTH_ICON_WIDTH;
-	posHealth.y = pos.y;
-	posExp.x = posHealth.x;
-	posExp.y = posHealth.y + HEALTH_BAR_HEIGHT + 4;
-	posGirl.x = posHealth.x;
-	posGirl.y = posExp.y + HEALTH_BAR_HEIGHT + 4;
+	posHeart.x = pos.x;
+	posHeart.y = pos.y;
+	posExp.x = pos.x;
+	posExp.y = pos.y + HEALTH_BAR_HEIGHT + 4;
+	posHealthBar.x = pos.x + HEALTH_ICON_WIDTH + 1;
+	posHealthBar.y = pos.y;
+	posExpBar.x = posHealthBar.x;
+	posExpBar.y = posHealthBar.y + HEALTH_BAR_HEIGHT + 4;
+	posGirl.x = posHealthBar.x;
+	posGirl.y = posExpBar.y + HEALTH_BAR_HEIGHT + 4;
 	posKey.x = posGirl.x + 7 * HEALTH_BAR_WIDTH;
 	posKey.y = posGirl.y;
 	posX.x = posKey.x + 15;
@@ -298,14 +415,19 @@ void PlayerStats::setPosition(const glm::vec2& pos)
 	posNumberKey.y = posKey.y;
 	posPowerUp.x = posNumberKey.x + 2 * HEALTH_BAR_WIDTH;
 	posPowerUp.y = posNumberKey.y;
+	posNumberBull.x = posPowerUp.x + 25 + 5 * HEALTH_BAR_WIDTH;
+	posNumberBull.y = posPowerUp.y;
 
-	spriteHealth->setPosition(posHealth);
+	spriteHeart->setPosition(posHeart);
 	spriteExp->setPosition(posExp);
+	spriteHealth->setPosition(posHealthBar);
+	spriteExpBar->setPosition(posExpBar);
 	spriteGirlsRescued->setPosition(posGirl);
 	spriteKey->setPosition(posKey);
 	spriteX->setPosition(posX);
 	spriteNumberKey->setPosition(posNumberKey);
 	spritePowerUp->setPosition(posPowerUp);
+	spriteNumberBull->setPosition(posNumberBull);
 }
 
 bool PlayerStats::checkKeys()

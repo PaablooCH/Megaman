@@ -38,10 +38,27 @@ Player::Player()
 	life_damage = 2;
 	exp_obtained = 1;
 	bullets_cont = 0;
+	isDead = false;
 }
 
 Player::~Player()
 {
+	delete sprite;
+	sprite = nullptr;
+	delete spriteDead;
+	spriteDead = nullptr;
+	bulletLeft->~Bullet();
+	delete bulletLeft;
+	bulletLeft = nullptr;
+	bulletRight->~Bullet();
+	delete bulletRight;
+	bulletRight = nullptr;
+	delete powerUp;
+	powerUp = nullptr;
+	delete girlRescued;
+	girlRescued = nullptr;
+	delete keys;
+	keys = nullptr;
 }
 
 void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int lvl)
@@ -51,7 +68,6 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	isClimbing = false;
 	isHitting = false;
 	isDamaged = false;
-	isDead = false;
 	state = START;
 	cont = 0;
 	isAnimation = true;
@@ -715,6 +731,11 @@ void Player::loseKey()
 
 bool Player::isAnAnimation() {
 	return isAnimation;
+}
+
+bool Player::getDead()
+{
+	return isDead;
 }
 
 int Player::getLvl() {

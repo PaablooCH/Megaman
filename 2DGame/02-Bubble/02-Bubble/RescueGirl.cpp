@@ -15,6 +15,14 @@ enum EnemyAnims
 };
 
 
+RescueGirl::~RescueGirl()
+{
+    delete sprite;
+    sprite = nullptr;
+    delete spriteDoor;
+    spriteDoor = nullptr;
+}
+
 void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
     states = WAITING;

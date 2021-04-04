@@ -7,6 +7,8 @@ class PlayerStats
 {
 public:
 
+	~PlayerStats();
+
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
 	void update(int health, int exp, bool* gRescued, int nkeys, bool* powerUp, int bullets);
 	void render();
@@ -16,14 +18,17 @@ public:
 
 private:
 	Texture spritesheet;
-	Sprite* spriteHealth;
+	Sprite* spriteHeart;
 	Sprite* spriteExp;
+	Sprite* spriteHealth;
+	Sprite* spriteExpBar;
 	Sprite* spriteKey;
 	Sprite* spriteNumberKey;
+	Sprite* spriteNumberBull;
 	Sprite* spriteX;
 	Sprite* spritePowerUp;
 	Sprite* spriteGirlsRescued;
-	glm::ivec2 tileMapDispl, posHealth, posExp, posGirl, posKey, posNumberKey, posX, posPowerUp;
+	glm::ivec2 tileMapDispl, posHeart, posExp, posHealthBar, posExpBar, posGirl, posKey, posNumberKey, posX, posPowerUp, posNumberBull;
 	int nkeys, bullets;
 	int health, exp;
 	bool* gRescued;

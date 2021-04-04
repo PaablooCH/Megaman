@@ -14,6 +14,10 @@ enum EnemyAnims
     MOVE
 };
 
+FakeRoof::~FakeRoof()
+{
+}
+
 FakeRoof::FakeRoof(int id)
 {
     this->level = id;

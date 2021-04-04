@@ -15,6 +15,10 @@ enum EnemyAnims
 };
 
 
+Fire::~Fire()
+{
+}
+
 void Fire::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = MOVING;

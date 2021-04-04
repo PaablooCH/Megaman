@@ -24,8 +24,16 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 
 TileMap::~TileMap()
 {
-	if(map != NULL)
+	if (map != NULL) {
 		delete map;
+		map = nullptr;
+	}
+
+	if (characMap != NULL) {
+		delete characMap;
+		characMap = nullptr;
+	}
+		
 }
 
 
@@ -163,8 +171,11 @@ bool TileMap::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) c
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || 
-			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263)
+		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 ||
+			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263
+			|| map[y * mapSize.x + x] == 266 || map[y * mapSize.x + x] == 170 || map[y * mapSize.x + x] == 171 || map[y * mapSize.x + x] == 30
+			|| map[y * mapSize.x + x] == 231 || map[y * mapSize.x + x] == 38
+			|| map[y * mapSize.x + x] == 233 || map[y * mapSize.x + x] == 235 || map[y * mapSize.x + x] == 187 || map[y * mapSize.x + x] == 185 || map[y * mapSize.x + x] == 45)
 			return true;
 	}
 
@@ -180,8 +191,11 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 || 
-			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263)
+		if (map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 199 || map[y * mapSize.x + x] == 200 || map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 146 ||
+			map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 130 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263
+			|| map[y * mapSize.x + x] == 266 || map[y * mapSize.x + x] == 170 || map[y * mapSize.x + x] == 171 || map[y * mapSize.x + x] == 30
+			|| map[y * mapSize.x + x] == 231 || map[y * mapSize.x + x] == 38
+			|| map[y * mapSize.x + x] == 233 || map[y * mapSize.x + x] == 235 || map[y * mapSize.x + x] == 187 || map[y * mapSize.x + x] == 185 || map[y * mapSize.x + x] == 45)
 			return true;
 	}
 
@@ -191,13 +205,14 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 bool TileMap::collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
-	x = (pos.x + 2*size.x / 3 - 1) / tileSize;
-	
+	x = (pos.x + 2 * size.x / 3 - 1) / tileSize;
+
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 19)
+		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 19 && map[y * mapSize.x + x] != 27 && map[y * mapSize.x + x] != 35
+			&& map[y * mapSize.x + x] != 43)
 			return true;
 	}
 
@@ -212,34 +227,37 @@ bool TileMap::collisionMoveStairsRight(const glm::ivec2& pos, const glm::ivec2& 
 	y1 = (pos.y + size.y - 1) / tileSize;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 337 && map[y * mapSize.x + x] != 19)
+		if (map[y * mapSize.x + x] != 3 && map[y * mapSize.x + x] != 337 && map[y * mapSize.x + x] != 19 && map[y * mapSize.x + x] != 27
+			&& map[y * mapSize.x + x] != 35 && map[y * mapSize.x + x] != 43)
 			return true;
 	}
 
 	return false;
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
+bool TileMap::collisionMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
 {
 	int x0, x1, y;
-	
+
 	x0 = pos.x / tileSize;
 	x1 = (pos.x + size.x - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
-	for(int x=x0; x<=x1; x++)
+	for (int x = x0; x <= x1; x++)
 	{
-		if(map[y*mapSize.x+x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 || 
-			map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 166 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 306 || 
-			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22)
+		if (map[y * mapSize.x + x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 ||
+			map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 166 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 306 ||
+			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 314 || map[y * mapSize.x + x] == 171 || map[y * mapSize.x + x] == 170 || map[y * mapSize.x + x] == 30
+			|| map[y * mapSize.x + x] == 273 || map[y * mapSize.x + x] == 225 || map[y * mapSize.x + x] == 226 || map[y * mapSize.x + x] == 38
+			|| map[y * mapSize.x + x] == 186 || map[y * mapSize.x + x] == 187 || map[y * mapSize.x + x] == 185 || map[y * mapSize.x + x] == 236 || map[y * mapSize.x + x] == 46)
 		{
-			if(*posY - tileSize * y + size.y <= 4)
+			if (*posY - tileSize * y + size.y <= 4)
 			{
 				*posY = tileSize * y - size.y;
 				return true;
 			}
 		}
 	}
-	
+
 	return false;
 }
 
@@ -254,7 +272,9 @@ bool TileMap::roofMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* p
 	{
 		if (map[y * mapSize.x + x] == 290 || map[y * mapSize.x + x] == 193 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 195 || map[y * mapSize.x + x] == 198 || map[y * mapSize.x + x] == 150 || map[y * mapSize.x + x] == 198 ||
 			map[y * mapSize.x + x] == 146 || map[y * mapSize.x + x] == 214 || map[y * mapSize.x + x] == 166 || map[y * mapSize.x + x] == 215 || map[y * mapSize.x + x] == 147 || map[y * mapSize.x + x] == 6 || map[y * mapSize.x + x] == 306 ||
-			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22)
+			map[y * mapSize.x + x] == 163 || map[y * mapSize.x + x] == 162 || map[y * mapSize.x + x] == 22 || map[y * mapSize.x + x] == 314 || map[y * mapSize.x + x] == 171 || map[y * mapSize.x + x] == 170 || map[y * mapSize.x + x] == 30
+			|| map[y * mapSize.x + x] == 273 || map[y * mapSize.x + x] == 225 || map[y * mapSize.x + x] == 226 || map[y * mapSize.x + x] == 38
+			|| map[y * mapSize.x + x] == 186 || map[y * mapSize.x + x] == 187 || map[y * mapSize.x + x] == 185 || map[y * mapSize.x + x] == 236 || map[y * mapSize.x + x] == 46)
 		{
 			if (*posY - tileSize * y + size.y <= 4)
 			{
@@ -277,8 +297,10 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) con
 	for (int x = x0; x <= x1; x++)
 	{
 		if (map[y * mapSize.x + x] == 242 || map[y * mapSize.x + x] == 194 || map[y * mapSize.x + x] == 258 || map[y * mapSize.x + x] == 262 || map[y * mapSize.x + x] == 263 || map[y * mapSize.x + x] == 312
-			|| map[y * mapSize.x + x] == 210)
-				return true;
+			|| map[y * mapSize.x + x] == 210 || map[y * mapSize.x + x] == 266 || map[y * mapSize.x + x] == 218 || map[y * mapSize.x + x] == 270 || map[y * mapSize.x + x] == 271 || map[y * mapSize.x + x] == 320
+			|| map[y * mapSize.x + x] == 274 || map[y * mapSize.x + x] == 232 || map[y * mapSize.x + x] == 38 || map[y * mapSize.x + x] == 226
+			|| map[y * mapSize.x + x] == 239 || map[y * mapSize.x + x] == 381 || map[y * mapSize.x + x] == 233 || map[y * mapSize.x + x] == 234 || map[y * mapSize.x + x] == 235)
+			return true;
 	}
 
 	return false;
@@ -306,11 +328,12 @@ bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 	int x0, x1, y;
 
 	x0 = (pos.x + size.x / 2 - 1) / tileSize;
-	x1 = (pos.x + 2*size.x/3 - 1) / tileSize;
+	x1 = (pos.x + 2 * size.x / 3 - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
-	if (map[y * mapSize.x + x0] == 3 || map[y * mapSize.x + x0] == 19)
+	if (map[y * mapSize.x + x0] == 3 || map[y * mapSize.x + x0] == 19 || map[y * mapSize.x + x0] == 27 || map[y * mapSize.x + x0] == 35
+		|| map[y * mapSize.x + x0] == 43)
 		return true;
-	
+
 
 	return false;
 }
@@ -347,7 +370,7 @@ bool TileMap::checkPlayerRight(const glm::ivec2& pos, const glm::ivec2& size) co
 	return false;
 }
 
-void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const
+void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt, const glm::ivec2& size, int id) const
 {
 	int x, y, x1, y1;
 
@@ -357,7 +380,7 @@ void TileMap::updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posA
 	y1 = posAnt.y / tileSize;
 	for (int j = 0; j < mapSize.y; j++) {
 		for (int i = 0; i < mapSize.x; i++) {
-			if(characMap[j * mapSize.x + i] == id)
+			if (characMap[j * mapSize.x + i] == id)
 				characMap[j * mapSize.x + i] = 1;
 		}
 	}
@@ -380,7 +403,7 @@ void TileMap::updatePositionFakeRoof(const glm::ivec2& posAc, const glm::ivec2& 
 	}
 	characMap[y * mapSize.x + x] = id;
 	characMap[y * mapSize.x + (x + 1)] = id;
-	characMap[(y + 1) * mapSize.x + x ] = id;
+	characMap[(y + 1) * mapSize.x + x] = id;
 	characMap[(y + 1) * mapSize.x + (x + 1)] = id;
 }
 
@@ -390,7 +413,7 @@ bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size, bool he
 
 	x = (pos.x + size.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
-	y1 = ((pos.y + size.y - 1) / tileSize) ;
+	y1 = ((pos.y + size.y - 1) / tileSize);
 	for (int y = y0; y <= y1; y++)
 	{
 		if (helmet) {
@@ -480,13 +503,13 @@ void TileMap::openDoor(const glm::ivec2& pos) const
 
 bool TileMap::checkEnemyBulletDamage(const glm::ivec2& pos, const glm::ivec2& size) const
 {
-	int x0, x1 , y0, y1;
+	int x0, x1, y0, y1;
 
 	x0 = (pos.x - size.x + 16) / tileSize;
-	x1 = (pos.x + size.x - 1) / tileSize ;
+	x1 = (pos.x + size.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
-	for (int y = y0; y <= y1; y++){
+	for (int y = y0; y <= y1; y++) {
 		for (int x = x0; x <= x1; x++)
 		{
 			if (characMap[y * mapSize.x + x] == 3 || characMap[y * mapSize.x + x] == 4 || characMap[y * mapSize.x + x] == 5 || characMap[y * mapSize.x + x] == 6 || characMap[y * mapSize.x + x] == 7 || characMap[y * mapSize.x + x] == 8 || characMap[y * mapSize.x + x] == 9 || characMap[y * mapSize.x + x] == 10 || characMap[y * mapSize.x + x] == 11 || characMap[y * mapSize.x + x] == 12)
@@ -495,4 +518,3 @@ bool TileMap::checkEnemyBulletDamage(const glm::ivec2& pos, const glm::ivec2& si
 	}
 	return false;
 }
-

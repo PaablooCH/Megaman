@@ -11,7 +11,7 @@ ShootEnemy::ShootEnemy() {
 }
 
 ShootEnemy::~ShootEnemy() {
-
+	deleteBullets();
 }
 
 enum ShootState

@@ -14,6 +14,8 @@ class Bullet
 
 public:
 
+	~Bullet();
+
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int id, int code);
 	void initSprite();
 	void update(int deltaTime);

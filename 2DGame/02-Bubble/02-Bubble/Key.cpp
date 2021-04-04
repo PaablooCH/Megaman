@@ -15,6 +15,12 @@ enum EnemyAnims
 };
 
 
+Key::~Key()
+{
+    delete sprite;
+    sprite = nullptr;
+}
+
 void Key::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = NORMAL;

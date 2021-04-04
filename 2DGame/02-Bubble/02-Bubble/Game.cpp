@@ -3,11 +3,20 @@
 #include "Game.h"
 
 
+Game::~Game()
+{
+	player->~Player();
+	delete player;
+	player = nullptr;
+
+	destroyLvl();
+}
+
 void Game::init()
 {
 	bPlay = true;
 	lvl = 0;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	player = new Player();
 	//level1 = new Level1();
 	//level1->init(player);
@@ -53,7 +62,21 @@ bool Game::update(int deltaTime)
 
 	//level2->update(deltaTime);
 	changeLvl();
+	restart();
 	return bPlay;
+}
+
+void Game::restart()
+{
+	if (player->getDead()) {
+		if (!player->isAnAnimation()) {
+			player->~Player();
+			delete player;
+			player = nullptr;
+			destroyLvl();
+			init();
+		}
+	}
 }
 
 void Game::changeLvl()

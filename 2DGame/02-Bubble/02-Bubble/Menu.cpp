@@ -9,7 +9,7 @@ Menu::Menu() {}
 
 Menu::~Menu() {
     delete background;
-    background = NULL;
+    background = nullptr;
 }
 
 void Menu::init() {

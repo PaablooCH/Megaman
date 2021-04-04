@@ -145,6 +145,12 @@ void Enemy::update(int deltaTime)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }*/
 
+Enemy::~Enemy()
+{
+	delete sprite;
+	sprite = nullptr;
+}
+
 void Enemy::render()
 {
 	sprite->render();

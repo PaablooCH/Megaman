@@ -16,6 +16,9 @@ class Teleport
 {
 
 public:
+
+    ~Teleport();
+
     void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int lvl);
     void update(int deltaTime);
     void render();
