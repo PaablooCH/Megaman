@@ -21,8 +21,6 @@ class Game
 public:
 	Game() {}
 
-	~Game();
-
 	static Game& instance()
 	{
 		static Game G;

@@ -147,8 +147,10 @@ void Enemy::update(int deltaTime)
 
 Enemy::~Enemy()
 {
-	delete sprite;
-	sprite = nullptr;
+	if (sprite != NULL) {
+		delete sprite;
+		sprite = nullptr;
+	}
 }
 
 void Enemy::render()

@@ -17,10 +17,14 @@ enum EnemyAnims
 
 RescueGirl::~RescueGirl()
 {
-    delete sprite;
-    sprite = nullptr;
-    delete spriteDoor;
-    spriteDoor = nullptr;
+    if (sprite != NULL) {
+        delete sprite;
+        sprite = nullptr;
+    }
+    if (spriteDoor != NULL) {
+        delete spriteDoor;
+        spriteDoor = nullptr;
+    }
 }
 
 void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)

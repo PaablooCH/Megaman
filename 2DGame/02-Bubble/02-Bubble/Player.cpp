@@ -43,22 +43,36 @@ Player::Player()
 
 Player::~Player()
 {
-	delete sprite;
-	sprite = nullptr;
-	delete spriteDead;
-	spriteDead = nullptr;
-	bulletLeft->~Bullet();
-	delete bulletLeft;
-	bulletLeft = nullptr;
-	bulletRight->~Bullet();
-	delete bulletRight;
-	bulletRight = nullptr;
-	delete powerUp;
-	powerUp = nullptr;
-	delete girlRescued;
-	girlRescued = nullptr;
-	delete keys;
-	keys = nullptr;
+	if (sprite != NULL) {
+		delete sprite;
+		sprite = nullptr;
+	}
+	if (spriteDead != NULL) {
+		delete spriteDead;
+		spriteDead = nullptr;
+	}
+	if (bulletLeft != NULL) {
+		bulletLeft->~Bullet();
+		delete bulletLeft;
+		bulletLeft = nullptr;
+	}
+	if (bulletRight != NULL) {
+		bulletRight->~Bullet();
+		delete bulletRight;
+		bulletRight = nullptr;
+	}
+	if (powerUp != NULL) {
+		delete powerUp;
+		powerUp = nullptr;
+	}
+	if (girlRescued != NULL) {
+		delete girlRescued;
+		girlRescued = nullptr;
+	}
+	if (keys != NULL) {
+		delete keys;
+		keys = nullptr;
+	}
 }
 
 void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int lvl)

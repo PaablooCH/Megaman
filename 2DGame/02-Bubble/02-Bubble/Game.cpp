@@ -2,16 +2,6 @@
 #include <GL/glut.h>
 #include "Game.h"
 
-
-Game::~Game()
-{
-	player->~Player();
-	delete player;
-	player = nullptr;
-
-	destroyLvl();
-}
-
 void Game::init()
 {
 	bPlay = true;
@@ -103,19 +93,25 @@ void Game::destroyLvl()
 	switch (lvl)
 	{
 	case 0: {
-		menu->~Menu();
-		delete menu;
-		menu = nullptr;
+		if (menu != NULL) {
+			menu->~Menu();
+			delete menu;
+			menu = nullptr;
+		}
 	} break;
 	case 1: {
-		//level1->~Level1();
-		delete level1;
-		level1 = nullptr;
+		if (level1 != NULL) {
+			level1->~Level1();
+			delete level1;
+			level1 = nullptr;
+		}
 	} break;
 	case 2: {
-		//level2->~Level2();
-		delete level2;
-		level2 = nullptr;
+		if (level2 != NULL) {
+			level2->~Level2();
+			delete level2;
+			level2 = nullptr;
+		}
 	} break;
 	case 3: {
 

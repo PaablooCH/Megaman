@@ -11,7 +11,20 @@ ShootEnemy::ShootEnemy() {
 }
 
 ShootEnemy::~ShootEnemy() {
-	deleteBullets();
+	if (sprite != NULL) {
+		delete sprite;
+		sprite = nullptr;
+	}
+	if (bulletLeft != NULL) {
+		bulletLeft->deleteAll();
+		delete bulletLeft;
+		bulletLeft = nullptr;
+	}
+	if (bulletRight != NULL) {
+		bulletRight->deleteAll();
+		delete bulletRight;
+		bulletRight = nullptr;
+	}
 }
 
 enum ShootState

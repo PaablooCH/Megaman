@@ -17,8 +17,10 @@ enum EnemyAnims
 
 Bonus::~Bonus()
 {
-    delete sprite;
-    sprite = nullptr;
+    if (sprite != NULL) {
+        delete sprite;
+        sprite = nullptr;
+    }
 }
 
 void Bonus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id, string type)

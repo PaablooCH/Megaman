@@ -28,30 +28,46 @@ enum Anims
 
 PlayerStats::~PlayerStats()
 {
-	delete spriteHeart;
-	spriteHeart = nullptr;
-	delete spriteExp;
-	spriteExp = nullptr;
-	delete spriteHealth;
-	spriteHealth = nullptr;
-	delete spriteExpBar;
-	spriteExpBar = nullptr;
-	delete spriteKey;
-	spriteKey = nullptr;
-	delete spriteNumberKey;
-	spriteNumberKey = nullptr;
-	delete spriteNumberBull;
-	spriteNumberBull = nullptr;
-	delete spriteX;
-	spriteX = nullptr;
-	delete spritePowerUp;
-	spritePowerUp = nullptr;
-	delete spriteGirlsRescued;
-	spriteGirlsRescued = nullptr;
-	delete gRescued;
-	gRescued = nullptr;
-	delete powerUp;
-	powerUp = nullptr;
+	if (spriteHeart != NULL) {
+		delete spriteHeart;
+		spriteHeart = nullptr;
+	}
+	if (spriteExp != NULL) {
+		delete spriteExp;
+		spriteExp = nullptr;
+	}
+	if (spriteHealth != NULL) {
+		delete spriteHealth;
+		spriteHealth = nullptr;
+	}
+	if (spriteExpBar != NULL) {
+		delete spriteExpBar;
+		spriteExpBar = nullptr;
+	}
+	if (spriteKey != NULL) {
+		delete spriteKey;
+		spriteKey = nullptr;
+	}
+	if (spriteNumberKey != NULL) {
+		delete spriteNumberKey;
+		spriteNumberKey = nullptr;
+	}
+	if (spriteNumberBull != NULL) {
+		delete spriteNumberBull;
+		spriteNumberBull = nullptr;
+	}
+	if (spriteX != NULL) {
+		delete spriteX;
+		spriteX = nullptr;
+	}
+	if (spritePowerUp != NULL) {
+		delete spritePowerUp;
+		spritePowerUp = nullptr;
+	}
+	if (spriteGirlsRescued != NULL) {
+		delete spriteGirlsRescued;
+		spriteGirlsRescued = nullptr;
+	}
 }
 
 void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)

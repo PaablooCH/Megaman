@@ -8,8 +8,10 @@
 Menu::Menu() {}
 
 Menu::~Menu() {
-    delete background;
-    background = nullptr;
+    if (background != NULL) {
+        delete background;
+        background = nullptr;
+    }
 }
 
 void Menu::init() {
