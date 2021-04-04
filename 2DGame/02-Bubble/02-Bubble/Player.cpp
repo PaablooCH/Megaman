@@ -6,18 +6,17 @@
 #include "Game.h"
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 92
 #define FALL_STEP 4
 
 enum States
 {
-	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE, TELEPORT, DEAD
+	HITTING, JUMPING, CLIMBING, STANDING, MOVING_LEFT, MOVING_RIGHT, FALLING, START, LANDING, DAMAGE, TELEPORT, DEAD, SHOOTING
 } state;
 
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, HIT_LEFT, HIT_RIGHT, JUMP_LEFT1, JUMP_LEFT2, JUMP_RIGHT1, JUMP_RIGHT2, JUMP_TOP_LEFT, JUMP_TOP_RIGHT, APPEAR,
-	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR
+	CLIMB11, CLIMB12, CLIMB21, CLIMB22, LAND, DAMAGE_LEFT, DAMAGE_RIGHT, DISAPPEAR, SHOOTING_LEFT, SHOOTING_RIGHT
 };
 
 enum DeadAnims
@@ -33,6 +32,12 @@ Player::Player()
 	health = 20;
 	exp = 10;
 	nkeys = 0;
+	speed = 2;
+	jump_height = 55;
+	hasHelmet = false;
+	life_damage = 2;
+	exp_obtained = 1;
+	bullets_cont = 0;
 }
 
 Player::~Player()
@@ -53,7 +58,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	isRight = true;
 	spritesheet.loadFromFile("images/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(35, 38), glm::vec2(1.f / 8.f, 1.f / 30.9), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(21);
+	sprite->setNumberAnimations(23);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 15.f / 30.f));
@@ -159,6 +164,26 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	sprite->addKeyframe(DISAPPEAR, glm::vec2(1.f / 8.f, 0));
 	sprite->addKeyframe(DISAPPEAR, glm::vec2(0, 0));
 
+	sprite->setAnimationSpeed(SHOOTING_LEFT, 7);
+	//sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(7.f / 8.f, 17.9 / 30.f));
+	//sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(6.f / 8.f, 17.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(7.f / 8.f, 16.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(6.f / 8.f, 16.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(5.f / 8.f, 16.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(6.f / 8.f, 17.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(7.f / 8.f, 17.9 / 30.f));
+
+
+	sprite->setAnimationSpeed(SHOOTING_RIGHT, 7);
+	//sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(0.f, 2.9 / 30.f));
+	//sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(1.f / 8.f, 2.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(0.f, 1.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(1.f / 8.f, 1.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(2.f / 8.f, 1.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(1.f / 8.f, 2.9 / 30.f));
+	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(0.f, 2.9 / 30.f));
+
+
 	sprite->changeAnimation(12);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
@@ -183,11 +208,19 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	spriteDead->changeAnimation(3);
 	spriteDead->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 
+	bulletLeft = new Bullet();
+	bulletLeft->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram, 2, 2);
+
+	bulletRight = new Bullet();
+	bulletRight->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram, 2, 2);
+
 }
 
 void Player::update(int deltaTime)
 {
 	sprite->update(deltaTime);
+	bulletLeft->update(deltaTime);
+	bulletRight->update(deltaTime);
 	switch (state)
 	{
 
@@ -210,7 +243,7 @@ void Player::update(int deltaTime)
 
 	case DAMAGE: {
 		if (cont == 0)
-			health -= 2;
+			health -= life_damage;
 		if (health <= 0) {
 			isAnimation = true;
 			state = DEAD;
@@ -244,7 +277,7 @@ void Player::update(int deltaTime)
 					posPlayer.x -= 2;
 			}
 
-			if (cont >= 500) {
+			if (cont >= 650) {
 				state = STANDING;
 				isDamaged = false;
 			}
@@ -287,7 +320,24 @@ void Player::update(int deltaTime)
 			state = STANDING;
 			isHitting = false;
 		}
+	} break;
 
+	case SHOOTING: {
+		cont += deltaTime;
+		if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT) {
+			sprite->changeAnimation(SHOOTING_LEFT);
+			if(bullets_cont >= 1)bulletLeft->addBullet(glm::ivec2(posPlayer.x, posPlayer.y + 10), false);
+			if (bullets_cont > 0) --bullets_cont;
+
+		}
+		else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT) {
+			sprite->changeAnimation(SHOOTING_RIGHT);
+			if (bullets_cont >= 1)bulletRight->addBullet(glm::ivec2(posPlayer.x + 16, posPlayer.y + 10), true);
+			if (bullets_cont > 0) --bullets_cont;
+		}
+		if (cont >= 500) {
+			state = STANDING;
+		}
 	} break;
 
 	case JUMPING: {
@@ -319,26 +369,26 @@ void Player::update(int deltaTime)
 		}
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-			posPlayer.x -= 2;
+			posPlayer.x -= speed;
 			isRight = false;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
-				posPlayer.x += 2;
+				posPlayer.x += speed;
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-			posPlayer.x += 2;
+			posPlayer.x += speed;
 			isRight = true;
 			if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
-				posPlayer.x -= 2;
+				posPlayer.x -= speed;
 		}
-		posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
+		posPlayer.y = int(startY - jump_height * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
 		if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32))) {
-			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle - JUMP_ANGLE_STEP) / 180.f));
+			posPlayer.y = int(startY - jump_height * sin(3.14159f * (jumpAngle - JUMP_ANGLE_STEP) / 180.f));
 			state = FALLING;
 			jumpAngle = 90;
 		}
 		else
-			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32))) //Hablar esto
+			posPlayer.y = int(startY - jump_height * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet)) //Hablar esto
 		{
 			cont = 0;
 			isDamaged = true;
@@ -363,21 +413,21 @@ void Player::update(int deltaTime)
 		}
 		posPlayer.y += FALL_STEP;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-			posPlayer.x -= 2;
+			posPlayer.x -= speed;
 			isRight = false;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
-				posPlayer.x += 2;
+				posPlayer.x += speed;
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-			posPlayer.x += 2;
+			posPlayer.x += speed;
 			isRight = true;
 			if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
-				posPlayer.x -= 2;
+				posPlayer.x -= speed;
 		}
 		bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 		if (!bJumping)
 			state = STANDING;
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32))) //Hablar esto
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet)) //Hablar esto
 		{
 			cont = 0;
 			isDamaged = true;
@@ -466,14 +516,14 @@ void Player::update(int deltaTime)
 	case MOVING_LEFT: {
 		if (sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= 2;
+		posPlayer.x -= speed;
 		isRight = false;
 		if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
 		{
-			posPlayer.x += 2;
+			posPlayer.x += speed;
 			sprite->changeAnimation(STAND_LEFT);
 		}
-		if (map->checkDamage(posPlayer, glm::ivec2(7, 32)))
+		if (map->checkDamage(posPlayer, glm::ivec2(7, 32), hasHelmet))
 		{
 			isDamaged = true;
 			state = DAMAGE;
@@ -486,14 +536,14 @@ void Player::update(int deltaTime)
 	case MOVING_RIGHT: {
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 2;
+		posPlayer.x += speed;
 		isRight = true;
 		if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 		{
-			posPlayer.x -= 2;
+			posPlayer.x -= speed;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
-		if (map->checkDamage(posPlayer, glm::ivec2(7, 32)))
+		if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet))
 		{
 			isDamaged = true;
 			state = DAMAGE;
@@ -507,16 +557,22 @@ void Player::update(int deltaTime)
 		if (!isRight) {
 			sprite->changeAnimation(STAND_LEFT);
 			isRight = false;
+			if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet))
+			{
+				cont = 0;
+				isDamaged = true;
+				state = DAMAGE;
+			}
 		}
 		else {
 			sprite->changeAnimation(STAND_RIGHT);
 			isRight = true;
-		}
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32)))
-		{
-			cont = 0;
-			isDamaged = true;
-			state = DAMAGE;
+			if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet))
+			{
+				cont = 0;
+				isDamaged = true;
+				state = DAMAGE;
+			}
 		}
 	} break;
 
@@ -552,6 +608,11 @@ void Player::update(int deltaTime)
 				jumpAngle = 0;
 				startY = posPlayer.y;
 			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_INSERT))
+			{
+				state = SHOOTING;
+				cont = 0;
+			}
 			else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN) && map->isStairs(glm::ivec2(posPlayer.x, posPlayer.y + 2), glm::ivec2(32, 32)))
 			{
 				posPlayer.y += 20;
@@ -574,7 +635,7 @@ void Player::update(int deltaTime)
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))); //vigilar
 	else if (isDead)
 		spriteDead->setPosition((glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y))));
-	playerStats->update(health, exp, girlRescued, nkeys, powerUp);
+	playerStats->update(health, exp, girlRescued, nkeys, powerUp, bullets_cont);
 }
 
 void Player::render()
@@ -583,17 +644,21 @@ void Player::render()
 		sprite->render();
 	else
 		spriteDead->render();
+	bulletLeft->render();
+	bulletRight->render();
 }
 
 void Player::setTileMap(TileMap* tileMap)
 {
 	map = tileMap;
+	bulletLeft->setTileMap(tileMap);
+	bulletRight->setTileMap(tileMap);
 }
 
 void Player::setPlayerStats(PlayerStats* pStats)
 {
 	playerStats = pStats;
-	playerStats->update(health, exp, girlRescued, nkeys, powerUp);
+	playerStats->update(health, exp, girlRescued, nkeys, powerUp, bullets_cont);
 }
 
 void Player::setPosition(const glm::vec2& pos)
@@ -626,7 +691,7 @@ bool Player::checkRight()
 
 void Player::winExp()
 {
-	exp++;
+	exp += exp_obtained;
 	if (exp == 21) {
 		if (health < 20)
 			health += 2;
@@ -662,4 +727,33 @@ bool Player::isAGirl(int lvl) {
 
 bool Player::isAKey(int lvl) {
 	return keys[lvl - 1];
+}
+
+void Player::bonusBoots() {
+	powerUp[0] = true;
+	speed = 3;
+}
+
+void Player::bonusBattery() {
+	powerUp[1] = true;
+	jump_height = 92;
+}
+
+void Player::bonusHelmet() {
+	powerUp[2] = true;
+	hasHelmet = true;
+}
+
+void Player::bonusArmor() {
+	powerUp[3] = true;
+	life_damage = 1;
+}
+
+void Player::bonusBook() {
+	powerUp[4] = true;
+	exp_obtained = 2;
+}
+
+void Player::bonusShoot() {
+	bullets_cont = 5;
 }

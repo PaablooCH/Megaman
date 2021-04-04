@@ -37,9 +37,9 @@ public:
 	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool collisionFall(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
 	bool isStairs(const glm::ivec2& pos, const glm::ivec2& size) const;
-	bool enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
-	bool enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const;
-	bool checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkPlayerLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkPlayerRight(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkDamage(const glm::ivec2& pos, const glm::ivec2& size, bool helmet) const;
 	bool checkPlayerDown(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool checkIfPlayer(const glm::ivec2& pos, const glm::ivec2& size) const;
 	bool checkIfKey(const glm::ivec2& pos, const glm::ivec2& size) const;
@@ -48,7 +48,8 @@ public:
 	void updatePositionTile(const glm::ivec2& posAc, const glm::ivec2& posAnt,const glm::ivec2& size, int id) const;
 	void updatePositionFakeRoof(const glm::ivec2& posAc, const glm::ivec2& posAnt, const glm::ivec2& size, int id) const;
 	void openDoor(const glm::ivec2& pos) const;
-	bool checkIfPlayerHit(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool checkEnemyBulletDamage(const glm::ivec2& pos, const glm::ivec2& size) const;
+	//bool checkEnemyBulletDamageLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
 
 	
 private:

@@ -15,7 +15,7 @@ enum EnemyAnims
 };
 
 
-void Fire::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
+void Fire::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = MOVING;
     spritesheet.loadFromFile("images/FireTrap.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -32,6 +32,7 @@ void Fire::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, cons
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
     posIni = posInicial;
+    ID = id;
     sprite->setPosition(posIni);
 }
 
@@ -49,6 +50,6 @@ void Fire::update(int deltaTime)
     } break;
     }
 
-    map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 40);
+    map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, ID);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

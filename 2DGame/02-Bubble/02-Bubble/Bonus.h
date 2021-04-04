@@ -1,28 +1,25 @@
-#ifndef _CHIP_INCLUDE
-#define _CHIP_INCLUDE
+#ifndef _BONUS_INCLUDE
+#define _BONUS_INCLUDE
 
 
 #include "Sprite.h"
 #include "TileMap.h"
-#include "PlayerStats.h"
 #include "Extended_GLUT_KEYS.h"
 
 
-// Player is basically a Sprite that represents the player. As such it has
-// all properties it needs to track its movement, jumping, and collisions.
 
-
-class Chip
+class Bonus
 {
 
 public:
-    void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id);
+    void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id, string type);
     void update(int deltaTime);
     void render();
 
     void setTileMap(TileMap* tileMap);
     void setPosition(const glm::vec2& pos);
     bool checkState();
+    string checkType();
 
 protected:
     glm::ivec2 tileMapDispl, posIni, posAnt;
@@ -32,6 +29,7 @@ protected:
     TileMap* map;
     bool got;
     int ID;
+    string tipus;
 };
 
-#endif // _CHIP_INCLUDE
+#endif // _BONUS_INCLUDE

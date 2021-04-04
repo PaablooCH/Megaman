@@ -6,7 +6,7 @@
 void Game::init()
 {
 	bPlay = true;
-	lvl = 1;
+	lvl = 0;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	player = new Player();
 	//level1 = new Level1();
@@ -19,31 +19,38 @@ bool Game::update(int deltaTime)
 {
 	switch (lvl)
 	{
-		case 1: {
-			if (level1 == NULL) {
-				level1 = new Level1();
-				level1->init(player);
-			}
-			level1->update(deltaTime);
-		} break;
-		case 2: {
-			if (level2 == NULL) {
-				level2 = new Level2();
-				level2->init(player);
-			}
-			level2->update(deltaTime);
-		} break;
-		case 3: {
+	case 0: {
+		if (menu == NULL) {
+			menu = new Menu();
+			menu->init();
+		}
+		menu->update(deltaTime);
+	} break;
+	case 1: {
+		if (level1 == NULL) {
+			level1 = new Level1();
+			level1->init(player);
+		}
+		level1->update(deltaTime);
+	} break;
+	case 2: {
+		if (level2 == NULL) {
+			level2 = new Level2();
+			level2->init(player);
+		}
+		level2->update(deltaTime);
+	} break;
+	case 3: {
 
-		} break;
-		case 4: {
+	} break;
+	case 4: {
 
-		} break;
-		case 5: {
+	} break;
+	case 5: {
 
-		} break;
+	} break;
 	}
-	
+
 	//level2->update(deltaTime);
 	changeLvl();
 	return bPlay;
@@ -52,39 +59,50 @@ bool Game::update(int deltaTime)
 void Game::changeLvl()
 {
 	int newLvl;
-	if (!player->isAnAnimation()) {
+	if (lvl == 0) {
+		if (menu->getPlay()) {
+			destroyLvl();
+			lvl = 1;
+		}
+	}
+	else if (!player->isAnAnimation()) {
 		newLvl = player->getLvl();
 		if (newLvl != lvl) {
 			destroyLvl();
 			lvl = newLvl;
 		}
 	}
-	
+
 }
 
 void Game::destroyLvl()
 {
 	switch (lvl)
 	{
-		case 1: {
-			level1->~Level1();
-			level1 = nullptr;
-			delete level1;
-		} break;
-		case 2: {
-			level2->~Level2();
-			level2 = nullptr;
-			delete level2;
-		} break;
-		case 3: {
+	case 0: {
+		menu->~Menu();
+		delete menu;
+		menu = nullptr;
+	} break;
+	case 1: {
+		//level1->~Level1();
+		delete level1;
+		level1 = nullptr;
+	} break;
+	case 2: {
+		//level2->~Level2();
+		delete level2;
+		level2 = nullptr;
+	} break;
+	case 3: {
 
-		} break;
-		case 4: {
+	} break;
+	case 4: {
 
-		} break;
-		case 5: {
+	} break;
+	case 5: {
 
-		} break;
+	} break;
 	}
 }
 
@@ -93,8 +111,12 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	switch (lvl)
 	{
+	case 0: {
+		if (menu != NULL)
+			menu->render();
+	} break;
 	case 1: {
-		if(level1 != NULL)
+		if (level1 != NULL)
 			level1->render();
 	} break;
 	case 2: {
@@ -105,7 +127,7 @@ void Game::render()
 
 	} break;
 	case 4: {
-;
+		;
 	} break;
 	case 5: {
 
@@ -117,7 +139,7 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
-	if(key == 27) // Escape code
+	if (key == 27) // Escape code
 		bPlay = false;
 	keys[key] = true;
 }
@@ -158,8 +180,3 @@ bool Game::getSpecialKey(int key) const
 {
 	return specialKeys[key];
 }
-
-
-
-
-

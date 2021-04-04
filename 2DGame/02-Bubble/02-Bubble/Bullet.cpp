@@ -5,12 +5,13 @@
 #include "Bullet.h"
 #include "TileMap.h"
 
-void Bullet::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
+void Bullet::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int id, int code)
 {
-    spritesheet.loadFromFile("images/EnemyBullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
+    spritesheet.loadFromFile("images/Bullet" + to_string(code) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
     tileMapDispl = tileMapPos;
     texProgram = shaderProgram;
+    ID = id;
 }
 
 void Bullet::update(int deltaTime)
@@ -23,9 +24,9 @@ void Bullet::update(int deltaTime)
         int j = 0;
         exit = false;
         while ((j < 1) && (!exit)) {
-            if (isRight)bullets[i].x += 1;
-            if (!isRight) bullets[i].x -= 1;
-            if (map->collisionMoveLeft(bullets[i], glm::ivec2(16, 16))) {
+            if (isRight)bullets[i].x += 2;
+            if (!isRight) bullets[i].x -= 2;
+            if (map->collisionMoveLeft(bullets[i], glm::ivec2(16, 16)) || map->collisionMoveRight(bullets[i], glm::ivec2(16, 16))){
                 bullets.erase(bullets.begin() + i);
                 sprites[i]->free();
                 if (sprites[i] != NULL) {
@@ -37,10 +38,34 @@ void Bullet::update(int deltaTime)
                 maxIt--;
                 exit = true;
             }
+            /*if (isRight && map->checkPlayerRight(bullets[i], glm::ivec2(16, 16))) {
+                bullets.erase(bullets.begin() + i);
+                sprites[i]->free();
+                if (sprites[i] != NULL) {
+                    sprites[i]->free();
+                    delete sprites[i];
+                }
+                sprites.erase(sprites.begin() + i);
+                i--;
+                maxIt--;
+                exit = true;
+            }
+            if (!isRight && map->checkPlayerLeft(bullets[i], glm::ivec2(16, 16))) {
+                bullets.erase(bullets.begin() + i);
+                sprites[i]->free();
+                if (sprites[i] != NULL) {
+                    sprites[i]->free();
+                    delete sprites[i];
+                }
+                sprites.erase(sprites.begin() + i);
+                i--;
+                maxIt--;
+                exit = true;
+            }*/
             else {
-                int id = 0;
-                if(isRight)id = 80 + i;
-                if (!isRight)id = 90 + i;
+                int id = ID;
+                if(isRight)id += (i + 1);
+                if (!isRight)id += (6 + i );
                 map->updatePositionTile(bullets[i], glm::ivec2(16, 16), posAnt, id);
                 sprites[i]->setPosition(
                     glm::vec2(float(tileMapDispl.x + bullets[i].x),
@@ -67,8 +92,8 @@ void Bullet::deleteAll() {
             delete sprites[i];
         }
         sprites.erase(sprites.begin() + i);
-        if (isRight)map->clearPosition(80 + i);
-        if (!isRight)map->clearPosition(90 + i);
+        if (isRight)map->clearPosition(ID + i + 1);
+        if (!isRight)map->clearPosition((ID + 6 + i));
     }
 }
 
@@ -86,12 +111,12 @@ void Bullet::setPosition(const glm::vec2& pos)
 
 void Bullet::addBullet(const glm::vec2& pos, bool Right)
 {
+    isRight = Right;
     bullets.push_back(glm::vec2(pos.x + 1, pos.y));
     initSprite();
     sprites[sprites.size() - 1]->setPosition(
         glm::vec2(float(tileMapDispl.x + bullets[bullets.size() - 1].x),
             float(tileMapDispl.y + bullets[bullets.size() - 1].y)));
-    isRight = Right;
 }
 
 void Bullet::initSprite() {

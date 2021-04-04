@@ -14,7 +14,7 @@ enum EnemyAnims
     MOVE
 };
 
-void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
+void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = STANDING;
     isAlive = true;
@@ -29,6 +29,7 @@ void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, con
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
     posIni = posInicial;
+    ID = id;
     sprite->setPosition(posIni);
 }
 
@@ -42,7 +43,7 @@ void Virus::update(int deltaTime)
         if (map->collisionMoveDown(posEnemy, glm::ivec2(20, 20), &posEnemy.y))
         {
             isAlive = false;
-            map->clearPosition(7);
+            map->clearPosition(ID);
         }
     } break;
 
@@ -52,6 +53,6 @@ void Virus::update(int deltaTime)
     } break;
     }
 
-    map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, 70);
+    map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, ID);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

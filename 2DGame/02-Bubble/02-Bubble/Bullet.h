@@ -14,7 +14,7 @@ class Bullet
 
 public:
 
-	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
+	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int id, int code);
 	void initSprite();
 	void update(int deltaTime);
 	void render();
@@ -36,6 +36,7 @@ private:
 
 	bool exit;
 	bool isRight;
+	int ID;
 };
 
 #endif

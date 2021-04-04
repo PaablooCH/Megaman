@@ -6,6 +6,7 @@
 #include "TileMap.h"
 #include "Extended_GLUT_KEYS.h"
 #include "PlayerStats.h"
+#include "Bullet.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -35,6 +36,12 @@ public:
 	bool isAnAnimation();
 	bool isAGirl(int lvl);
 	bool isAKey(int lvl);
+	void bonusBoots();
+	void bonusBattery();
+	void bonusHelmet();
+	void bonusBook();
+	void bonusArmor();
+	void bonusShoot();
 	int getLvl();
 
 	void winExp();
@@ -53,6 +60,7 @@ private:
 	Sprite* spriteDead;
 	TileMap* map;
 	PlayerStats* playerStats;
+	Bullet* bulletLeft, * bulletRight;
 	int cont;
 	bool isRight;
 	bool isAnimation;
@@ -60,7 +68,8 @@ private:
 	bool isHitting;
 	bool isDamaged;
 	bool isDead;
-	int lvl;
+	bool hasHelmet;
+	int lvl, speed, jump_height, life_damage, exp_obtained, bullets_cont;
 
 	int health, exp, nkeys;
 	bool* powerUp;

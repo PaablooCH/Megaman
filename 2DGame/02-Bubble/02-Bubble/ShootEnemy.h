@@ -16,7 +16,7 @@ public:
     ShootEnemy();
     ~ShootEnemy();
 
-    void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial);
+    void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id);
     void update(int deltaTime);
     void render();
 
@@ -36,7 +36,7 @@ private:
     TileMap* map;
     ShaderProgram texProgram;
     bool protect, isAlive;
-    int cont;
+    int cont, ID;
     Bullet* bulletLeft, *bulletRight;
     Player* player;
 };

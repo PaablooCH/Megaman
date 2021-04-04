@@ -8,7 +8,7 @@ class PlayerStats
 public:
 
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
-	void update(int health, int exp, bool* gRescued, int nkeys, bool* powerUp);
+	void update(int health, int exp, bool* gRescued, int nkeys, bool* powerUp, int bullets);
 	void render();
 
 	void setPosition(const glm::vec2& pos);
@@ -20,11 +20,11 @@ private:
 	Sprite* spriteExp;
 	Sprite* spriteKey;
 	Sprite* spriteNumberKey;
-	Sprite* spriteXKey;
+	Sprite* spriteX;
 	Sprite* spritePowerUp;
 	Sprite* spriteGirlsRescued;
-	glm::ivec2 tileMapDispl, posHealth, posExp, posGirl, posKey, posNumberKey, posXKey;
-	int nkeys;
+	glm::ivec2 tileMapDispl, posHealth, posExp, posGirl, posKey, posNumberKey, posX, posPowerUp;
+	int nkeys, bullets;
 	int health, exp;
 	bool* gRescued;
 	bool* powerUp;

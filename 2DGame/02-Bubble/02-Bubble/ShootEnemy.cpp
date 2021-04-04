@@ -25,7 +25,7 @@ enum EnemyAnims
 };
 
 
-void ShootEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
+void ShootEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
 	states = PROTECTING_RIGHT;
 	spritesheet.loadFromFile("images/ShotEnemy.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -65,13 +65,14 @@ void ShootEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram
 
 	sprite->changeAnimation(1);
 	tileMapDispl = tileMapPos;
+	ID = id;
 	sprite->setPosition(posInicial);
 
 	bulletLeft = new Bullet();
-	bulletLeft->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram);
+	bulletLeft->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram, ID, 1);
 
 	bulletRight = new Bullet();
-	bulletRight->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram);
+	bulletRight->init(glm::ivec2(tileMapDispl.x, tileMapDispl.y), shaderProgram, ID, 1);
 
 }
 
@@ -86,23 +87,28 @@ void ShootEnemy::update(int deltaTime)
 	case STANDING_LEFT: {
 		if (sprite->animation() != STAND_LEFT)
 			sprite->changeAnimation(STAND_LEFT);
-		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
+		}
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		{
+			isAlive = false;
+			map->clearPosition(ID);
 		}
 		if (cont >= 1000) {
 			states = PROTECTING_LEFT;
@@ -113,23 +119,28 @@ void ShootEnemy::update(int deltaTime)
 	case STANDING_RIGHT: {
 		if (sprite->animation() != STAND_RIGHT)
 			sprite->changeAnimation(STAND_RIGHT);
-		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
+		}
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		{
+			isAlive = false;
+			map->clearPosition(ID);
 		}
 		if (cont >= 1000) {
 			states = PROTECTING_RIGHT;
@@ -140,24 +151,29 @@ void ShootEnemy::update(int deltaTime)
 	case SHOOTING_RIGHT: {
 		if (sprite->animation() != SHOT_RIGHT)
 			sprite->changeAnimation(SHOT_RIGHT);
-		bulletRight->addBullet(glm::ivec2((posEnemy.x + 16), posEnemy.y), true);
-		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		bulletRight->addBullet(glm::ivec2((posEnemy.x + 16), (posEnemy.y + 8)), true);
+		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
+		}
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		{
+			isAlive = false;
+			map->clearPosition(ID);
 		}
 		if (cont >= 100) {
 			states = STANDING_RIGHT;
@@ -169,24 +185,29 @@ void ShootEnemy::update(int deltaTime)
 		if (sprite->animation() != SHOT_LEFT)
 			sprite->changeAnimation(SHOT_LEFT);
 		protect = false;
-		bulletLeft->addBullet(posEnemy, false);
-		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		bulletLeft->addBullet(glm::ivec2((posEnemy.x), (posEnemy.y + 8)), false);
+		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		if (map->checkPlayerLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
+		}
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		{
+			isAlive = false;
+			map->clearPosition(ID);
 		}
 		if (cont >= 100) {
 			states = STANDING_LEFT;
@@ -197,17 +218,17 @@ void ShootEnemy::update(int deltaTime)
 	case PROTECTING_RIGHT: {
 		if (sprite->animation() != PROTECT_RIGHT)
 			sprite->changeAnimation(PROTECT_RIGHT);
-		int r = rand() % 100;
-		if (map->enemyMoveLeft(posEnemy, glm::ivec2(23, 32)))
+		int r = rand() % 300;
+		if (map->checkPlayerLeft(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (cont >= 1500 ) {
+		if (cont >= 2500 ) {
 			states = SHOOTING_RIGHT;
 			cont = 0;
 		}
@@ -220,17 +241,17 @@ void ShootEnemy::update(int deltaTime)
 	case PROTECTING_LEFT: {
 		if (sprite->animation() != PROTECT_LEFT)
 			sprite->changeAnimation(PROTECT_LEFT);
-		int r = rand() % 100;
-		if (map->enemyMoveRight(posEnemy, glm::ivec2(23, 32)))
+		int r = rand() % 300;
+		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
 		{
 			if (!player->checkRight()) {
 				if (player->checkHit()) {
 					isAlive = false;
-					map->clearPosition(60);
+					map->clearPosition(ID);
 				}
 			}
 		}
-		if (cont >= 1500) {
+		if (cont >= 2500) {
 			states = SHOOTING_LEFT;
 			cont = 0;
 		}
@@ -241,7 +262,7 @@ void ShootEnemy::update(int deltaTime)
 	} break;
 	}
 
-	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, 60);
+	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, ID);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }
 

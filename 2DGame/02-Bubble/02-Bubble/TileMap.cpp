@@ -191,7 +191,6 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 bool TileMap::collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
-	int a;
 	x = (pos.x + 2*size.x / 3 - 1) / tileSize;
 	
 	y0 = pos.y / tileSize;
@@ -208,7 +207,6 @@ bool TileMap::collisionMoveStairsLeft(const glm::ivec2& pos, const glm::ivec2& s
 bool TileMap::collisionMoveStairsRight(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
-	int a;
 	x = (pos.x) / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
@@ -317,7 +315,7 @@ bool TileMap::isStairs(const glm::ivec2& pos, const glm::ivec2& size) const
 	return false;
 }
 
-bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
+bool TileMap::checkPlayerLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
 
@@ -333,7 +331,7 @@ bool TileMap::enemyMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 	return false;
 }
 
-bool TileMap::enemyMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const
+bool TileMap::checkPlayerRight(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;
 
@@ -386,42 +384,55 @@ void TileMap::updatePositionFakeRoof(const glm::ivec2& posAc, const glm::ivec2& 
 	characMap[(y + 1) * mapSize.x + (x + 1)] = id;
 }
 
-bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size) const
+bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size, bool helmet) const
 {
 	int x, y0, y1;
 
 	x = (pos.x + size.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
-	y1 = ((pos.y + size.y - 1) / tileSize) + 1;
+	y1 = ((pos.y + size.y - 1) / tileSize) ;
 	for (int y = y0; y <= y1; y++)
 	{
-		if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 20)
-			return true;
+		if (helmet) {
+			if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 70 && characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 40 && characMap[y * mapSize.x + x] != 41 && characMap[y * mapSize.x + x] != 42 && characMap[y * mapSize.x + x] != 43 && characMap[y * mapSize.x + x] != 90)
+				return true;
+		}
+		if (!helmet) {
+			if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 70 && characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 90)
+				return true;
+		}
 	}
 	return false;
 }
 
 bool TileMap::checkPlayerDown(const glm::ivec2& pos, const glm::ivec2& size) const
 {
-	int x, y0, y1;
+	int x, y0;
 
 	x = pos.x / tileSize;
-	y0 = pos.y / tileSize;
+	y0 = (pos.y / tileSize) + 1;
 	for (int y = y0; y <= (mapSize.y - y0); y++)
 	{
 		if (characMap[y * mapSize.x + x] == 2)
 			return true;
+		else if (map[y * mapSize.x + x] != 337 && map[y * mapSize.x + x] != 242) return false;
 	}
 	return false;
 }
 
 bool TileMap::checkIfPlayer(const glm::ivec2& pos, const glm::ivec2& size) const
 {
-	int x, y0;
+	int x, y0, y1;
 
-	x = (pos.x - 1) / tileSize;
+	x = (pos.x + size.x) / tileSize;
 	y0 = (pos.y / tileSize) - 1;
-	if (characMap[y0 * mapSize.x + x] == 2) return true;
+	y1 = (pos.y / tileSize);
+
+	for (int y = y0; y <= y1; y++)
+	{
+		if (characMap[y * mapSize.x + x] == 2)
+			return true;
+	}
 	return false;
 }
 
@@ -466,12 +477,22 @@ void TileMap::openDoor(const glm::ivec2& pos) const
 	map[y1 * mapSize.x + x] = 337;
 }
 
-bool TileMap::checkIfPlayerHit(const glm::ivec2& pos, const glm::ivec2& size) const
-{
-	int x, y0;
 
-	x = (pos.x - 1) / tileSize;
+bool TileMap::checkEnemyBulletDamage(const glm::ivec2& pos, const glm::ivec2& size) const
+{
+	int x0, x1 , y0, y1;
+
+	x0 = (pos.x - size.x + 16) / tileSize;
+	x1 = (pos.x + size.x - 1) / tileSize ;
 	y0 = pos.y / tileSize;
-	if (characMap[y0 * mapSize.x + x] == 2) return true;
+	y1 = (pos.y + size.y - 1) / tileSize;
+	for (int y = y0; y <= y1; y++){
+		for (int x = x0; x <= x1; x++)
+		{
+			if (characMap[y * mapSize.x + x] == 3 || characMap[y * mapSize.x + x] == 4 || characMap[y * mapSize.x + x] == 5 || characMap[y * mapSize.x + x] == 6 || characMap[y * mapSize.x + x] == 7 || characMap[y * mapSize.x + x] == 8 || characMap[y * mapSize.x + x] == 9 || characMap[y * mapSize.x + x] == 10 || characMap[y * mapSize.x + x] == 11 || characMap[y * mapSize.x + x] == 12)
+				return true;
+		}
+	}
 	return false;
 }
+

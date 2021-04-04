@@ -6,6 +6,7 @@
 #include "FakeRoof.h"
 #include "Chip.h"
 #include "ShootEnemy.h"
+#include "Bonus.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 640
@@ -25,6 +26,7 @@ private:
 	void deleteEnemy();
 	void deleteSEnemy();
 	void deleteChip();
+	void deleteBonus();
 	
 
 private:
@@ -35,5 +37,6 @@ private:
 	FakeRoof* fakeRoof1;
 	ShootEnemy* senemy2;
 	Chip* chip1;
+	Bonus* bonus1;
 };
 

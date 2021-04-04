@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="Bonus.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="FakeRoof.h" />
     <ClInclude Include="Chip.h" />
@@ -23,6 +25,7 @@
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Level2.h" />
     <ClInclude Include="LinealEnemy.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStats.h" />
     <ClInclude Include="RescueGirl.h" />
@@ -37,6 +40,8 @@
     <ClInclude Include="Virus.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FakeRoof.cpp" />
     <ClCompile Include="Chip.cpp" />
@@ -47,6 +52,7 @@
     <ClCompile Include="Level2.cpp" />
     <ClCompile Include="LinealEnemy.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStats.cpp" />
     <ClCompile Include="RescueGirl.cpp" />

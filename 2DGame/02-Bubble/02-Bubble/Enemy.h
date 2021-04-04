@@ -16,7 +16,7 @@ class Enemy
 {
 
 public:
-    virtual void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial) = 0;
+    virtual void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id) = 0;
     virtual void update(int deltaTime) = 0;
     void render();
 
@@ -33,7 +33,7 @@ protected:
     Sprite* sprite;
     TileMap* map;
     Player* player;
-    int cont;
+    int cont, ID;
     bool isRight;
     bool isAlive;
 };

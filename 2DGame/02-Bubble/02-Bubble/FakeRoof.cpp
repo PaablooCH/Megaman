@@ -16,14 +16,14 @@ enum EnemyAnims
 
 FakeRoof::FakeRoof(int id)
 {
-    this->id = id;
+    this->level = id;
 }
 
-void FakeRoof::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
+void FakeRoof::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
     states = STANDING;
     isAlive = true;
-    spritesheet.loadFromFile("images/Stone" + to_string(id) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
+    spritesheet.loadFromFile("images/Stone" + to_string(level) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(1);
 
@@ -34,6 +34,7 @@ void FakeRoof::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, 
     sprite->changeAnimation(0);
     tileMapDispl = tileMapPos;
     posIni = posInicial;
+    ID = id;
     sprite->setPosition(posIni);
 }
 
@@ -66,6 +67,6 @@ void FakeRoof::update(int deltaTime)
         } break;
     }
 
-    map->updatePositionFakeRoof(posEnemy, glm::ivec2(40, 40), posAnt, 30);
+    map->updatePositionFakeRoof(posEnemy, glm::ivec2(40, 40), posAnt, ID);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

@@ -5,6 +5,7 @@
 #include "Level1.h"
 #include "Player.h"
 #include "Level2.h"
+#include "Menu.h"
 
 
 #define SCREEN_WIDTH 496
@@ -19,21 +20,21 @@ class Game
 
 public:
 	Game() {}
-	
-	
-	static Game &instance()
+
+
+	static Game& instance()
 	{
 		static Game G;
-	
+
 		return G;
 	}
-	
+
 	void init();
 	bool update(int deltaTime);
 	void changeLvl();
 	void destroyLvl();
 	void render();
-	
+
 	// Input callback methods
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -42,7 +43,7 @@ public:
 	void mouseMove(int x, int y);
 	void mousePress(int button);
 	void mouseRelease(int button);
-	
+
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
 
@@ -50,14 +51,13 @@ private:
 	Player* player;
 	int lvl;
 	bool bPlay;                       // Continue to play game?
-	Level1* level1;                      // Scene to render
+	Menu* menu;                      // Scene to render
+	Level1* level1;
 	Level2* level2;
 	bool keys[256], specialKeys[256]; // Store key states so that 
-	                                  // we can have access at any time
+									  // we can have access at any time
 
 };
 
 
 #endif // _GAME_INCLUDE
-
-
