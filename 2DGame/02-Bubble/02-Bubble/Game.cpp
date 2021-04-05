@@ -2,12 +2,16 @@
 #include <GL/glut.h>
 #include "Game.h"
 
+using namespace irrklang;
+
 void Game::init()
 {
 	bPlay = true;
 	lvl = 0;
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	player = new Player();
+	engine = createIrrKlangDevice();
+	loopMusic("music/MainMenuMusic.wav");
 	selectPortal = 1;
 	cont = 0;
 }
@@ -124,6 +128,7 @@ void Game::isAWin()
 		player = nullptr;
 		destroyLvl();
 		lvl = 0;
+		loopMusic("music/WinMusic.wav");
 		if (menu == NULL) {
 			menu = new Menu();
 			menu->init(7);
@@ -355,6 +360,26 @@ void Game::specialKeyPressed(int key)
 void Game::specialKeyReleased(int key)
 {
 	specialKeys[key] = false;
+}
+
+void Game::loopMusic(char* fileName) {
+	if (!engine->isCurrentlyPlaying(fileName)) {
+		stopMusic();
+		music = engine->play2D(fileName, true, false, true);
+		music->setVolume(0.2f);
+	}
+}
+
+void Game::stopMusic() {
+	if (music != NULL) {
+		music->stop();
+	}
+}
+
+void Game::playSound(char* fileName) {
+	ISound* sound = engine->play2D(fileName, false, false, true);
+	sound->setVolume(0.2f);
+	sound->setPlaybackSpeed();
 }
 
 void Game::mouseMove(int x, int y)

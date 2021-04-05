@@ -9,6 +9,7 @@
 
 #define TIME_PER_FRAME 1000.f / 60.f // Approx. 60 fps
 
+using namespace irrklang;
 
 static int prevTime;
 static Game game; // This object represents our whole game
@@ -83,6 +84,7 @@ static void idleCallback()
 
 int main(int argc, char **argv)
 {
+
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);

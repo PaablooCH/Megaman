@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "ShootEnemy.h"
+#include "Game.h"
 
 ShootEnemy::ShootEnemy() {
 	cont = 0;
@@ -100,6 +101,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -109,6 +111,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -116,6 +119,7 @@ void ShootEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		if (cont >= 1000) {
 			state = "PROTECTING_LEFT";
@@ -132,6 +136,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -141,6 +146,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -148,6 +154,7 @@ void ShootEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		if (cont >= 1000) {
 			state = "PROTECTING_RIGHT";
@@ -165,6 +172,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -174,6 +182,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -181,6 +190,7 @@ void ShootEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		if (cont >= 100) {
 			state = "STANDING_RIGHT";
@@ -199,6 +209,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -208,6 +219,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -215,6 +227,7 @@ void ShootEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		if (cont >= 100) {
 			state = "STANDING_LEFT";
@@ -232,6 +245,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -255,6 +269,7 @@ void ShootEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -267,7 +282,7 @@ void ShootEnemy::update(int deltaTime)
 			cont = 0;
 		}
 	}
-	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, ID);
+	if(isAlive)map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, ID);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }
 

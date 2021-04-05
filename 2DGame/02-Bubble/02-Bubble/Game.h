@@ -10,12 +10,13 @@
 #include "Level4.h"
 #include "Level5.h"
 
+#include <irrKlang.h>
+#include <ik_ISoundEngine.h>
 
 #define SCREEN_WIDTH 496
 #define SCREEN_HEIGHT 496
 
 
-// Game is a singleton (a class with a single instance) that represents our whole application
 
 
 class Game
@@ -58,6 +59,10 @@ public:
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
 
+	void loopMusic(char* fileName);
+	void stopMusic();
+	void playSound(char* fileName);
+
 private:
 	Player* player;
 	int lvl, selectPortal, cont;
@@ -70,7 +75,8 @@ private:
 	Level5* level5;
 	bool keys[256], specialKeys[256]; // Store key states so that 
 									  // we can have access at any time
-
+	irrklang::ISoundEngine* engine;  
+	irrklang::ISound* music;
 };
 
 

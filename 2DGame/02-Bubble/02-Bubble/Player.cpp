@@ -263,12 +263,16 @@ void Player::update(int deltaTime)
 				spriteDead->changeAnimation(DEAD_LEFT1);
 		}
 		cont += deltaTime;
-		if (cont >= 1000) {
+		if (cont >= 3000) {
 			if (spriteDead->animation() == DEAD_RIGHT1)
 				spriteDead->changeAnimation(DEAD_RIGHT2);
 			else if (spriteDead->animation() == DEAD_LEFT1)
 				spriteDead->changeAnimation(DEAD_LEFT2);
 			isAnimation = false;
+		}
+		if (cont <= 50) {
+			Game::instance().stopMusic();
+			Game::instance().playSound("music/DeathSound.wav");
 		}
 	} break;
 
@@ -312,6 +316,8 @@ void Player::update(int deltaTime)
 				state = STANDING;
 				isDamaged = false;
 			}
+
+			if (cont <= 50)Game::instance().playSound("music/DamageSound.wav");
 		}
 
 	} break;
@@ -325,6 +331,7 @@ void Player::update(int deltaTime)
 			state = STANDING;
 			isAnimation = false;
 		}
+		if(cont <= 50)Game::instance().playSound("music/PortalSound.wav");
 	} break;
 
 	case TELEPORT: {
@@ -335,6 +342,7 @@ void Player::update(int deltaTime)
 			isAnimation = false;
 			state = STANDING;
 		}
+		if (cont <= 50)Game::instance().playSound("music/PortalSound.wav");
 	} break;
 
 	case HITTING: {
@@ -342,10 +350,12 @@ void Player::update(int deltaTime)
 		if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT) {
 			sprite->changeAnimation(HIT_LEFT);
 			isHitting = true;
+			Game::instance().playSound("music/AttackSound.wav");
 		}
 		else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT) {
 			sprite->changeAnimation(HIT_RIGHT);
-			isHitting = true;;
+			isHitting = true;
+			Game::instance().playSound("music/AttackSound.wav");
 		}
 		if (cont >= 250) {
 			state = STANDING;
@@ -364,13 +374,19 @@ void Player::update(int deltaTime)
 		cont += deltaTime;
 		if (sprite->animation() == STAND_LEFT || sprite->animation() == MOVE_LEFT) {
 			sprite->changeAnimation(SHOOTING_LEFT);
-			if(bullets_cont >= 1)bulletLeft->addBullet(glm::ivec2(posPlayer.x, posPlayer.y + 10), false);
+			if (bullets_cont >= 1) {
+				bulletLeft->addBullet(glm::ivec2(posPlayer.x, posPlayer.y + 10), false);
+				Game::instance().playSound("music/BlasterSound.wav");
+			}
 			if (bullets_cont > 0) --bullets_cont;
 
 		}
 		else if (sprite->animation() == STAND_RIGHT || sprite->animation() == MOVE_RIGHT) {
 			sprite->changeAnimation(SHOOTING_RIGHT);
-			if (bullets_cont >= 1)bulletRight->addBullet(glm::ivec2(posPlayer.x + 16, posPlayer.y + 10), true);
+			if (bullets_cont >= 1) {
+				bulletRight->addBullet(glm::ivec2(posPlayer.x + 16, posPlayer.y + 10), true);
+				Game::instance().playSound("music/BlasterSound.wav");
+			}
 			if (bullets_cont > 0) --bullets_cont;
 		}
 		if (cont >= 500) {

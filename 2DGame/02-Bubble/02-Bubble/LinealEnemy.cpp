@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "LinealEnemy.h"
+#include "Game.h"
 
 
 enum EnemyAnims
@@ -68,6 +69,7 @@ void LinealEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -77,6 +79,7 @@ void LinealEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -84,6 +87,7 @@ void LinealEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		posAnt = posEnemy;
 	} break;
@@ -109,6 +113,7 @@ void LinealEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -118,6 +123,7 @@ void LinealEnemy::update(int deltaTime)
 				if (player->checkHit()) {
 					isAlive = false;
 					map->clearPosition(ID);
+					Game::instance().playSound("music/EnemyDeath.wav");
 				}
 			}
 		}
@@ -125,6 +131,7 @@ void LinealEnemy::update(int deltaTime)
 		{
 			isAlive = false;
 			map->clearPosition(ID);
+			Game::instance().playSound("music/EnemyDeath.wav");
 		}
 		posAnt = posEnemy;
 	} break;

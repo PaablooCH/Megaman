@@ -136,6 +136,8 @@ void Menu::update(int deltaTime)
             if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
                 state = 0;
                 cont = 0;
+                //Game::instance().stopMusic();
+                Game::instance().loopMusic("music/MainMenuMusic.wav");
             }
         } break;
         case 8: {//cheat1

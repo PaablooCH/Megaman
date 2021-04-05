@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "RescueGirl.h"
+#include "Game.h" 
 
 
 enum EnemyAnims
@@ -68,6 +69,7 @@ void RescueGirl::update(int deltaTime)
                     cont = 0;
                     map->openDoor(posGirl);
                     rescued = true;
+                    if (cont <= 50)Game::instance().playSound("music/SaveGirlSound.wav");
                 }
             }
         } break;

@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "FakeRoof.h"
+#include "Game.h"
 
 
 enum EnemyAnims
@@ -43,7 +44,10 @@ void FakeRoof::update(int deltaTime)
     sprite->update(deltaTime);
     posAnt = posEnemy;
     if(state == "STANDING") {
-        if (map->checkPlayerDown(posEnemy, glm::ivec2(32, 32))) state = "MOVING_DOWN";
+        if (map->checkPlayerDown(posEnemy, glm::ivec2(32, 32))) {
+            state = "MOVING_DOWN";
+            Game::instance().playSound("music/StoneEffect.wav");
+        }
     }
     if(state == "MOVING_DOWN") {
         for (int i = 0; i < 10; i++) {

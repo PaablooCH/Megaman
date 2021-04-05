@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Bonus.h"
+#include "Game.h"
 
 enum bonusType
 {
@@ -53,6 +54,7 @@ void Bonus::update(int deltaTime)
     if (map->checkIfPlayer(posIni, glm::ivec2(1, 16))) {
         map->clearPosition(ID);
         got = true;
+        Game::instance().playSound("music/PowerUpEffect.wav");
     }
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posIni.x), float(tileMapDispl.y + posIni.y)));
     if (!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, ID);

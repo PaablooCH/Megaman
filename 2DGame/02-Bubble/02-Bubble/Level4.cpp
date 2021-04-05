@@ -163,6 +163,7 @@ Level4::~Level4()
 void Level4::init(Player* player, int selectPortal)
 {
 	initShaders();
+	Game::instance().loopMusic("music/LevelsMusic.wav");
 	map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);

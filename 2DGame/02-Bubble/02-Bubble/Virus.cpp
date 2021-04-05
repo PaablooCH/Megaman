@@ -39,7 +39,7 @@ void Virus::update(int deltaTime)
     posAnt = posEnemy;
     switch (stand) {
         case false: {
-            posEnemy.y += 2;
+            posEnemy.y += 4;
             if (map->collisionMoveDown(posEnemy, glm::ivec2(16, 16), &posEnemy.y))
             {
                 isAlive = false;
@@ -53,6 +53,6 @@ void Virus::update(int deltaTime)
         } break;
     }
 
-    map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, ID);
+    if(isAlive)map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, ID);
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Chip.h"
+#include "Game.h"
 
 enum chipState
 {
@@ -49,6 +50,7 @@ void Chip::update(int deltaTime)
             if (map->checkIfPlayer(posIni, glm::ivec2(-16, 16))) {
                 got = true;
                 map->clearPosition(ID);
+                Game::instance().playSound("music/PowerUpEffect.wav");
             }
                 
         } break;

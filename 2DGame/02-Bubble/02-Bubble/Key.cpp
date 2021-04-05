@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Key.h"
+#include "Game.h"
 
 enum keyState
 {
@@ -49,9 +50,10 @@ void Key::update(int deltaTime)
             if (map->checkIfPlayer(posIni, glm::ivec2(-10, 32))) {
                 map->clearPosition(ID);
                 got = true;
-                }
-            } break;
-        }
+                Game::instance().playSound("music/KeyEffect.wav");
+            }
+        } break;
+    }
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posIni.x), float(tileMapDispl.y + posIni.y)));
     if (!got) map->updatePositionTile(posIni, glm::ivec2(32, 32), posAnt, ID);
 }
