@@ -8,20 +8,36 @@
 #define SCREEN_X 0
 #define SCREEN_Y 0
 
-#define INIT_PLAYER_X_TILES 24
-#define INIT_PLAYER_Y_TILES 13
+#define INIT_PLAYER_X_TILES 53
+#define INIT_PLAYER_Y_TILES 27
 
 
 Level5::Level5()
 {
 	enemy1 = NULL;
+	enemy2 = NULL;
+	enemy3 = NULL;
+	enemy4 = NULL;
 	fire1 = NULL;
 	fire2 = NULL;
+	fire3 = NULL;
+	fire4 = NULL;
+	fire5 = NULL;
 	virus1 = NULL;
+	virus2 = NULL;
 	fakeRoof1 = NULL;
+	fakeRoof2 = NULL;
 	senemy2 = NULL;
+	senemy3 = NULL;
 	chip1 = NULL;
+	chip2 = NULL;
+	chip3 = NULL;
+	chip4 = NULL;
+	chip5 = NULL;
 	bonus1 = NULL;
+	bonus2 = NULL;
+	girl2 = NULL;
+	key2 = NULL;
 }
 
 Level5::~Level5()
@@ -30,6 +46,24 @@ Level5::~Level5()
 		enemy1->~LinealEnemy();
 		delete enemy1;
 		enemy1 = nullptr;
+	}
+
+	if (enemy3 != NULL) {
+		enemy3->~LinealEnemy();
+		delete enemy3;
+		enemy3 = nullptr;
+	}
+
+	if (enemy2 != NULL) {
+		enemy2->~LinealEnemy();
+		delete enemy2;
+		enemy2 = nullptr;
+	}
+
+	if (enemy4 != NULL) {
+		enemy4->~LinealEnemy();
+		delete enemy4;
+		enemy4 = nullptr;
 	}
 
 	if (fire1 != NULL) {
@@ -44,10 +78,34 @@ Level5::~Level5()
 		fire2 = nullptr;
 	}
 
+	if (fire3 != NULL) {
+		fire3->~Fire();
+		delete fire3;
+		fire3 = nullptr;
+	}
+
+	if (fire4 != NULL) {
+		fire4->~Fire();
+		delete fire4;
+		fire4 = nullptr;
+	}
+
+	if (fire5 != NULL) {
+		fire5->~Fire();
+		delete fire5;
+		fire5 = nullptr;
+	}
+
 	if (virus1 != NULL) {
 		virus1->~Virus();
 		delete virus1;
 		virus1 = nullptr;
+	}
+
+	if (virus2 != NULL) {
+		virus2->~Virus();
+		delete virus2;
+		virus2 = nullptr;
 	}
 
 	if (fakeRoof1 != NULL) {
@@ -56,10 +114,22 @@ Level5::~Level5()
 		fakeRoof1 = nullptr;
 	}
 
+	if (fakeRoof2 != NULL) {
+		fakeRoof2->~FakeRoof();
+		delete fakeRoof2;
+		fakeRoof2 = nullptr;
+	}
+
 	if (senemy2 != NULL) {
 		senemy2->~ShootEnemy();
 		delete senemy2;
 		senemy2 = nullptr;
+	}
+
+	if (senemy3 != NULL) {
+		senemy3->~ShootEnemy();
+		delete senemy3;
+		senemy3 = nullptr;
 	}
 
 	if (chip1 != NULL) {
@@ -68,10 +138,52 @@ Level5::~Level5()
 		chip1 = nullptr;
 	}
 
+	if (chip2 != NULL) {
+		chip2->~Chip();
+		delete chip2;
+		chip2 = nullptr;
+	}
+
+	if (chip3 != NULL) {
+		chip3->~Chip();
+		delete chip3;
+		chip3 = nullptr;
+	}
+
+	if (chip4 != NULL) {
+		chip4->~Chip();
+		delete chip4;
+		chip4 = nullptr;
+	}
+
+	if (chip5 != NULL) {
+		chip5->~Chip();
+		delete chip5;
+		chip5 = nullptr;
+	}
+
+	if (girl2 != NULL) {
+		girl2->~RescueGirl();
+		delete girl2;
+		girl2 = nullptr;
+	}
+
+	if (key2 != NULL) {
+		key2->~Key();
+		delete key2;
+		key2 = nullptr;
+	}
+
 	if (bonus1 != NULL) {
 		bonus1->~Bonus();
 		delete bonus1;
 		bonus1 = nullptr;
+	}
+
+	if (bonus2 != NULL) {
+		bonus2->~Bonus();
+		delete bonus2;
+		bonus2 = nullptr;
 	}
 
 }
@@ -88,57 +200,132 @@ void Level5::init(Player* player)
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
-	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()), 20);
-	enemy1->setPosition(glm::vec2(16 * map->getTileSize(), 13 * map->getTileSize()));
+	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(42 * map->getTileSize(), 49 * map->getTileSize()), 20);
+	enemy1->setPosition(glm::vec2(42 * map->getTileSize(), 49 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	enemy1->setPlayer(this->player);
+	enemy2 = new LinealEnemy();
+	enemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(39 * map->getTileSize(), 39 * map->getTileSize()), 21);
+	enemy2->setPosition(glm::vec2(39 * map->getTileSize(), 39 * map->getTileSize()));
+	enemy2->setTileMap(map);
+	enemy2->setPlayer(this->player);
+	enemy3 = new LinealEnemy();
+	enemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(46 * map->getTileSize(), 11 * map->getTileSize()), 22);
+	enemy3->setPosition(glm::vec2(46 * map->getTileSize(), 11 * map->getTileSize()));
+	enemy3->setTileMap(map);
+	enemy3->setPlayer(this->player);
+	enemy4 = new LinealEnemy();
+	enemy4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 14 * map->getTileSize()), 23);
+	enemy4->setPosition(glm::vec2(14 * map->getTileSize(), 14 * map->getTileSize()));
+	enemy4->setTileMap(map);
+	enemy4->setPlayer(this->player);
+	senemy2 = new ShootEnemy();
+	senemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(45 * map->getTileSize(), 20 * map->getTileSize()), 90);
+	senemy2->setPosition(glm::vec2(45 * map->getTileSize(), 20 * map->getTileSize()));
+	senemy2->setTileMap(map);
+	senemy2->setPlayer(this->player);
+	senemy3 = new ShootEnemy();
+	senemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(14 * map->getTileSize(), 27 * map->getTileSize()), 100);
+	senemy3->setPosition(glm::vec2(14 * map->getTileSize(), 27 * map->getTileSize()));
+	senemy3->setTileMap(map);
+	senemy3->setPlayer(this->player);
 	fire1 = new Fire();
-	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 13 * map->getTileSize()), 30);
-	fire1->setPosition(glm::vec2(58 * map->getTileSize(), 13 * map->getTileSize()));
+	fire1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(59 * map->getTileSize(), 54 * map->getTileSize()), 30);
+	fire1->setPosition(glm::vec2(59 * map->getTileSize(), 54 * map->getTileSize()));
 	fire1->setTileMap(map);
 	fire2 = new Fire();
-	fire2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 54 * map->getTileSize()), 31);
-	fire2->setPosition(glm::vec2(58 * map->getTileSize(), 54 * map->getTileSize()));
+	fire2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(59 * map->getTileSize(), 39 * map->getTileSize()), 31);
+	fire2->setPosition(glm::vec2(59 * map->getTileSize(), 39 * map->getTileSize()));
 	fire2->setTileMap(map);
+	fire3 = new Fire();
+	fire3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(59 * map->getTileSize(), 16 * map->getTileSize()), 32);
+	fire3->setPosition(glm::vec2(59 * map->getTileSize(), 16 * map->getTileSize()));
+	fire3->setTileMap(map);
+	fire4 = new Fire();
+	fire4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(59 * map->getTileSize(), 6 * map->getTileSize()), 33);
+	fire4->setPosition(glm::vec2(59 * map->getTileSize(), 6 * map->getTileSize()));
+	fire4->setTileMap(map);
+	fire5 = new Fire();
+	fire5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(28 * map->getTileSize(), 14 * map->getTileSize()), 34);
+	fire5->setPosition(glm::vec2(28 * map->getTileSize(), 14 * map->getTileSize()));
+	fire5->setTileMap(map);
 	virus1 = new Virus();
-	virus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(7 * map->getTileSize(), 10 * map->getTileSize()), 40);
-	virus1->setPosition(glm::vec2(7 * map->getTileSize(), 10 * map->getTileSize()));
+	virus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(44 * map->getTileSize(), 23 * map->getTileSize()), 40);
+	virus1->setPosition(glm::vec2(44 * map->getTileSize(), 23 * map->getTileSize()));
 	virus1->setTileMap(map);
+	virus2 = new Virus();
+	virus2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(8 * map->getTileSize(), 17 * map->getTileSize()), 41);
+	virus2->setPosition(glm::vec2(8 * map->getTileSize(), 17 * map->getTileSize()));
+	virus2->setTileMap(map);
 	teleport1 = new Teleport();
-	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()), 2);
-	teleport1->setPosition(glm::vec2(53 * map->getTileSize(), 13 * map->getTileSize()));
+	teleport1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(55 * map->getTileSize(), 27 * map->getTileSize()), 4);
+	teleport1->setPosition(glm::vec2(55 * map->getTileSize(), 27 * map->getTileSize()));
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
-	if (!player->isAGirl(1)) {
+	if (!player->isAGirl(4)) {
 		girl1 = new RescueGirl();
 		girl1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
 		girl1->setPosition(glm::vec2(52 * map->getTileSize(), 54 * map->getTileSize()));
 		girl1->setTileMap(map);
 		girl1->setPlayerStats(playerStats);
 	}
-	if (!player->isAKey(1)) {
+	if (!player->isAGirl(5)) {
+		girl2 = new RescueGirl();
+		girl2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(14 * map->getTileSize(), 9 * map->getTileSize()));
+		girl2->setPosition(glm::vec2(14 * map->getTileSize(), 9 * map->getTileSize()));
+		girl2->setTileMap(map);
+		girl2->setPlayerStats(playerStats);
+	}
+	if (!player->isAKey(4)) {
 		key1 = new Key();
-		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()), 50);
-		key1->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
+		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 10 * map->getTileSize()), 50);
+		key1->setPosition(glm::vec2(58 * map->getTileSize(), 10 * map->getTileSize()));
 		key1->setTileMap(map);
 	}
-	fakeRoof1 = new FakeRoof(1);
-	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()), 60);
-	fakeRoof1->setPosition(glm::vec2(12 * map->getTileSize(), 8 * map->getTileSize()));
+	if (!player->isAKey(5)) {
+		key2 = new Key();
+		key2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(4 * map->getTileSize(), 15 * map->getTileSize()), 51);
+		key2->setPosition(glm::vec2(4 * map->getTileSize(), 15 * map->getTileSize()));
+		key2->setTileMap(map);
+	}
+	fakeRoof1 = new FakeRoof(3);
+	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(11 * map->getTileSize(), 5 * map->getTileSize()), 60);
+	fakeRoof1->setPosition(glm::vec2(11 * map->getTileSize(), 5 * map->getTileSize()));
 	fakeRoof1->setTileMap(map);
-	senemy2 = new ShootEnemy();
-	senemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(21 * map->getTileSize(), 27 * map->getTileSize()), 80);
-	senemy2->setPosition(glm::vec2(21 * map->getTileSize(), 27 * map->getTileSize()));
-	senemy2->setTileMap(map);
-	senemy2->setPlayer(this->player);
+	fakeRoof2 = new FakeRoof(3);
+	fakeRoof2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 4 * map->getTileSize()), 61);
+	fakeRoof2->setPosition(glm::vec2(53 * map->getTileSize(), 4 * map->getTileSize()));
+	fakeRoof2->setTileMap(map);
 	chip1 = new Chip();
-	chip1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()), 70);
-	chip1->setPosition(glm::vec2(16 * map->getTileSize(), 23 * map->getTileSize()));
+	chip1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(45 * map->getTileSize(), 55 * map->getTileSize()), 70);
+	chip1->setPosition(glm::vec2(45 * map->getTileSize(), 55 * map->getTileSize()));
 	chip1->setTileMap(map);
-	bonus1 = new Bonus();
-	bonus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(4 * map->getTileSize(), 28 * map->getTileSize()), 90, "Shoot");
-	bonus1->setPosition(glm::vec2(4 * map->getTileSize(), 28 * map->getTileSize()));
-	bonus1->setTileMap(map);
+	chip2 = new Chip();
+	chip2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 48 * map->getTileSize()), 71);
+	chip2->setPosition(glm::vec2(33 * map->getTileSize(), 48 * map->getTileSize()));
+	chip2->setTileMap(map);
+	chip3 = new Chip();
+	chip3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(39 * map->getTileSize(), 17 * map->getTileSize()), 72);
+	chip3->setPosition(glm::vec2(39 * map->getTileSize(), 17 * map->getTileSize()));
+	chip3->setTileMap(map);
+	chip4 = new Chip();
+	chip4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(37 * map->getTileSize(), 21 * map->getTileSize()), 73);
+	chip4->setPosition(glm::vec2(37 * map->getTileSize(), 21 * map->getTileSize()));
+	chip4->setTileMap(map);
+	chip5 = new Chip();
+	chip5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(27 * map->getTileSize(), 10 * map->getTileSize()), 74);
+	chip5->setPosition(glm::vec2(27 * map->getTileSize(), 10 * map->getTileSize()));
+	chip5->setTileMap(map);
+	if (!player->isPowerUp(3)) {
+		bonus1 = new Bonus();
+		bonus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 15 * map->getTileSize()), 80, "Escudo");
+		bonus1->setPosition(glm::vec2(33 * map->getTileSize(), 15 * map->getTileSize()));
+		bonus1->setTileMap(map);
+	}
+	bonus2 = new Bonus();
+	bonus2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 20 * map->getTileSize()), 81, "Shot");
+	bonus2->setPosition(glm::vec2(58 * map->getTileSize(), 20 * map->getTileSize()));
+	bonus2->setTileMap(map);
 	posCamera = glm::vec2(0, 0);
 	projection = glm::ortho(posCamera.x, posCamera.x + SCREEN_WIDTH - 1, posCamera.y + SCREEN_HEIGHT - 1, posCamera.y);
 	currentTime = 0.0f;
@@ -150,10 +337,21 @@ void Level5::update(int deltaTime)
 	player->update(deltaTime);
 	if (enemy1 != nullptr) deleteEnemy();
 	if (enemy1 != nullptr) enemy1->update(deltaTime);
+	if (enemy4 != nullptr) deleteEnemy4();
+	if (enemy4 != nullptr) enemy4->update(deltaTime);
+	if (enemy2 != nullptr) deleteEnemy2();
+	if (enemy2 != nullptr) enemy2->update(deltaTime);
+	if (enemy3 != nullptr) deleteEnemy3();
+	if (enemy3 != nullptr) enemy3->update(deltaTime);
 	fire1->update(deltaTime);
 	fire2->update(deltaTime);
+	fire3->update(deltaTime);
+	fire4->update(deltaTime);
+	fire5->update(deltaTime);
 	if (virus1 != nullptr) deleteVirus();
 	if (virus1 != nullptr) virus1->update(deltaTime);
+	if (virus2 != nullptr) deleteVirus2();
+	if (virus2 != nullptr) virus2->update(deltaTime);
 	teleport1->update(deltaTime);
 	if (girl1 != nullptr && girl1->checkState()) {
 		player->loseKey();
@@ -163,12 +361,25 @@ void Level5::update(int deltaTime)
 	if (key1 != nullptr) deleteKey1();
 	if (key1 != nullptr) key1->update(deltaTime);
 	fakeRoof1->update(deltaTime);
+	fakeRoof2->update(deltaTime);
 	if (senemy2 != nullptr) deleteSEnemy();
 	if (senemy2 != nullptr) senemy2->update(deltaTime);
+	if (senemy3 != nullptr) deleteSEnemy3();
+	if (senemy3 != nullptr) senemy3->update(deltaTime);
 	if (chip1 != nullptr) deleteChip();
 	if (chip1 != nullptr) chip1->update(deltaTime);
+	if (chip2 != nullptr) deleteChip2();
+	if (chip2 != nullptr) chip2->update(deltaTime);
+	if (chip3 != nullptr) deleteChip3();
+	if (chip3 != nullptr) chip3->update(deltaTime);
+	if (chip4 != nullptr) deleteChip4();
+	if (chip4 != nullptr) chip4->update(deltaTime);
+	if (chip5 != nullptr) deleteChip5();
+	if (chip5 != nullptr) chip5->update(deltaTime);
 	if (bonus1 != nullptr) deleteBonus();
 	if (bonus1 != nullptr) bonus1->update(deltaTime);
+	if (bonus2 != nullptr) deleteBonus();
+	if (bonus2 != nullptr) bonus2->update(deltaTime);
 	updateCamera();
 	if (posCamera.y > 0)
 		playerStats->setPosition(glm::vec2(float(posCamera.x), float(posCamera.y + 28 * 16)));
@@ -192,14 +403,29 @@ void Level5::render()
 	if (girl1 != NULL)girl1->render();
 	player->render();
 	if (enemy1 != NULL)enemy1->render();
+	if (enemy2 != NULL)enemy2->render();
+	if (enemy3 != NULL)enemy3->render();
+	if (enemy4 != NULL)enemy4->render();
 	fire1->render();
 	fire2->render();
+	fire3->render();
+	fire4->render();
+	fire5->render();
 	if (virus1 != NULL)virus1->render();
+	if (virus2 != NULL)virus2->render();
 	if (key1 != NULL)key1->render();
 	fakeRoof1->render();
+	fakeRoof2->render();
 	if (senemy2 != NULL)senemy2->render();
+	if (senemy3 != NULL)senemy3->render();
 	if (chip1 != NULL)chip1->render();
+	if (chip5 != NULL)chip5->render();
+	if (chip2 != NULL)chip2->render();
+	if (chip3 != NULL)chip3->render();
+	if (chip4 != NULL)chip4->render();
+	if (chip5 != NULL)chip4->render();
 	if (bonus1 != NULL)bonus1->render();
+	if (bonus2 != NULL)bonus1->render();
 	playerStats->render();
 }
 
@@ -209,6 +435,15 @@ void Level5::deleteVirus()
 		virus1->~Virus();
 		delete virus1;
 		virus1 = nullptr;
+	}
+}
+
+void Level5::deleteVirus2()
+{
+	if (!virus2->checkAlive()) {
+		virus2->~Virus();
+		delete virus2;
+		virus2 = nullptr;
 	}
 }
 
@@ -222,12 +457,82 @@ void Level5::deleteEnemy()
 	}
 }
 
+void Level5::deleteEnemy4()
+{
+	if (!enemy4->checkAlive()) {
+		enemy4->~LinealEnemy();
+		delete enemy4;
+		enemy4 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteEnemy2()
+{
+	if (!enemy2->checkAlive()) {
+		enemy2->~LinealEnemy();
+		delete enemy2;
+		enemy2 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteEnemy3()
+{
+	if (!enemy3->checkAlive()) {
+		enemy3->~LinealEnemy();
+		delete enemy3;
+		enemy3 = nullptr;
+		player->winExp();
+	}
+}
+
 void Level5::deleteChip()
 {
 	if (chip1->checkState()) {
 		chip1->~Chip();
 		delete chip1;
 		chip1 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteChip2()
+{
+	if (chip2->checkState()) {
+		chip2->~Chip();
+		delete chip2;
+		chip2 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteChip3()
+{
+	if (chip3->checkState()) {
+		chip3->~Chip();
+		delete chip3;
+		chip3 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteChip4()
+{
+	if (chip4->checkState()) {
+		chip4->~Chip();
+		delete chip4;
+		chip4 = nullptr;
+		player->winExp();
+	}
+}
+
+void Level5::deleteChip5()
+{
+	if (chip5->checkState()) {
+		chip5->~Chip();
+		delete chip5;
+		chip5 = nullptr;
 		player->winExp();
 	}
 }
@@ -243,17 +548,33 @@ void Level5::deleteSEnemy()
 	}
 }
 
+void Level5::deleteSEnemy3()
+{
+	if (!senemy3->checkAlive()) {
+		senemy3->~ShootEnemy();
+		senemy3->deleteBullets();
+		delete senemy3;
+		senemy3 = nullptr;
+		player->winExp();
+	}
+}
+
 void Level5::deleteBonus()
 {
 	if (bonus1->checkState()) {
-		if (bonus1->checkType() == "Bambas")player->bonusBoots();
-		if (bonus1->checkType() == "Casco")player->bonusHelmet();
-		if (bonus1->checkType() == "Bateria")player->bonusBattery();
-		if (bonus1->checkType() == "Libro")player->bonusBook();
-		if (bonus1->checkType() == "Escudo")player->bonusArmor();
-		if (bonus1->checkType() == "Shoot")player->bonusShoot();
+		player->bonusArmor();
 		bonus1->~Bonus();
 		delete bonus1;
 		bonus1 = nullptr;
+	}
+}
+
+void Level5::deleteBonus2()
+{
+	if (bonus2->checkState()) {
+		player->bonusShoot();
+		bonus2->~Bonus();
+		delete bonus2;
+		bonus2 = nullptr;
 	}
 }

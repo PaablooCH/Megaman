@@ -303,7 +303,7 @@ void Player::update(int deltaTime)
 				if (!isRight)
 					sprite->changeAnimation(DAMAGE_RIGHT);
 				isRight = true;
-				if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
+				if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 					posPlayer.x -= 2;
 			}
 
@@ -733,14 +733,22 @@ void Player::winExp()
 
 void Player::winKey()
 {
-	keys[lvl - 1] = true;
+	if (lvl == 5) {
+		if (keys[4])
+			keys[5] = true;
+	}
+	else keys[lvl - 1] = true;
 	nkeys++;
 }
 
 void Player::loseKey()
 {
 	nkeys--;
-	girlRescued[lvl - 1] = true;
+	if (lvl == 5) {
+		if (girlRescued[4])
+			girlRescued[5] = true;
+	}
+	else girlRescued[lvl - 1] = true;
 }
 
 bool Player::isAnAnimation() {
@@ -757,11 +765,16 @@ int Player::getLvl() {
 }
 
 bool Player::isAGirl(int lvl) {
-	return girlRescued[lvl - 1];
+	return girlRescued[lvl];
 }
 
 bool Player::isAKey(int lvl) {
-	return keys[lvl - 1];
+	return keys[lvl];
+}
+
+bool Player::isPowerUp(int lvl)
+{
+	return powerUp[lvl];
 }
 
 void Player::bonusBoots() {

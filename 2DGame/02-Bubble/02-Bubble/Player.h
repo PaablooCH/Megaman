@@ -37,6 +37,7 @@ public:
 	bool getDead();
 	bool isAGirl(int lvl);
 	bool isAKey(int lvl);
+	bool isPowerUp(int lvl);
 	void bonusBoots();
 	void bonusBattery();
 	void bonusHelmet();
