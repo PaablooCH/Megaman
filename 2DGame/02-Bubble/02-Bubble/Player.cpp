@@ -376,7 +376,7 @@ void Player::update(int deltaTime)
 		if (cont >= 500) {
 			state = STANDING;
 		}
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god && cont >= 20) //Hablar esto
 		{
 			cont = 0;
 			isDamaged = true;
@@ -620,7 +620,7 @@ void Player::update(int deltaTime)
 		else {
 			sprite->changeAnimation(STAND_RIGHT);
 			isRight = true;
-			if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet))
+			if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet) && !god)
 			{
 				cont = 0;
 				isDamaged = true;

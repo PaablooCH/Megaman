@@ -37,6 +37,8 @@ private:
 	void deleteChip4();
 	void deleteBonus();
 	void deleteBonus2();
+	void deleteGirl2();
+	void deleteKey2();
 
 
 private:

@@ -50,7 +50,7 @@ void Bonus::update(int deltaTime)
 {
     sprite->update(deltaTime);
     posAnt = posIni;
-    if (map->checkIfPlayer(posIni, glm::ivec2(-10, 32))) {
+    if (map->checkIfPlayer(posIni, glm::ivec2(1, 16))) {
         map->clearPosition(ID);
         got = true;
     }

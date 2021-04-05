@@ -68,7 +68,7 @@ void RescueGirl::update(int deltaTime)
     posAnt = posGirl;
     switch (states) {
     case WAITING: {
-        if (map->checkIfPlayer(posGirl, glm::ivec2(20, 32))) {
+        if (map->checkIfPlayer(posGirl, glm::ivec2(8, 16))) {
             if (playerstat->checkKeys()) {
                 rescued = true;
                 states = RESCUED;

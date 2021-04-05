@@ -172,23 +172,23 @@ void Level3::init(Player* player, int selectPortal)
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
-	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(19 * map->getTileSize(), 48 * map->getTileSize()), 20);
-	enemy1->setPosition(glm::vec2(19 * map->getTileSize(), 48 * map->getTileSize()));
+	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(19 * map->getTileSize(), 49 * map->getTileSize()), 20);
+	enemy1->setPosition(glm::vec2(19 * map->getTileSize(), 49 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	enemy1->setPlayer(this->player);
 	enemy2 = new LinealEnemy();
-	enemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(13 * map->getTileSize(), 42 * map->getTileSize()), 21);
-	enemy2->setPosition(glm::vec2(13 * map->getTileSize(), 42 * map->getTileSize()));
+	enemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(13 * map->getTileSize(), 43 * map->getTileSize()), 21);
+	enemy2->setPosition(glm::vec2(13 * map->getTileSize(), 43 * map->getTileSize()));
 	enemy2->setTileMap(map);
 	enemy2->setPlayer(this->player);
 	enemy3 = new LinealEnemy();
-	enemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(11 * map->getTileSize(), 20 * map->getTileSize()), 22);
-	enemy3->setPosition(glm::vec2(11 * map->getTileSize(), 20 * map->getTileSize()));
+	enemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(11 * map->getTileSize(), 21 * map->getTileSize()), 22);
+	enemy3->setPosition(glm::vec2(11 * map->getTileSize(), 21 * map->getTileSize()));
 	enemy3->setTileMap(map);
 	enemy3->setPlayer(this->player);
 	enemy4 = new LinealEnemy();
-	enemy4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(44 * map->getTileSize(), 27 * map->getTileSize()), 23);
-	enemy4->setPosition(glm::vec2(44 * map->getTileSize(), 27 * map->getTileSize()));
+	enemy4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(44 * map->getTileSize(), 28 * map->getTileSize()), 23);
+	enemy4->setPosition(glm::vec2(44 * map->getTileSize(), 28 * map->getTileSize()));
 	enemy4->setTileMap(map);
 	enemy4->setPlayer(this->player);
 	senemy2 = new ShootEnemy();
@@ -230,8 +230,8 @@ void Level3::init(Player* player, int selectPortal)
 	teleport1->setTileMap(map);
 	teleport1->setPlayer(player);
 	teleport2 = new Teleport();
-	teleport2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 27 * map->getTileSize()), 4);
-	teleport2->setPosition(glm::vec2(58 * map->getTileSize(), 27 * map->getTileSize()));
+	teleport2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(38 * map->getTileSize(), 10 * map->getTileSize()), 4);
+	teleport2->setPosition(glm::vec2(38 * map->getTileSize(), 10 * map->getTileSize()));
 	teleport2->setTileMap(map);
 	teleport2->setPlayer(player);
 	if (!player->isAGirl(2)) {
@@ -265,7 +265,7 @@ void Level3::init(Player* player, int selectPortal)
 	chip2->setTileMap(map);
 	chip3 = new Chip();
 	chip3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(53 * map->getTileSize(), 23 * map->getTileSize()), 72);
-	chip3->setPosition(glm::vec2(55 * map->getTileSize(), 23 * map->getTileSize()));
+	chip3->setPosition(glm::vec2(53 * map->getTileSize(), 23 * map->getTileSize()));
 	chip3->setTileMap(map);
 	chip4 = new Chip();
 	chip4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(46 * map->getTileSize(), 11 * map->getTileSize()), 73);
@@ -309,6 +309,7 @@ void Level3::update(int deltaTime)
 	if (virus2 != nullptr) virus2->update(deltaTime);
 
 	teleport1->update(deltaTime);
+	teleport2->update(deltaTime);
 	if (girl1 != nullptr && girl1->checkState()) {
 		player->loseKey();
 		deleteGirl1();
@@ -352,6 +353,7 @@ void Level3::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	teleport1->render();
+	teleport2->render();
 	if (girl1 != NULL)girl1->render();
 	player->render();
 	if (enemy1 != NULL)enemy1->render();

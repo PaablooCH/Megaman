@@ -235,8 +235,8 @@ void Level2::init(Player* player, int selectPortal)
 	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(43 * map->getTileSize(), 4 * map->getTileSize()), 60);
 	fakeRoof1->setPosition(glm::vec2( 43 * map->getTileSize(), 4 * map->getTileSize()));
 	fakeRoof1->setTileMap(map);
-	bonus1 = new Bonus();
 	if (!player->isPowerUp(4)) {
+		bonus1 = new Bonus();
 		bonus1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 47 * map->getTileSize()), 80, "Libro");
 		bonus1->setPosition(glm::vec2(58 * map->getTileSize(), 47 * map->getTileSize()));
 		bonus1->setTileMap(map);

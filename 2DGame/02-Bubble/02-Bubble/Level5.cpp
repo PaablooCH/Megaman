@@ -358,8 +358,15 @@ void Level5::update(int deltaTime)
 		deleteGirl1();
 	}
 	if (girl1 != nullptr) girl1->update(deltaTime);
+	if (girl2 != nullptr && girl2->checkState()) {
+		player->loseKey();
+		deleteGirl2();
+	}
+	if (girl2 != nullptr) girl2->update(deltaTime);
 	if (key1 != nullptr) deleteKey1();
 	if (key1 != nullptr) key1->update(deltaTime);
+	if (key2 != nullptr) deleteKey2();
+	if (key2 != nullptr) key2->update(deltaTime);
 	fakeRoof1->update(deltaTime);
 	fakeRoof2->update(deltaTime);
 	if (senemy2 != nullptr) deleteSEnemy();
@@ -378,7 +385,7 @@ void Level5::update(int deltaTime)
 	if (chip5 != nullptr) chip5->update(deltaTime);
 	if (bonus1 != nullptr) deleteBonus();
 	if (bonus1 != nullptr) bonus1->update(deltaTime);
-	if (bonus2 != nullptr) deleteBonus();
+	if (bonus2 != nullptr) deleteBonus2();
 	if (bonus2 != nullptr) bonus2->update(deltaTime);
 	updateCamera();
 	if (posCamera.y > 0)
@@ -401,6 +408,7 @@ void Level5::render()
 	map->render();
 	teleport1->render();
 	if (girl1 != NULL)girl1->render();
+	if (girl2 != NULL)girl2->render();
 	player->render();
 	if (enemy1 != NULL)enemy1->render();
 	if (enemy2 != NULL)enemy2->render();
@@ -414,18 +422,18 @@ void Level5::render()
 	if (virus1 != NULL)virus1->render();
 	if (virus2 != NULL)virus2->render();
 	if (key1 != NULL)key1->render();
+	if (key2 != NULL)key2->render();
 	fakeRoof1->render();
 	fakeRoof2->render();
 	if (senemy2 != NULL)senemy2->render();
 	if (senemy3 != NULL)senemy3->render();
 	if (chip1 != NULL)chip1->render();
-	if (chip5 != NULL)chip5->render();
 	if (chip2 != NULL)chip2->render();
 	if (chip3 != NULL)chip3->render();
 	if (chip4 != NULL)chip4->render();
-	if (chip5 != NULL)chip4->render();
+	if (chip5 != NULL)chip5->render();
 	if (bonus1 != NULL)bonus1->render();
-	if (bonus2 != NULL)bonus1->render();
+	if (bonus2 != NULL)bonus2->render();
 	playerStats->render();
 }
 
@@ -574,5 +582,22 @@ void Level5::deleteBonus2()
 		bonus2->~Bonus();
 		delete bonus2;
 		bonus2 = nullptr;
+	}
+}
+
+void Level5::deleteGirl2()
+{
+	if (girl2->checkState()) {
+		girl2 = nullptr;
+		delete girl2;
+	}
+}
+
+void Level5::deleteKey2()
+{
+	if (key2->checkState()) {
+		key2 = nullptr;
+		delete key2;
+		player->winKey();
 	}
 }
