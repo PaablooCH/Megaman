@@ -166,9 +166,17 @@ void Level4::init(Player* player, int selectPortal)
 	map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
+	if (selectPortal == 1) {
+		init_x_tiles = 53;
+		init_y_tiles = 54;
+	}
+	if (selectPortal == 2) {
+		init_x_tiles = 16;
+		init_y_tiles = 54;
+	}
 	this->player = player;
 	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 4);
-	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	this->player->setPosition(glm::vec2(init_x_tiles * map->getTileSize(), init_y_tiles * map->getTileSize()));
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
@@ -252,7 +260,7 @@ void Level4::init(Player* player, int selectPortal)
 		key1->setPosition(glm::vec2(4 * map->getTileSize(), 37 * map->getTileSize()));
 		key1->setTileMap(map);
 	}
-	fakeRoof1 = new FakeRoof(1);
+	fakeRoof1 = new FakeRoof(4);
 	fakeRoof1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(8 * map->getTileSize(), 31 * map->getTileSize()), 60);
 	fakeRoof1->setPosition(glm::vec2(8 * map->getTileSize(), 31 * map->getTileSize()));
 	fakeRoof1->setTileMap(map);

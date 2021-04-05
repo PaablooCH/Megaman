@@ -4,10 +4,6 @@
 #include <GL/glut.h>
 #include "Virus.h"
 
-enum Situation1
-{
-    MOVING, STANDING
-} states;
 
 enum EnemyAnims
 {
@@ -20,7 +16,7 @@ Virus::~Virus()
 
 void Virus::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
-    states = STANDING;
+    stand = true;
     isAlive = true;
     spritesheet.loadFromFile("images/Virus.png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(20, 20), glm::vec2(1.f, 1.f), &spritesheet, &shaderProgram);
@@ -41,20 +37,20 @@ void Virus::update(int deltaTime)
 {
     sprite->update(deltaTime);
     posAnt = posEnemy;
-    switch (states) {
-    case MOVING: {
-        posEnemy.y += 2;
-        if (map->collisionMoveDown(posEnemy, glm::ivec2(20, 20), &posEnemy.y))
-        {
-            isAlive = false;
-            map->clearPosition(ID);
-        }
-    } break;
+    switch (stand) {
+        case false: {
+            posEnemy.y += 2;
+            if (map->collisionMoveDown(posEnemy, glm::ivec2(20, 20), &posEnemy.y))
+            {
+                isAlive = false;
+                map->clearPosition(ID);
+            }
+        } break;
 
-    case STANDING: {
-        cont += deltaTime;
-        if (map->checkPlayerDown(posEnemy, glm::ivec2(20, 20))) states = MOVING;
-    } break;
+        case true : {
+            cont += deltaTime;
+            if (map->checkPlayerDown(posEnemy, glm::ivec2(20, 20))) stand = false;
+        } break;
     }
 
     map->updatePositionTile(posEnemy, glm::ivec2(40, 40), posAnt, ID);

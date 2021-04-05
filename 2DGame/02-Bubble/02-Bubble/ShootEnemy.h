@@ -36,6 +36,7 @@ private:
     TileMap* map;
     ShaderProgram texProgram;
     bool protect, isAlive;
+    string state;
     int cont, ID;
     Bullet* bulletLeft, *bulletRight;
     Player* player;

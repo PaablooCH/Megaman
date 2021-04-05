@@ -110,9 +110,17 @@ void Level1::init(Player* player, int selectPortal)
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
+	if (selectPortal == 1) {
+		init_x_tiles = 24;
+		init_y_tiles = 13;
+	}
+	if (selectPortal == 2) {
+		init_x_tiles = 51;
+		init_y_tiles = 13;
+	}
 	this->player = player;
 	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	this->player->setPosition(glm::vec2(init_x_tiles * map->getTileSize(), init_y_tiles * map->getTileSize()));
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();

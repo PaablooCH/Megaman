@@ -45,7 +45,7 @@ void Teleport::update(int deltaTime)
     posAnt = posPortal;
     switch (states) {
     case TELEPORT: {
-        if (map->checkIfPlayer(posPortal, glm::ivec2(-16, 32)))
+        if (map->checkIfPlayer(posPortal, glm::ivec2(-16, 10)))
             player->teleport(lvl);
     } break;
     }

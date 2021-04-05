@@ -767,11 +767,8 @@ void Player::winKey()
 void Player::loseKey()
 {
 	nkeys--;
-	if (lvl == 5) {
-		if (girlRescued[4])
-			girlRescued[5] = true;
-	}
-	else girlRescued[lvl - 1] = true;
+	if (lvl == 5 && girlRescued[4])girlRescued[5] = true;
+	girlRescued[lvl - 1] = true;
 }
 
 void Player::winBonus()

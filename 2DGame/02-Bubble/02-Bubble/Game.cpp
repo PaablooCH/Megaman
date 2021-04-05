@@ -10,10 +10,6 @@ void Game::init()
 	player = new Player();
 	selectPortal = 1;
 	cont = 0;
-	//level1 = new Level1();
-	//level1->init(player);
-	//level2 = new Level2();
-	//level2->init(player);
 }
 
 bool Game::update(int deltaTime)

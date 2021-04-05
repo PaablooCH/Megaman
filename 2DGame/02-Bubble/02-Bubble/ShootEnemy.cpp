@@ -27,11 +27,6 @@ ShootEnemy::~ShootEnemy() {
 	}
 }
 
-enum ShootState
-{
-	SHOOTING_LEFT, SHOOTING_RIGHT, PROTECTING_LEFT, PROTECTING_RIGHT, STANDING_RIGHT, STANDING_LEFT
-} states;
-
 enum EnemyAnims
 {
 	SHOT_LEFT, SHOT_RIGHT, PROTECT_LEFT, PROTECT_RIGHT, STAND_RIGHT, STAND_LEFT
@@ -40,7 +35,7 @@ enum EnemyAnims
 
 void ShootEnemy::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial, int id)
 {
-	states = PROTECTING_RIGHT;
+	state = "PROTECTING_RIGHT";
 	spritesheet.loadFromFile("images/ShotEnemy.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(47.f / 306.f, 45.f / 194.f), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(6);
@@ -96,8 +91,7 @@ void ShootEnemy::update(int deltaTime)
 	bulletRight->update(deltaTime);
 	posAnt = posEnemy;
 	cont += deltaTime;
-	switch (states) {
-	case STANDING_LEFT: {
+	if(state == "STANDING_LEFT") {
 		if (sprite->animation() != STAND_LEFT)
 			sprite->changeAnimation(STAND_LEFT);
 		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
@@ -124,12 +118,12 @@ void ShootEnemy::update(int deltaTime)
 			map->clearPosition(ID);
 		}
 		if (cont >= 1000) {
-			states = PROTECTING_LEFT;
+			state = "PROTECTING_LEFT";
 			cont = 0;
 		}
-	} break;
+	}
 
-	case STANDING_RIGHT: {
+	if(state == "STANDING_RIGHT") {
 		if (sprite->animation() != STAND_RIGHT)
 			sprite->changeAnimation(STAND_RIGHT);
 		if (map->checkPlayerRight(posEnemy, glm::ivec2(23, 32)))
@@ -156,12 +150,12 @@ void ShootEnemy::update(int deltaTime)
 			map->clearPosition(ID);
 		}
 		if (cont >= 1000) {
-			states = PROTECTING_RIGHT;
+			state = "PROTECTING_RIGHT";
 			cont = 0;
 		}
-	} break;
+	} 
 
-	case SHOOTING_RIGHT: {
+	if(state == "SHOOTING_RIGHT") {
 		if (sprite->animation() != SHOT_RIGHT)
 			sprite->changeAnimation(SHOT_RIGHT);
 		bulletRight->addBullet(glm::ivec2((posEnemy.x + 16), (posEnemy.y + 8)), true);
@@ -189,12 +183,12 @@ void ShootEnemy::update(int deltaTime)
 			map->clearPosition(ID);
 		}
 		if (cont >= 100) {
-			states = STANDING_RIGHT;
+			state = "STANDING_RIGHT";
 			cont = 0;
 		}
-	} break;
+	} 
 
-	case SHOOTING_LEFT: {
+	if(state == "SHOOTING_LEFT") {
 		if (sprite->animation() != SHOT_LEFT)
 			sprite->changeAnimation(SHOT_LEFT);
 		protect = false;
@@ -223,12 +217,12 @@ void ShootEnemy::update(int deltaTime)
 			map->clearPosition(ID);
 		}
 		if (cont >= 100) {
-			states = STANDING_LEFT;
+			state = "STANDING_LEFT";
 			cont = 0;
 		}
-	} break;
+	} 
 
-	case PROTECTING_RIGHT: {
+	if(state == "PROTECTING_RIGHT") {
 		if (sprite->animation() != PROTECT_RIGHT)
 			sprite->changeAnimation(PROTECT_RIGHT);
 		int r = rand() % 300;
@@ -242,16 +236,16 @@ void ShootEnemy::update(int deltaTime)
 			}
 		}
 		if (cont >= 2500 ) {
-			states = SHOOTING_RIGHT;
+			state = "SHOOTING_RIGHT";
 			cont = 0;
 		}
 		if (r == 50) {
-			states = SHOOTING_LEFT;
+			state = "SHOOTING_LEFT";
 			cont = 0;
 		}
-	} break;
+	}
 
-	case PROTECTING_LEFT: {
+	if(state == "PROTECTING_LEFT") {
 		if (sprite->animation() != PROTECT_LEFT)
 			sprite->changeAnimation(PROTECT_LEFT);
 		int r = rand() % 300;
@@ -265,16 +259,14 @@ void ShootEnemy::update(int deltaTime)
 			}
 		}
 		if (cont >= 2500) {
-			states = SHOOTING_LEFT;
+			state = "SHOOTING_LEFT";
 			cont = 0;
 		}
 		if (r == 50) {
-			states = SHOOTING_RIGHT;
+			state = "SHOOTING_RIGHT";
 			cont = 0;
 		}
-	} break;
 	}
-
 	map->updatePositionTile(posEnemy, glm::ivec2(32, 32), posAnt, ID);
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

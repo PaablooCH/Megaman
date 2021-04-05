@@ -44,6 +44,7 @@ protected:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
+	int init_x_tiles, init_y_tiles;
 
 	glm::vec2 posCamera;
 };

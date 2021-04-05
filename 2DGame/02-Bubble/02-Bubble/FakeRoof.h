@@ -11,4 +11,5 @@ public:
     void update(int deltaTime);
 private:
     int level;
+    string state;
 };

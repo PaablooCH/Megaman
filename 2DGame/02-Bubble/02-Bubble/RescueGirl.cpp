@@ -4,10 +4,6 @@
 #include <GL/glut.h>
 #include "RescueGirl.h"
 
-enum GirlState
-{
-    WAITING, RESCUED
-} states;
 
 enum EnemyAnims
 {
@@ -29,7 +25,6 @@ RescueGirl::~RescueGirl()
 
 void RescueGirl::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, const glm::ivec2& posInicial)
 {
-    states = WAITING;
     rescued = false;
     finish = false;
     spritesheet.loadFromFile("images/Girl.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -66,22 +61,21 @@ void RescueGirl::update(int deltaTime)
 {
     sprite->update(deltaTime);
     posAnt = posGirl;
-    switch (states) {
-    case WAITING: {
-        if (map->checkIfPlayer(posGirl, glm::ivec2(8, 16))) {
-            if (playerstat->checkKeys()) {
-                rescued = true;
-                states = RESCUED;
-                cont = 0;
-                map->openDoor(posGirl);
+    switch (rescued) {
+        case false: {
+            if (map->checkIfPlayer(posGirl, glm::ivec2(8, 16))) {
+                if (playerstat->checkKeys()) {
+                    cont = 0;
+                    map->openDoor(posGirl);
+                    rescued = true;
+                }
             }
-        }
-    } break;
-    case RESCUED: {
-        cont += deltaTime;
-        if (cont >= 5000)
-            finish = true;
-    } break;
+        } break;
+        case true: {
+            cont += deltaTime;
+            if (cont >= 5000)
+                finish = true;
+        } break;
     }
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posGirl.x), float(tileMapDispl.y + posGirl.y)));
