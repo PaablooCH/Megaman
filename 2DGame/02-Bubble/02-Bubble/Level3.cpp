@@ -160,14 +160,14 @@ Level3::~Level3()
 
 }
 
-void Level3::init(Player* player)
+void Level3::init(Player* player, int selectPortal)
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/level03.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	playerStats = new PlayerStats();
 	playerStats->init(glm::ivec2(posCamera.x, posCamera.y), texProgram);
 	this->player = player;
-	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	this->player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 3);
 	this->player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);

@@ -6,6 +6,9 @@
 #include "Player.h"
 #include "Level2.h"
 #include "Menu.h"
+#include "Level3.h"
+#include "Level4.h"
+#include "Level5.h"
 
 
 #define SCREEN_WIDTH 496
@@ -33,7 +36,14 @@ public:
 	void restart();
 	void changeLvl();
 	void destroyLvl();
+	void getPortal(int newLvl);
 	void render();
+
+	void cheatPowerUp();
+	void cheatBullet();
+	void cheatGirl();
+	void cheatLvl();
+	void cheatGOD();
 
 	// Input callback methods
 	void keyPressed(int key);
@@ -49,11 +59,14 @@ public:
 
 private:
 	Player* player;
-	int lvl;
+	int lvl, selectPortal, cont;
 	bool bPlay;                       // Continue to play game?
 	Menu* menu;                      // Scene to render
 	Level1* level1;
 	Level2* level2;
+	Level3* level3;
+	Level4* level4;
+	Level5* level5;
 	bool keys[256], specialKeys[256]; // Store key states so that 
 									  // we can have access at any time
 

@@ -17,7 +17,7 @@ public:
 	Level1();
 	~Level1();
 
-	void init(Player* player);
+	void init(Player* player, int selectPortal);
 	void update(int deltaTime);
 	void render();
 private:

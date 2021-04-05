@@ -104,7 +104,7 @@ Level1::~Level1()
 		
 }
 
-void Level1::init(Player* player)
+void Level1::init(Player* player, int selectPortal)
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -160,8 +160,8 @@ void Level1::init(Player* player)
 	}
 	if (!player->isAKey(0)) {
 		key1 = new Key();
-		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 38 * map->getTileSize()), 50);
-		key1->setPosition(glm::vec2(33 * map->getTileSize(), 38 * map->getTileSize()));
+		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 18 * map->getTileSize()), 50);
+		key1->setPosition(glm::vec2(58 * map->getTileSize(), 18 * map->getTileSize()));
 		key1->setTileMap(map);
 	}
 	senemy2 = new ShootEnemy();
@@ -183,8 +183,8 @@ void Level1::init(Player* player)
 	bonus1->setTileMap(map);
 	if (!player->isPowerUp(0)) {
 		bonus2 = new Bonus();
-		bonus2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 18 * map->getTileSize()), 81, "Bambas");
-		bonus2->setPosition(glm::vec2(58 * map->getTileSize(), 18 * map->getTileSize()));
+		bonus2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 40 * map->getTileSize()), 81, "Bambas");
+		bonus2->setPosition(glm::vec2(33 * map->getTileSize(), 40 * map->getTileSize()));
 		bonus2->setTileMap(map);
 	}
 	posCamera = glm::vec2(0, 0);

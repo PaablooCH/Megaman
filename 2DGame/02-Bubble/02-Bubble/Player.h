@@ -49,12 +49,18 @@ public:
 	void winExp();
 	void winKey();
 	void loseKey();
+	void winBonus();
+	void winBullets();
+	void winGirl();
+	void changeLvl(int newLvl);
+	void becomeGod();
 
 
 	glm::vec2 getPosPlayer() const { return sprite->getPosition(); }
 
 private:
 	bool bJumping;
+	bool god;
 	glm::ivec2 tileMapDispl, posPlayer, posAnt;
 	int jumpAngle, startY;
 	Texture spritesheet;

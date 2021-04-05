@@ -6,3 +6,16 @@
 #define GLUT_i 105
 #define GLUT_C 67
 #define GLUT_c 99
+#define GLUT_G 71
+#define GLUT_g 103
+#define GLUT_p 112
+#define GLUT_P 80
+#define GLUT_b 98
+#define GLUT_B 66
+#define GLUT_v 118
+#define GLUT_V 86
+#define GLUT_1 49
+#define GLUT_2 50
+#define GLUT_3 51
+#define GLUT_4 52
+#define GLUT_5 53

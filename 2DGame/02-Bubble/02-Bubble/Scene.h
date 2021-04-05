@@ -23,7 +23,7 @@ public:
 	Scene();
 	~Scene();
 
-	virtual void init(Player* player) = 0;
+	virtual void init(Player* player, int selectPortal) = 0;
 	virtual void update(int deltaTime) = 0;
 	virtual void render() = 0;
 

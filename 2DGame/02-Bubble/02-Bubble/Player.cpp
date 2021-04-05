@@ -39,6 +39,7 @@ Player::Player()
 	exp_obtained = 1;
 	bullets_cont = 0;
 	isDead = false;
+	god = false;
 }
 
 Player::~Player()
@@ -350,6 +351,13 @@ void Player::update(int deltaTime)
 			state = STANDING;
 			isHitting = false;
 		}
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
+		{
+			cont = 0;
+			isDamaged = true;
+			state = DAMAGE;
+			bJumping = false; //hacer que se quede statico cuando sea golpeado aire
+		}
 	} break;
 
 	case SHOOTING: {
@@ -367,6 +375,13 @@ void Player::update(int deltaTime)
 		}
 		if (cont >= 500) {
 			state = STANDING;
+		}
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
+		{
+			cont = 0;
+			isDamaged = true;
+			state = DAMAGE;
+			bJumping = false; //hacer que se quede statico cuando sea golpeado aire
 		}
 	} break;
 
@@ -418,7 +433,7 @@ void Player::update(int deltaTime)
 		}
 		else
 			posPlayer.y = int(startY - jump_height * sin(3.14159f * (jumpAngle + JUMP_ANGLE_STEP) / 180.f));
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet)) //Hablar esto
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
 		{
 			cont = 0;
 			isDamaged = true;
@@ -457,7 +472,7 @@ void Player::update(int deltaTime)
 		bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 		if (!bJumping)
 			state = STANDING;
-		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet)) //Hablar esto
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
 		{
 			cont = 0;
 			isDamaged = true;
@@ -532,6 +547,14 @@ void Player::update(int deltaTime)
 				state = STANDING;
 			}
 		}
+		if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god) //Hablar esto
+		{
+			cont = 0;
+			isDamaged = true;
+			isClimbing = false;
+			state = DAMAGE;
+			bJumping = false; //hacer que se quede statico cuando sea golpeado aire
+		}
 	} break;
 
 	case LANDING: {
@@ -553,7 +576,7 @@ void Player::update(int deltaTime)
 			posPlayer.x += speed;
 			sprite->changeAnimation(STAND_LEFT);
 		}
-		if (map->checkDamage(posPlayer, glm::ivec2(7, 32), hasHelmet))
+		if (map->checkDamage(posPlayer, glm::ivec2(7, 32), hasHelmet) && !god)
 		{
 			isDamaged = true;
 			state = DAMAGE;
@@ -573,7 +596,7 @@ void Player::update(int deltaTime)
 			posPlayer.x -= speed;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
-		if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet))
+		if (map->checkDamage(posPlayer, glm::ivec2(16, 32), hasHelmet) && !god)
 		{
 			isDamaged = true;
 			state = DAMAGE;
@@ -587,7 +610,7 @@ void Player::update(int deltaTime)
 		if (!isRight) {
 			sprite->changeAnimation(STAND_LEFT);
 			isRight = false;
-			if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet))
+			if (map->checkDamage(posPlayer, glm::ivec2(8, 32), hasHelmet) && !god)
 			{
 				cont = 0;
 				isDamaged = true;
@@ -638,7 +661,7 @@ void Player::update(int deltaTime)
 				jumpAngle = 0;
 				startY = posPlayer.y;
 			}
-			else if (Game::instance().getSpecialKey(GLUT_KEY_INSERT))
+			else if (Game::instance().getKey(GLUT_s)  || Game::instance().getKey(GLUT_S))
 			{
 				state = SHOOTING;
 				cont = 0;
@@ -749,6 +772,51 @@ void Player::loseKey()
 			girlRescued[5] = true;
 	}
 	else girlRescued[lvl - 1] = true;
+}
+
+void Player::winBonus()
+{
+	if (!powerUp[0])
+		bonusBoots();
+	else if (!powerUp[1])
+		bonusBattery();
+	else if (!powerUp[2])
+		bonusHelmet();
+	else if (!powerUp[3])
+		bonusArmor();
+	else if (!powerUp[4])
+		bonusBook();
+}
+
+void Player::winBullets()
+{
+	bonusShoot();
+}
+
+void Player::winGirl()
+{
+	if (!girlRescued[0])
+		girlRescued[0] = true;
+	else if (!girlRescued[1])
+		girlRescued[1] = true;
+	else if (!girlRescued[2])
+		girlRescued[2] = true;
+	else if (!girlRescued[3])
+		girlRescued[3] = true;
+	else if (!girlRescued[4])
+		girlRescued[4] = true;
+	else if (!girlRescued[5])
+		girlRescued[5] = true;
+}
+
+void Player::changeLvl(int newLvl)
+{
+	teleport(newLvl);
+}
+
+void Player::becomeGod()
+{
+	god = !god;
 }
 
 bool Player::isAnAnimation() {
