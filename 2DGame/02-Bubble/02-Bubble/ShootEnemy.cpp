@@ -118,7 +118,7 @@ void ShootEnemy::update(int deltaTime)
 				}
 			}
 		}
-		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(1, 32)))
 		{
 			isAlive = false;
 			map->clearPosition(ID);
@@ -150,7 +150,7 @@ void ShootEnemy::update(int deltaTime)
 				}
 			}
 		}
-		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(1, 32)))
 		{
 			isAlive = false;
 			map->clearPosition(ID);
@@ -183,7 +183,7 @@ void ShootEnemy::update(int deltaTime)
 				}
 			}
 		}
-		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(1, 32)))
 		{
 			isAlive = false;
 			map->clearPosition(ID);
@@ -217,7 +217,7 @@ void ShootEnemy::update(int deltaTime)
 				}
 			}
 		}
-		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(16, 32)))
+		if (map->checkEnemyBulletDamage(posEnemy, glm::ivec2(1, 32)))
 		{
 			isAlive = false;
 			map->clearPosition(ID);

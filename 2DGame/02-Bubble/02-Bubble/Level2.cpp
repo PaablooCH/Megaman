@@ -303,8 +303,8 @@ void Level2::render()
 	if (girl1 != NULL)girl1->render();
 	player->render();
 	if (enemy1 != NULL)enemy1->render();
-	if (enemy2 != NULL)enemy1->render();
-	if (enemy3 != NULL)enemy1->render();
+	if (enemy2 != NULL)enemy2->render();
+	if (enemy3 != NULL)enemy3->render();
 	fire1->render();
 	fire2->render();
 	if (virus1 != NULL)virus1->render();
@@ -389,7 +389,6 @@ void Level2::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
 		senemy2->~ShootEnemy();
-		senemy2->deleteBullets();
 		delete senemy2;
 		senemy2 = nullptr;
 		player->winExp();

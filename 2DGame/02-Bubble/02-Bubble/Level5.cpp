@@ -541,7 +541,6 @@ void Level5::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
 		senemy2->~ShootEnemy();
-		senemy2->deleteBullets();
 		delete senemy2;
 		senemy2 = nullptr;
 		player->winExp();
@@ -552,7 +551,6 @@ void Level5::deleteSEnemy3()
 {
 	if (!senemy3->checkAlive()) {
 		senemy3->~ShootEnemy();
-		senemy3->deleteBullets();
 		delete senemy3;
 		senemy3 = nullptr;
 		player->winExp();

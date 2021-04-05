@@ -116,18 +116,18 @@ void Level1::init(Player* player)
 	this->player->setTileMap(map);
 	this->player->setPlayerStats(playerStats);
 	enemy1 = new LinealEnemy();
-	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(6 * map->getTileSize(), 27 * map->getTileSize()), 20);
-	enemy1->setPosition(glm::vec2(6 * map->getTileSize(), 27 * map->getTileSize()));
+	enemy1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(6 * map->getTileSize(), 28 * map->getTileSize()), 20);
+	enemy1->setPosition(glm::vec2(6 * map->getTileSize(), 28 * map->getTileSize()));
 	enemy1->setTileMap(map);
 	enemy1->setPlayer(this->player);
 	enemy2 = new LinealEnemy();
-	enemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(37 * map->getTileSize(), 39 * map->getTileSize()), 21);
-	enemy2->setPosition(glm::vec2(37 * map->getTileSize(), 39 * map->getTileSize()));
+	enemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(37 * map->getTileSize(), 40 * map->getTileSize()), 21);
+	enemy2->setPosition(glm::vec2(37 * map->getTileSize(), 40 * map->getTileSize()));
 	enemy2->setTileMap(map);
 	enemy2->setPlayer(this->player);
 	enemy3 = new LinealEnemy();
-	enemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 41 * map->getTileSize()), 22);
-	enemy3->setPosition(glm::vec2(58 * map->getTileSize(), 41 * map->getTileSize()));
+	enemy3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(58 * map->getTileSize(), 42 * map->getTileSize()), 22);
+	enemy3->setPosition(glm::vec2(58 * map->getTileSize(), 42 * map->getTileSize()));
 	enemy3->setTileMap(map);
 	enemy3->setPlayer(this->player);
 	fire1 = new Fire();
@@ -160,13 +160,13 @@ void Level1::init(Player* player)
 	}
 	if (!player->isAKey(0)) {
 		key1 = new Key();
-		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(32 * map->getTileSize(), 38 * map->getTileSize()), 50);
-		key1->setPosition(glm::vec2(32 * map->getTileSize(), 38 * map->getTileSize()));
+		key1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(33 * map->getTileSize(), 38 * map->getTileSize()), 50);
+		key1->setPosition(glm::vec2(33 * map->getTileSize(), 38 * map->getTileSize()));
 		key1->setTileMap(map);
 	}
 	senemy2 = new ShootEnemy();
 	senemy2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()), 90);
-	senemy2->setPosition(glm::vec2(49 * map->getTileSize(), 20 * map->getTileSize()));
+	senemy2->setPosition(glm::vec2(49 * map->getTileSize(), 19 * map->getTileSize()));
 	senemy2->setTileMap(map);
 	senemy2->setPlayer(this->player);
 	chip1 = new Chip();
@@ -336,7 +336,6 @@ void Level1::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
 		senemy2->~ShootEnemy();
-		senemy2->deleteBullets();
 		delete senemy2;
 		senemy2 = nullptr;
 		player->winExp();

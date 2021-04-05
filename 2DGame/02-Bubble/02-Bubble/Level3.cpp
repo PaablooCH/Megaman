@@ -480,7 +480,6 @@ void Level3::deleteSEnemy()
 {
 	if (!senemy2->checkAlive()) {
 		senemy2->~ShootEnemy();
-		senemy2->deleteBullets();
 		delete senemy2;
 		senemy2 = nullptr;
 		player->winExp();
