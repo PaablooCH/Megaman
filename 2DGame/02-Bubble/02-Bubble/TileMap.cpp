@@ -436,11 +436,10 @@ bool TileMap::checkPlayerDown(const glm::ivec2& pos, const glm::ivec2& size) con
 	int x, y0;
 
 	x = pos.x / tileSize;
-	y0 = (pos.y / tileSize) + 1;
-	for (int y = y0; y <= (mapSize.y - y0); y++)
+	y0 = (pos.y + size.y) / tileSize;
+	for (int y = y0; y <= mapSize.y; y++)
 	{
-		if (characMap[y * mapSize.x + x] == 2)
-			return true;
+		if (characMap[y * mapSize.x + x] == 2) return true;
 		if (map[y * mapSize.x + x] != 337 && map[y * mapSize.x + x] != 242 && map[y * mapSize.x + x] != 258 && map[y * mapSize.x + x] != 266 && map[y * mapSize.x + x] != 232 && map[y * mapSize.x + x] != 381) return false;
 	}
 	return false;

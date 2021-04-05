@@ -40,7 +40,7 @@ void Virus::update(int deltaTime)
     switch (stand) {
         case false: {
             posEnemy.y += 2;
-            if (map->collisionMoveDown(posEnemy, glm::ivec2(20, 20), &posEnemy.y))
+            if (map->collisionMoveDown(posEnemy, glm::ivec2(16, 16), &posEnemy.y))
             {
                 isAlive = false;
                 map->clearPosition(ID);
