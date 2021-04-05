@@ -33,6 +33,7 @@ public:
 
 	void init();
 	bool update(int deltaTime);
+	void isAWin();
 	void restart();
 	void changeLvl();
 	void destroyLvl();

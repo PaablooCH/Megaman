@@ -38,6 +38,7 @@ public:
 	bool isAGirl(int lvl);
 	bool isAKey(int lvl);
 	bool isPowerUp(int lvl);
+	bool isAWin();
 	void bonusBoots();
 	void bonusBattery();
 	void bonusHelmet();

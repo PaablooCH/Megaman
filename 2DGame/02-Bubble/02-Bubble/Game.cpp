@@ -20,9 +20,10 @@ bool Game::update(int deltaTime)
 	case 0: {
 		if (menu == NULL) {
 			menu = new Menu();
-			menu->init();
+			menu->init(0);
 		}
 		menu->update(deltaTime);
+		changeLvl();
 	} break;
 	case 1: {
 		if (level1 == NULL) {
@@ -37,6 +38,9 @@ bool Game::update(int deltaTime)
 			cheatLvl();
 			cheatGOD();
 		}
+		changeLvl();
+		restart();
+		isAWin();
 	} break;
 	case 2: {
 		if (level2 == NULL) {
@@ -51,6 +55,9 @@ bool Game::update(int deltaTime)
 			cheatLvl();
 			cheatGOD();
 		}
+		changeLvl();
+		restart();
+		isAWin();
 	} break;
 	case 3: {
 		if (level3 == NULL) {
@@ -65,6 +72,9 @@ bool Game::update(int deltaTime)
 			cheatLvl();
 			cheatGOD();
 		}
+		changeLvl();
+		restart();
+		isAWin();
 	} break;
 	case 4: {
 		if (level4 == NULL) {
@@ -79,6 +89,9 @@ bool Game::update(int deltaTime)
 			cheatLvl();
 			cheatGOD();
 		}
+		changeLvl();
+		restart();
+		isAWin();
 	} break;
 	case 5: {
 		if (level5 == NULL) {
@@ -93,13 +106,29 @@ bool Game::update(int deltaTime)
 			cheatLvl();
 			cheatGOD();
 		}
+		changeLvl();
+		restart();
+		isAWin();
 	} break;
 	}
 
 	//level2->update(deltaTime);
-	changeLvl();
-	restart();
 	return bPlay;
+}
+
+void Game::isAWin()
+{
+	if (player->isAWin()) {
+		player->~Player();
+		delete player;
+		player = nullptr;
+		destroyLvl();
+		lvl = 0;
+		if (menu == NULL) {
+			menu = new Menu();
+			menu->init(7);
+		}
+	}
 }
 
 void Game::restart()

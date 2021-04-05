@@ -12,7 +12,7 @@ public:
     Menu();
     ~Menu();
 
-    void init();
+    void init(int start);
     void update(int deltaTime);
     void render();
 
@@ -27,7 +27,7 @@ private:
     bool play;
     glm::mat4 projection;
     Background* background;
-    Texture tex[8];
+    Texture tex[10];
     int cont;
 };
 

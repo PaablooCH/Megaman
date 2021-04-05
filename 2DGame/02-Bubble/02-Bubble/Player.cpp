@@ -842,6 +842,14 @@ bool Player::isPowerUp(int lvl)
 	return powerUp[lvl];
 }
 
+bool Player::isAWin()
+{
+	if (girlRescued[0] && girlRescued[1] && girlRescued[2] && girlRescued[3] && girlRescued[4] && girlRescued[5])
+		return true;
+	else
+		return false;
+}
+
 void Player::bonusBoots() {
 	powerUp[0] = true;
 	speed = 3;

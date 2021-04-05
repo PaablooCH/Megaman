@@ -14,8 +14,8 @@ Menu::~Menu() {
     }
 }
 
-void Menu::init() {
-    state = 0;
+void Menu::init(int start) {
+    state = start;
     play = false;
     cont = 0;
     glm::vec2 geom[2] = { glm::vec2(0.f), glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT) };
@@ -47,6 +47,12 @@ void Menu::init() {
     tex[7].loadFromFile("images/credits.png", TEXTURE_PIXEL_FORMAT_RGBA);
     tex[7].setMinFilter(GL_NEAREST);
     tex[7].setMagFilter(GL_NEAREST);
+    tex[8].loadFromFile("images/Cheat1.png", TEXTURE_PIXEL_FORMAT_RGBA);
+    tex[8].setMinFilter(GL_NEAREST);
+    tex[8].setMagFilter(GL_NEAREST);
+    tex[9].loadFromFile("images/Cheat2.png", TEXTURE_PIXEL_FORMAT_RGBA);
+    tex[9].setMinFilter(GL_NEAREST);
+    tex[9].setMagFilter(GL_NEAREST);
     projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 }
 
@@ -122,12 +128,32 @@ void Menu::update(int deltaTime)
                 cont = 0;
             }
             else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-                state = 0;
+                state = 8;
                 cont = 0;
             }
         }break;
         case 7: {//credit
             if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+                state = 0;
+                cont = 0;
+            }
+        } break;
+        case 8: {//cheat1
+            if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+                state = 6;
+                cont = 0;
+            }
+            else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+                state = 9;
+                cont = 0;
+            }
+        } break;
+        case 9: {//cheat2
+            if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+                state = 8;
+                cont = 0;
+            }
+            else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
                 state = 0;
                 cont = 0;
             }
@@ -168,6 +194,12 @@ void Menu::render() {
         break;
     case 7: //credit
         background->render(tex[7], modelview);
+        break;
+    case 8: //cheat1
+        background->render(tex[8], modelview);
+        break;
+    case 9: //cheat2
+        background->render(tex[9], modelview);
         break;
     }
 }
