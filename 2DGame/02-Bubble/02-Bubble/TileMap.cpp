@@ -415,12 +415,15 @@ bool TileMap::checkDamage(const glm::ivec2& pos, const glm::ivec2& size, bool he
 		if (helmet) {
 			if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 70 && characMap[y * mapSize.x + x] != 71 && characMap[y * mapSize.x + x] != 72 && characMap[y * mapSize.x + x] != 73 && characMap[y * mapSize.x + x] != 74 && characMap[y * mapSize.x + x] != 75
 				&& characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 51 && characMap[y * mapSize.x + x] != 80 && characMap[y * mapSize.x + x] != 81 && characMap[y * mapSize.x + x] != 82 && characMap[y * mapSize.x + x] != 83
-				&& characMap[y * mapSize.x + x] != 40 && characMap[y * mapSize.x + x] != 41 && characMap[y * mapSize.x + x] != 42 && characMap[y * mapSize.x + x] != 43)
+				&& characMap[y * mapSize.x + x] != 40 && characMap[y * mapSize.x + x] != 41 && characMap[y * mapSize.x + x] != 42 && characMap[y * mapSize.x + x] != 43 && characMap[y * mapSize.x + x] != 3 && characMap[y * mapSize.x + x] != 4 && characMap[y * mapSize.x + x] != 5
+				&& characMap[y * mapSize.x + x] != 6 && characMap[y * mapSize.x + x] != 7 && characMap[y * mapSize.x + x] != 8 && characMap[y * mapSize.x + x] != 9 && characMap[y * mapSize.x + x] != 10 && characMap[y * mapSize.x + x] != 11 && characMap[y * mapSize.x + x] != 12)
 				return true;
 		}
 		if (!helmet) {
 			if (characMap[y * mapSize.x + x] != 2 && characMap[y * mapSize.x + x] != 1 && characMap[y * mapSize.x + x] != 70 && characMap[y * mapSize.x + x] != 71 && characMap[y * mapSize.x + x] != 72 && characMap[y * mapSize.x + x] != 73 && characMap[y * mapSize.x + x] != 74 && characMap[y * mapSize.x + x] != 75
-				&& characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 51 && characMap[y * mapSize.x + x] != 80 && characMap[y * mapSize.x + x] != 81 && characMap[y * mapSize.x + x] != 82 && characMap[y * mapSize.x + x] != 83)
+				&& characMap[y * mapSize.x + x] != 50 && characMap[y * mapSize.x + x] != 51 && characMap[y * mapSize.x + x] != 80 && characMap[y * mapSize.x + x] != 81 && characMap[y * mapSize.x + x] != 82 && characMap[y * mapSize.x + x] != 83
+				&& characMap[y * mapSize.x + x] != 3 && characMap[y * mapSize.x + x] != 4 && characMap[y * mapSize.x + x] != 5 && characMap[y * mapSize.x + x] != 6 && characMap[y * mapSize.x + x] != 7 && characMap[y * mapSize.x + x] != 8 && 
+				characMap[y * mapSize.x + x] != 9 && characMap[y * mapSize.x + x] != 10 && characMap[y * mapSize.x + x] != 11 && characMap[y * mapSize.x + x] != 12)
 				return true;
 		}
 	}

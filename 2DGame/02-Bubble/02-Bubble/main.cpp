@@ -10,7 +10,7 @@ using namespace irrklang;
 static int prevTime;
 static Game game; 
 
-
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 static void keyboardDownCallback(unsigned char key, int x, int y)
 {
