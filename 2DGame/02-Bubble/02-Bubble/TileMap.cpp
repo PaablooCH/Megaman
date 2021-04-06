@@ -124,21 +124,20 @@ void TileMap::prepareArrays(const glm::vec2& minCoords, ShaderProgram& program)
 			tile = map[j * mapSize.x + i];
 			if (tile != 0)
 			{
-				// Non-empty tile
 				nTiles++;
 				posTile = glm::vec2(minCoords.x + i * tileSize, minCoords.y + j * tileSize);
 				texCoordTile[0] = glm::vec2(float((tile - 1) % tilesheetSize.x) / tilesheetSize.x, float((tile - 1) / tilesheetSize.x) / tilesheetSize.y);
 				texCoordTile[1] = texCoordTile[0] + tileTexSize;
-				//texCoordTile[0] += halfTexel;
+				
 				texCoordTile[1] -= halfTexel;
-				// First triangle
+				
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[0].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
 				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
-				// Second triangle
+				
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
@@ -158,9 +157,6 @@ void TileMap::prepareArrays(const glm::vec2& minCoords, ShaderProgram& program)
 	texCoordLocation = program.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 }
 
-// Collision tests for axis aligned bounding boxes.
-// Method collisionMoveDown also corrects Y coordinate if the box is
-// already intersecting a tile below.
 
 bool TileMap::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {

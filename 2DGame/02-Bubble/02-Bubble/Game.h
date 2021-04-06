@@ -47,7 +47,6 @@ public:
 	void cheatLvl();
 	void cheatGOD();
 
-	// Input callback methods
 	void keyPressed(int key);
 	void keyReleased(int key);
 	void specialKeyPressed(int key);
@@ -66,15 +65,15 @@ public:
 private:
 	Player* player;
 	int lvl, selectPortal, cont;
-	bool bPlay;                       // Continue to play game?
-	Menu* menu;                      // Scene to render
+	bool bPlay;                       
+	Menu* menu;                      
 	Level1* level1;
 	Level2* level2;
 	Level3* level3;
 	Level4* level4;
 	Level5* level5;
-	bool keys[256], specialKeys[256]; // Store key states so that 
-									  // we can have access at any time
+	bool keys[256], specialKeys[256];  
+									  
 	irrklang::ISoundEngine* engine;  
 	irrklang::ISound* music;
 };

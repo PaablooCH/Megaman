@@ -115,8 +115,6 @@ bool Game::update(int deltaTime)
 		isAWin();
 	} break;
 	}
-
-	//level2->update(deltaTime);
 	return bPlay;
 }
 
@@ -280,8 +278,6 @@ void Game::render()
 			level5->render();
 	} break;
 	}
-	//level1->render();
-	//level2->render();
 }
 
 void Game::cheatPowerUp()

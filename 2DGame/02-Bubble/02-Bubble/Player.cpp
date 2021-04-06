@@ -196,8 +196,6 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 	sprite->addKeyframe(DISAPPEAR, glm::vec2(0, 0));
 
 	sprite->setAnimationSpeed(SHOOTING_LEFT, 7);
-	//sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(7.f / 8.f, 17.9 / 30.f));
-	//sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(6.f / 8.f, 17.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(7.f / 8.f, 16.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(6.f / 8.f, 16.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_LEFT, glm::vec2(5.f / 8.f, 16.9 / 30.f));
@@ -206,8 +204,6 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, in
 
 
 	sprite->setAnimationSpeed(SHOOTING_RIGHT, 7);
-	//sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(0.f, 2.9 / 30.f));
-	//sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(1.f / 8.f, 2.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(0.f, 1.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(1.f / 8.f, 1.9 / 30.f));
 	sprite->addKeyframe(SHOOTING_RIGHT, glm::vec2(2.f / 8.f, 1.9 / 30.f));

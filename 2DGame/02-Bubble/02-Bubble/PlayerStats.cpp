@@ -10,17 +10,7 @@
 #define HEALTH_ICON_WIDTH 10
 #define HEALTH_ICON_HEIGHT 10
 
-/*
-enum HealthState
-{
-	FULL1, NINET1, EIGHTE1, SEVENT1, SIXT1, FIF1, FOURT1, THIR1, TWE1, ELE1, TEN1, NINE1, EIGHT1, SEVEN1, SIX1, FIVE1, FOUR1, THREE1, TWO1, ONE1
-} health_states;
 
-enum ExpState
-{
-	FULL2, NINET2, EIGHTE2, SEVENT2, SIXT2, FIF2, FOURT2, THIR2, TWE2, ELE2, TEN2, NINE2, EIGHT2, SEVEN2, SIX2, FIVE2, FOUR2, THREE2, TWO2, ONE2
-} exp_states;
-*/
 enum Anims
 {
 	BLOCK, BLOCK2, BLOCK3, BLOCK4, BLOCK5, BLOCK6, BLOCK7
@@ -73,8 +63,6 @@ PlayerStats::~PlayerStats()
 void PlayerStats::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 {
 
-	//health_states = FULL1;
-	//exp_states = FULL2;
 
 	spritesheet.loadFromFile("images/HUD.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spriteHeart = Sprite::createSprite(glm::ivec2(HEALTH_ICON_WIDTH, HEALTH_ICON_HEIGHT), glm::vec2(78.f / 2000.f, 75.f / 480.f), &spritesheet, &shaderProgram);
@@ -328,19 +316,6 @@ void PlayerStats::update(int health, int exp, bool* gRescued, int nkeys, bool* p
 
 void PlayerStats::render()
 {
-	//spriteHealth->render();
-	//spriteExp->render();
-	
-	/*switch (health) {
-	case 1: {
-		spriteHealth->render();
-	}break;
-	case 2: {
-		spriteHealth->render();
-		spriteHealth->setPosition(glm::vec2 (float(posAux.x + HEALTH_BAR_WIDTH), float(posAux.x)));
-
-	}
-	}*/
 	spriteHeart->render();
 	spriteExp->render();
 	glm::ivec2 posAux = posHealthBar;

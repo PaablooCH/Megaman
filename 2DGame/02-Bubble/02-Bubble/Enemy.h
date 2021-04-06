@@ -8,8 +8,6 @@
 #include "Extended_GLUT_KEYS.h"
 
 
-// Player is basically a Sprite that represents the player. As such it has
-// all properties it needs to track its movement, jumping, and collisions.
 
 
 class Enemy

@@ -8,7 +8,7 @@
 Bullet::~Bullet()
 {
     delete sprite;
-    sprite = nullptr; //acabar
+    sprite = nullptr; 
     deleteAll();
 }
 
